@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);background:transparent}
+.wrap{padding:1.4rem 0}
+/* header */
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:8px}
+.htitle{font-size:17px;font-weight:600;color:var(--color-text-primary)}
+.pills{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.pill{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid;font-weight:500;white-space:nowrap}
+.p-prog{background:#EBF4FF;color:#1A56A4;border-color:#7BB3F0}
+.p-score{background:#EDFDF3;color:#166534;border-color:#6FD4A0}
+.p-easy{background:#F0FDF4;color:#14532D;border-color:#4ADE80}
+.p-med{background:#FFFBEB;color:#78350F;border-color:#FCD34D}
+.p-hard{background:#FFF7ED;color:#7C2D12;border-color:#FDBA74}
+.p-vhard{background:#FFF1F2;color:#881337;border-color:#FDA4AF}
+/* progress */
+.pbar{height:6px;background:var(--color-background-secondary,#f3f4f6);border-radius:6px;margin-bottom:.8rem;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#3B82F6,#6366F1);border-radius:6px;transition:width .35s}
+/* segment tracker */
+.segs{display:flex;gap:3px;margin-bottom:1.2rem}
+.seg{flex:1;height:5px;border-radius:3px;transition:background .3s}
+/* section label */
+.slbl{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.9rem}
+.slbl span{width:8px;height:8px;border-radius:50%;display:inline-block}
+/* card */
+.qcard{background:var(--color-background-primary,#fff);border:1px solid var(--color-border-tertiary,#e5e7eb);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:.8rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.qmeta{display:flex;align-items:center;gap:6px;margin-bottom:.65rem;flex-wrap:wrap}
+.qnum{font-size:12px;color:var(--color-text-tertiary,#9ca3af);font-weight:500}
+.qtag{font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--color-border-tertiary,#e5e7eb);background:var(--color-background-secondary,#f9fafb);color:var(--color-text-secondary,#6b7280);font-weight:500}
+.qtext{font-size:14.5px;color:var(--color-text-primary);line-height:1.65;margin-bottom:.9rem;font-weight:500}
+/* options */
+.opts{display:flex;flex-direction:column;gap:7px}
+.obtn{text-align:left;padding:9px 13px;border-radius:8px;border:1px solid var(--color-border-secondary,#d1d5db);background:var(--color-background-secondary,#f9fafb);color:var(--color-text-primary);cursor:pointer;font-size:13.5px;line-height:1.5;transition:all .14s;display:flex;align-items:flex-start;gap:8px}
+.obtn .let{font-weight:700;min-width:16px;flex-shrink:0}
+.obtn:hover:not(:disabled){background:#EBF4FF;border-color:#7BB3F0;color:#1A56A4}
+.obtn.correct{background:#F0FDF4;border-color:#22C55E;color:#14532D;font-weight:500}
+.obtn.wrong{background:#FFF1F2;border-color:#F87171;color:#7F1D1D}
+.obtn.reveal{opacity:.45}
+.obtn:disabled{cursor:default}
+/* explanation */
+.exp{margin-top:10px;padding:10px 13px;background:var(--color-background-secondary,#f9fafb);border-radius:8px;border-left:3px solid #6366F1;font-size:13px;color:var(--color-text-secondary);line-height:1.65;display:none}
+.exp.show{display:block}
+.exp strong{color:var(--color-text-primary)}
+/* nav */
+.navrow{display:flex;justify-content:space-between;align-items:center;margin-top:1.3rem;gap:10px}
+.nbtn{padding:8px 18px;border-radius:8px;border:1px solid var(--color-border-secondary,#d1d5db);background:var(--color-background-primary,#fff);color:var(--color-text-primary);cursor:pointer;font-size:13.5px;font-weight:500;transition:all .14s}
+.nbtn:hover{background:var(--color-background-secondary,#f9fafb)}
+.nbtn.pri{background:#4F46E5;border-color:#4338CA;color:#fff}
+.nbtn.pri:hover{background:#4338CA}
+.nbtn:disabled{opacity:.35;cursor:default}
+/* result */
+.rcard{background:var(--color-background-primary,#fff);border:1px solid var(--color-border-tertiary,#e5e7eb);border-radius:14px;padding:2rem 1.5rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.rscore{font-size:56px;font-weight:700;margin-bottom:.3rem;line-height:1}
+.rgrade{font-size:18px;font-weight:600;margin-bottom:.3rem}
+.rlbl{font-size:14px;color:var(--color-text-secondary);margin-bottom:1.2rem}
+.rmsg{font-size:13.5px;color:var(--color-text-primary);line-height:1.65;margin-bottom:1.4rem;padding:12px 15px;background:var(--color-background-secondary,#f9fafb);border-radius:8px;text-align:left;border-left:3px solid #6366F1}
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.2rem}
+.met{background:var(--color-background-secondary,#f9fafb);border-radius:8px;padding:.8rem .5rem;text-align:center}
+.mval{font-size:20px;font-weight:700}
+.mlbl{font-size:10px;color:var(--color-text-tertiary,#9ca3af);margin-top:2px;font-weight:500}
+.bysec{background:var(--color-background-secondary,#f9fafb);border-radius:8px;padding:10px 14px;margin-bottom:1.2rem;font-size:12px;color:var(--color-text-secondary);display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:left}
+.bysec-item{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.bysec-item strong{color:var(--color-text-primary);font-size:11px}
+.rvlist{text-align:left;margin-bottom:1.4rem;max-height:300px;overflow-y:auto;border-radius:8px;border:1px solid var(--color-border-tertiary,#e5e7eb)}
+.rvi{padding:8px 12px;font-size:12.5px;line-height:1.5;border-bottom:1px solid var(--color-border-tertiary,#e5e7eb)}
+.rvi:last-child{border-bottom:none}
+.rvi.pass{background:#F0FDF4}
+.rvi.fail{background:#FFF1F2}
+.rbrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <span class="htitle">🩺 Retinal Vascular Occlusion + ROP Quiz</span>
+  <div class="pills">
+    <span class="pill p-prog" id="pb">Q 1 / 25</span>
+    <span class="pill p-score" id="sb">Score: 0</span>
+    <span class="pill p-easy" id="db">Easy</span>
+  </div>
+</div>
+
+<div class="pbar"><div class="pfill" id="pf" style="width:4%"></div></div>
+<div class="segs" id="segs"></div>
+<div class="slbl" id="slbl"><span></span><span id="sname">Section</span></div>
+
+<div id="qbody"></div>
+
+<div class="navrow">
+  <button class="nbtn" id="prevb" onclick="prevQ()" disabled>← Back</button>
+  <button class="nbtn pri" id="nextb" onclick="nextQ()" disabled>Next →</button>
+</div>
+</div>
+
+<script>
+const SECTIONS=[
+  {name:"Retinal Arterial Occlusions",color:"#EF4444"},
+  {name:"Retinal Venous Occlusions",color:"#3B82F6"},
+  {name:"ROP — Retinopathy of Prematurity",color:"#8B5CF6"}
+];
+
+const qs=[
+/* ─── ARTERIAL OCCLUSIONS (Q1-9) ─── */
+{s:0,diff:"easy",tag:"CRAO — Basics",
+q:"What is the most common cause of Retinal Artery Occlusion (RAO)?",
+opts:["Giant Cell Arteritis","Atherosclerosis & Embolism","Coagulopathy","Systemic vasculitis"],ans:1,
+exp:"The two main causes of RAO are Atherosclerosis and Embolism (Hollenhorst cholesterol plaques, calcific emboli, fibrin-platelet emboli). GCA is an important but less common cause — it should always be excluded because it is treatable."},
+
+{s:0,diff:"easy",tag:"CRAO — Clinical",
+q:"The classic fundus sign of CRAO is?",
+opts:["Flame-shaped haemorrhages in all quadrants","Cherry Red Spot at the fovea with surrounding white retinal oedema","Silver wiring of arterioles","Disc neovascularization"],ans:1,
+exp:"CRAO fundus: superficial retina turns yellow-white (ischaemic oedema) EXCEPT the fovea, which appears as a Cherry Red Spot because its blood supply comes from the underlying intact choriocapillaries, not the CRA."},
+
+{s:0,diff:"easy",tag:"CRAO — Clinical",
+q:"A patient with CRAO presents with sudden painless profound visual loss. Which pupil sign is expected?",
+opts:["Horner syndrome","Relative Afferent Pupillary Defect (RAPD)","Fixed dilated pupil","Marcus Gunn pupil in the fellow eye"],ans:1,
+exp:"RAPD (Relative Afferent Pupillary Defect) is present in CRAO because the afferent visual pathway in the affected eye is severely damaged. Pain is absent UNLESS the cause is Giant Cell Arteritis (GCA), where headache and jaw claudication may accompany it."},
+
+{s:0,diff:"medium",tag:"CRAO — Investigations",
+q:"In CRAO, which FA finding has the HIGHEST SPECIFICITY?",
+opts:["Delayed A-V transit time","Delay in retinal arterial filling","Cattle-trucking appearance on FA","Capillary non-perfusion >10 disc areas"],ans:1,
+exp:"FA in CRAO: Delay in RETINAL ARTERIAL FILLING = Highest Specificity. Delay in A-V transit time = Most Common finding + Highest Sensitivity. ERG shows diminished 'b' wave with normal 'a' wave (inner retina ischaemia)."},
+
+{s:0,diff:"medium",tag:"CRAO — Treatment",
+q:"CRAO is an ocular emergency. Which of the following is NOT a recognised acute treatment?",
+opts:["Ocular massage","Anterior chamber paracentesis","Rebreathing into a paper bag (Carbogen)","Intravitreal anti-VEGF injection"],ans:3,
+exp:"Acute treatments for CRAO (<24h): supine posture, ocular massage, AC paracentesis, sublingual isosorbide dinitrate, rebreathing/Carbogen (CO2 causes vasodilation), topical IOP-lowering drugs, IV Acetazolamide, Mannitol, Glycerol. Anti-VEGF is NOT an acute treatment for the occlusion itself."},
+
+{s:0,diff:"medium",tag:"BRAO",
+q:"Branch Retinal Artery Occlusion (BRAO) most commonly affects which vessels?",
+opts:["Nasal vessels","Temporal vessels","Superior nasal vessels","Inferior nasal vessels"],ans:1,
+exp:"BRAO accounts for 38% of all RAO. It typically involves the TEMPORAL retinal vessels. Clinical: sudden painless SECTORAL visual field loss. VA is variable. RAPD often present. Fundus: cloudy white oedematous retina in the ischaemic sector + cattle-trucking."},
+
+{s:0,diff:"hard",tag:"Cilioretinal Artery",
+q:"A patient has CRAO but retains excellent central vision. What best explains this?",
+opts:["Spontaneous reperfusion occurred quickly","A patent Cilioretinal Artery supplies the macular region","The Cherry Red Spot protects central vision","Collateral vessels formed rapidly"],ans:1,
+exp:"Cilioretinal Artery is present in ~30% of eyes. It arises from the posterior ciliary circulation (NOT the CRA), fills 1-2 seconds BEFORE the retinal arteries on FFA, and supplies the macular region. When CRAO occurs, a patent cilioretinal artery preserves central vision — giving better prognosis."},
+
+{s:0,diff:"hard",tag:"CRAO — Follow-up",
+q:"After CRAO, follow-up at 3-4 weeks is mainly to detect?",
+opts:["Optic atrophy only","Macular scarring","Neovascularization of the Anterior Segment (Rubeosis Iridis)","Retinal detachment"],ans:2,
+exp:"CRAO follow-up: at 3-4 weeks then monthly twice to detect neovascularization of the anterior segment (NVI — Rubeosis Iridis). Rubeosis occurs in ~1/5 of CRAO eyes due to ischaemia-driven VEGF release. BRAO follow-up: at 3 months to detect retinal NVE."},
+
+{s:0,diff:"hard",tag:"CRAO — Demographics",
+q:"Regarding CRAO demographics, which statement is CORRECT?",
+opts:["Women are affected more than men","Mean age is in the late 40s","1-2% of cases have bilateral involvement","BRAO is more common than CRAO"],ans:2,
+exp:"CRAO demographics: frequency 1/10,000 outpatient visits. Men > women. Mean age: early 60s. 1-2% bilateral (rare — should prompt workup for cardiac valvular disease, GCA). Among all RAOs: CRAO 57%, BRAO 38%, Combined CRA+CRV 5%."},
+
+/* ─── VENOUS OCCLUSIONS (Q10-19) ─── */
+{s:1,diff:"easy",tag:"RVO — Risk Factors",
+q:"The MOST important risk factor for Retinal Vein Occlusion is?",
+opts:["Diabetes mellitus","Hyperlipidaemia","Hypertension","Coagulopathy"],ans:2,
+exp:"Hypertension is the dominant risk factor: 73% of RVO patients >50 years have HTN. Age >65 = 50% of cases. Others: Hyperlipidaemia (35%), DM (10%), OAG, ischaemic optic neuropathy. In younger patients (<50), consider thrombophilia screen."},
+
+{s:1,diff:"easy",tag:"CRVO — Non-ischaemic",
+q:"Non-ischaemic CRVO accounts for approximately what percentage of all CRVO cases?",
+opts:["25%","50%","75%","90%"],ans:2,
+exp:"Non-ischaemic CRVO = ~75% of all CRVO. It is the more common and less severe type. VA is impaired to a moderate-severe degree. RAPD is absent or mild. 50% may regain some vision. Converts to ischaemic in 15% within 4 months and 34% within 3 years."},
+
+{s:1,diff:"easy",tag:"CRVO — Fundus",
+q:"The classic fundus appearance of CRVO includes?",
+opts:["Unilateral sectoral haemorrhages in one quadrant","Dot-blot and flame haemorrhages in ALL 4 quadrants with dilated tortuous veins","Cherry Red Spot with white retinal oedema","Disc drusen with peripapillary atrophy"],ans:1,
+exp:"CRVO fundus: tortuosity and dilatation of ALL branches + dot/blot and flame-shaped haemorrhages throughout ALL 4 quadrants + cotton wool spots + disc and macular oedema. Most acute signs resolve over 6-12 months. Optociliary/Retinochoroidal shunts develop in chronic CRVO."},
+
+{s:1,diff:"medium",tag:"Ischaemic CRVO",
+q:"Which finding differentiates Ischaemic from Non-Ischaemic CRVO on FA?",
+opts:["More than 5 disc areas of non-perfusion","More than 10 disc areas of capillary non-perfusion","More than 2 disc areas of non-perfusion","Any area of non-perfusion"],ans:1,
+exp:"The FA threshold for Ischaemic CRVO = ≥10 disc areas of retinal capillary non-perfusion. Non-ischaemic CRVO has <10 disc areas of non-perfusion with good residual perfusion. This distinction is CRITICAL because ischaemic CRVO risks 100-day glaucoma (NVI/NVA/NVG) from VEGF-driven neovascularisation."},
+
+{s:1,diff:"medium",tag:"CRVO — Complications",
+q:"'100-day glaucoma' is a complication associated with?",
+opts:["Non-ischaemic CRVO","Ischaemic CRVO","BRVO","BRAO"],ans:1,
+exp:"Ischaemic CRVO → massive VEGF release → Neovascularisation of Iris (NVI) + Anterior segment (ANV) → Neovascular Glaucoma (NVG) — classically developing ~100 days after the occlusion (the CVOS study landmark). Requires urgent PRP (1500-3000 burns) and anti-VEGF. NVG is rare in non-ischaemic CRVO."},
+
+{s:1,diff:"medium",tag:"CRVO — Treatment",
+q:"First-line treatment for macular oedema in CRVO when VA is worse than 6/9?",
+opts:["Grid laser photocoagulation only","Intravitreal Anti-VEGF (e.g. Ranibizumab)","Systemic anticoagulation","PRP immediately"],ans:1,
+exp:"Intravitreal Anti-VEGF (Ranibizumab showed significant visual benefit for CMO in CRVO). Also: intravitreal Dexamethasone implant (Ozurdex) or Triamcinolone. The CVOS study showed grid laser REDUCED macular oedema by 31% at 1 year but did NOT improve VA — so laser alone is no longer first-line for CMO."},
+
+{s:1,diff:"medium",tag:"BRVO",
+q:"BRVO is caused by compression of a vein at an arteriovenous crossing. In what percentage of BRVO cases does the artery lie ANTERIOR to the affected vein?",
+opts:["50%","75%","99%","33%"],ans:2,
+exp:"In 99% of BRVO cases, the artery lies ANTERIOR to the affected vein at the AV crossing — compressing it from above (they share a common adventitial sheath). This anatomical arrangement causes turbulent flow → endothelial damage → thrombus. >50% of BRVO cases occur in the superotemporal quadrant."},
+
+{s:1,diff:"hard",tag:"BRVO vs CRVO",
+q:"A patient has sudden painless visual loss, VA of 6/36, RAPD present, haemorrhages densely concentrated at the posterior pole, and FA shows >10 disc areas of non-perfusion. Diagnosis?",
+opts:["Non-ischaemic CRVO","Ischaemic CRVO","BRVO","Ischaemic CRAO"],ans:1,
+exp:"Key differentiators of ISCHAEMIC CRVO: VA = CF or worse; RAPD present; haemorrhages severe & concentrated at posterior pole; disc swelling moderate-severe; FA = extensive non-perfusion (≥10 disc areas); OCT shows marked CMO. The imminent risk is 100-day NVG — urgent PRP + anti-VEGF after NVI develops (per CVOS study: PRP given after NVI, not prophylactically)."},
+
+{s:1,diff:"hard",tag:"Hemi-RVO",
+q:"Hemiretinal Vein Occlusion (HRVO) is best described as?",
+opts:["Always non-ischaemic with good prognosis","A variant of CRVO affecting superior or inferior hemisphere — can be ischaemic or non-ischaemic","A BRVO affecting two quadrants simultaneously","Always requiring immediate PRP"],ans:1,
+exp:"HRVO is generally regarded as a VARIANT OF CRVO (not BRVO). It affects either the superior or inferior hemisphere (at the lamina, one trunk divides). Can be ischaemic or non-ischaemic. Fundus = BRVO features involving one hemisphere. NVD more common than in BRVO. FA shows masking by haemorrhages + variable capillary non-perfusion. Ischaemic HRVO managed like ischaemic CRVO."},
+
+{s:1,diff:"hard",tag:"Combined Occlusion",
+q:"Combined Retinal Artery & Vein Occlusion — which statement is TRUE?",
+opts:["Prognosis is good with most patients retaining vision","It is most commonly caused by embolism","80% develop Rubeosis Iridis and Neovascular Glaucoma","Retrobulbar injection is never implicated"],ans:2,
+exp:"Combined CRA + CRV Occlusion: causes similar to CRAO. Retrobulbar injection accounts for 1/4 of cases. Clinical features of BOTH entities present. Visual prognosis is GENERALLY POOR. 80% develop Rubeosis Iridis + Neovascular Glaucoma — making it among the worst visual prognosis of all retinal vascular occlusions."},
+
+{s:1,diff:"hard",tag:"RVO Systemic Rx",
+q:"Systemic management of retinal vein occlusion includes all of the following EXCEPT?",
+opts:["Control of systemic risk factors (BP, lipids, glucose)","Antiplatelet therapy (aspirin)","Thrombolytic therapy (tPA) as standard treatment","Carotid duplex imaging if indicated"],ans:2,
+exp:"Standard systemic management: control risk factors + antiplatelet therapy (aspirin or alternative). Systemic anticoagulation (Warfarin) is considered in selected cases (thrombophilia, AF). Thrombolytic therapy (tPA) is NOT standard — it has been trialled but is NOT routine practice for RVO. Carotid duplex imaging if carotid stenosis is suspected."},
+
+/* ─── ROP (Q21-25) ─── */
+{s:2,diff:"easy",tag:"ROP — Definition",
+q:"Retinopathy of Prematurity (ROP) results from?",
+opts:["Premature closure of the fetal fissure","Abnormal vascularisation of the immature retina following premature birth and supplemental oxygen exposure","Premature degeneration of the RPE","Infection of the vitreous in neonates"],ans:1,
+exp:"ROP is a proliferative retinal vascular disorder of premature infants. The retinal vasculature is normally incomplete at birth in premature infants. Exposure to high oxygen (supplemental O2) causes vasoconstriction and vaso-obliteration → avascular retina → ischaemia → VEGF → neovascularisation → fibrovascular proliferation → tractional/rhegmatogenous RD."},
+
+{s:2,diff:"easy",tag:"ROP — Risk Factors",
+q:"The most important risk factors for ROP are?",
+opts:["High birth weight and full-term delivery","Low gestational age (<32 weeks), low birth weight (<1500g), and prolonged oxygen therapy","Maternal diabetes only","Formula feeding instead of breast milk"],ans:1,
+exp:"Main ROP risk factors: Gestational age <32 weeks (higher risk <28 weeks), Birth weight <1500g (higher risk <1250g), and Supplemental oxygen therapy (high concentration or prolonged). Screening: all infants <32 weeks GA or <1500g birth weight."},
+
+{s:2,diff:"medium",tag:"ROP — Zones",
+q:"ROP Zone I (the highest risk zone) is defined as?",
+opts:["The peripheral retina beyond Zone II","A circle centred on the optic disc with radius = twice the disc-to-fovea distance","A circle centred on the disc with radius = 3 times the disc-to-fovea distance","The area between the equator and the ora serrata"],ans:1,
+exp:"ROP Zones: Zone I = circle centred on disc, radius = 2× disc-to-fovea distance (most posterior, highest risk). Zone II = annulus from Zone I to the equator nasally / to a circle tangential to the nasal ora serrata. Zone III = residual peripheral crescent of retina temporal to Zone II (lowest risk). Disease in Zone I carries the worst prognosis."},
+
+{s:2,diff:"medium",tag:"ROP — Stages",
+q:"In ROP staging, Stage 3 is defined as?",
+opts:["Demarcation line only (flat white line)","Ridge formation (elevated white line)","Ridge with extraretinal fibrovascular proliferation","Total retinal detachment"],ans:2,
+exp:"ROP Stages: Stage 1 = Demarcation line (flat white line between vascular & avascular retina). Stage 2 = Ridge (elevated, white/pink). Stage 3 = Ridge + Extraretinal fibrovascular proliferation (neovascularisation growing INTO vitreous). Stage 4 = Partial RD (4A: extrafoveal; 4B: includes fovea). Stage 5 = Total RD (funnel-shaped)."},
+
+{s:2,diff:"hard",tag:"ROP — Plus Disease & Treatment",
+q:"'Plus Disease' in ROP indicates which TWO vascular changes?",
+opts:["Neovascularisation on the disc + haemorrhage","Posterior pole arterial tortuosity + venous dilatation — requiring at least 2 quadrants for diagnosis","Vitreous haemorrhage + tractional detachment","Stage 4 disease in Zone I only"],ans:1,
+exp:"Plus Disease = posterior pole arteriolar TORTUOSITY + venous DILATATION in at least 2 quadrants (≥2 of 4 standard photo quadrants). It indicates disease activity and aggressive progression. 'Pre-plus' describes borderline changes. Type 1 ROP (requiring treatment) = Zone I any stage with plus, Zone I Stage 3, Zone II Stage 2-3 with plus. Treatment: laser ablation of avascular retina (standard) or intravitreal Bevacizumab/Ranibizumab (anti-VEGF)."}
+];
+
+const dMap={easy:'p-easy',medium:'p-med',hard:'p-hard'};
+const dLbl={easy:'Easy',medium:'Medium',hard:'Hard'};
+let cur=0,score=0,ans=Array(qs.length).fill(-1),done=Array(qs.length).fill(false);
+
+function secColor(si){return SECTIONS[si].color}
+
+function buildSegs(){
+  const el=document.getElementById('segs');
+  el.innerHTML=qs.map((q,i)=>{
+    let bg=done[i]?(ans[i]===q.ans?'#22C55E':'#EF4444'):secColor(q.s)+'33';
+    let op=i===cur?1:0.55;
+    return `<div class="seg" style="background:${bg};opacity:${op}" title="Q${i+1}"></div>`;
+  }).join('');
+}
+
+function render(){
+  if(cur>=qs.length){showResult();return;}
+  const q=qs[cur];
+  const sec=SECTIONS[q.s];
+  document.getElementById('pb').textContent='Q '+(cur+1)+' / '+qs.length;
+  document.getElementById('sb').textContent='Score: '+score;
+  const db=document.getElementById('db');
+  db.textContent=dLbl[q.diff];
+  db.className='pill '+(dMap[q.diff]||'p-med');
+  document.getElementById('pf').style.width=(((cur+1)/qs.length)*100).toFixed(1)+'%';
+  const slbl=document.getElementById('slbl');
+  slbl.querySelector('span:first-child').style.background=sec.color;
+  document.getElementById('sname').textContent=sec.name;
+  buildSegs();
+
+  const letters='ABCD';
+  const optsHtml=q.opts.map((o,i)=>{
+    let cls='obtn';
+    if(done[cur]){
+      if(i===q.ans)cls+=' correct';
+      else if(i===ans[cur]&&ans[cur]!==q.ans)cls+=' wrong';
+      else cls+=' reveal';
+    }
+    return `<button class="${cls}" onclick="pick(${i})" ${done[cur]?'disabled':''}><span class="let">${letters[i]}.</span><span>${o}</span></button>`;
+  }).join('');
+
+  document.getElementById('qbody').innerHTML=`
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qnum">Q${cur+1}</span>
+        <span class="pill ${dMap[q.diff]||'p-med'}" style="font-size:11px;padding:2px 8px">${dLbl[q.diff]}</span>
+        <span class="qtag">${q.tag}</span>
+      </div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">${optsHtml}</div>
+      <div class="exp ${done[cur]?'show':''}" id="exp-div"><strong>💡 Explanation:</strong> ${q.exp}</div>
+    </div>`;
+
+  document.getElementById('prevb').disabled=cur===0;
+  document.getElementById('nextb').disabled=!done[cur];
+  document.getElementById('nextb').textContent=cur===qs.length-1?'See Results ✓':'Next →';
+}
+
+function pick(i){
+  if(done[cur])return;
+  ans[cur]=i;done[cur]=true;
+  if(i===qs[cur].ans)score++;
+  document.getElementById('sb').textContent='Score: '+score;
+  render();
+}
+function nextQ(){if(cur<qs.length-1){cur++;render();}else showResult();}
+function prevQ(){if(cur>0){cur--;render();}}
+
+function showResult(){
+  const pct=Math.round((score/qs.length)*100);
+  let grade,col,msg;
+  if(pct>=90){grade='Excellent 🏆';col='#15803D';msg='Outstanding! You have a thorough command of retinal vascular occlusions and ROP. Review any hard questions you missed and you are fully ready.';}
+  else if(pct>=75){grade='Good 👍';col='#B45309';msg='Good performance. Focus revision on: FA findings differentiating ischaemic vs non-ischaemic CRVO, Plus Disease in ROP, and the combined occlusion facts.';}
+  else if(pct>=55){grade='Fair 📚';col='#9A3412';msg='Fair. Go back to: 100-day glaucoma mechanism, CRAO treatment emergency steps, cilioretinal artery importance, ROP zones & stages.';}
+  else{grade='Needs Work 🔄';col='#7F1D1D';msg='Please re-read the lecture notes on all three topics. Focus especially on clinical features, FA findings, and treatment criteria.';}
+
+  // per-section scores
+  const sScores=SECTIONS.map((_,si)=>{
+    const sq=qs.filter(q=>q.s===si);
+    const sc=sq.filter(q=>{const i=qs.indexOf(q);return ans[i]===q.ans}).length;
+    return {n:sq.length,c:sc};
+  });
+
+  const rvItems=qs.map((q,i)=>`
+    <div class="rvi ${ans[i]===q.ans?'pass':'fail'}">
+      <strong>Q${i+1} [${dLbl[q.diff]}] ${SECTIONS[q.s].name.split(' ')[0]}:</strong> ${q.q.substring(0,65)}…
+      ${ans[i]!==q.ans?`<br><span style="color:#7F1D1D;font-size:11.5px">✓ ${q.opts[q.ans]}</span>`:'<span style="float:right;color:#166534">✓</span>'}
+    </div>`).join('');
+
+  document.getElementById('qbody').innerHTML=`
+    <div class="rcard">
+      <div class="rscore" style="color:${col}">${pct}%</div>
+      <div class="rgrade" style="color:${col}">${grade}</div>
+      <div class="rlbl">${score} / ${qs.length} correct</div>
+      <div class="rmsg">${msg}</div>
+      <div class="mets">
+        <div class="met"><div class="mval" style="color:#15803D">${score}</div><div class="mlbl">Correct</div></div>
+        <div class="met"><div class="mval" style="color:#B91C1C">${qs.length-score}</div><div class="mlbl">Wrong</div></div>
+        <div class="met"><div class="mval" style="color:#1D4ED8">${qs.filter(q=>q.diff==='hard').filter(q=>{const i=qs.indexOf(q);return ans[i]===q.ans}).length}/${qs.filter(q=>q.diff==='hard').length}</div><div class="mlbl">Hard ✓</div></div>
+        <div class="met"><div class="mval" style="color:#6D28D9">${Math.round(pct)}%</div><div class="mlbl">Overall</div></div>
+      </div>
+      <div class="bysec">
+        ${SECTIONS.map((s,i)=>`<div class="bysec-item"><strong style="color:${s.color}">● ${s.name.split('—')[0].trim()}</strong><span>${sScores[i].c}/${sScores[i].n} (${Math.round(sScores[i].c/sScores[i].n*100)}%)</span></div>`).join('')}
+      </div>
+      <div class="rvlist">${rvItems}</div>
+      <div class="rbrow">
+        <button class="nbtn pri" onclick="restart()">↺ Retry Quiz</button>
+        <button class="nbtn" onclick="sendPrompt('اشرح لي بالتفصيل النقاط الصعبة في Retinal Arterial Occlusion و Venous Occlusion و ROP اللي ممكن تيجي في الامتحان')">اشرح النقاط الصعبة ↗</button>
+      </div>
+    </div>`;
+  document.getElementById('prevb').style.display='none';
+  document.getElementById('nextb').style.display='none';
+}
+
+function restart(){
+  cur=0;score=0;ans=Array(qs.length).fill(-1);done=Array(qs.length).fill(false);
+  document.getElementById('prevb').style.display='';
+  document.getElementById('nextb').style.display='';
+  render();
+}
+render();
+</script>
+</body>
+</html>
