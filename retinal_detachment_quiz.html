@@ -1,0 +1,214 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.quiz-wrap{padding:1.5rem 1rem;max-width:680px}
+.header{margin-bottom:1.5rem}
+.level-tabs{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.level-tab{padding:6px 16px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:13px;cursor:pointer;transition:all .2s}
+.level-tab.active-easy{background:#EAF3DE;color:#3B6D11;border-color:#639922}
+.level-tab.active-medium{background:#FAEEDA;color:#854F0B;border-color:#BA7517}
+.level-tab.active-hard{background:#FAECE7;color:#993C1D;border-color:#D85A30}
+.level-tab.active-mixed{background:#EEEDFE;color:#534AB7;border-color:#7F77DD}
+.progress-bar{height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:1.5rem}
+.progress-fill{height:100%;border-radius:2px;transition:width .4s ease;background:#7F77DD}
+.stats-row{display:flex;gap:12px;margin-bottom:1.5rem}
+.stat-card{flex:1;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;text-align:center}
+.stat-num{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-label{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.question-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
+.q-badge{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:500}
+.badge-easy{background:#EAF3DE;color:#3B6D11}
+.badge-medium{background:#FAEEDA;color:#854F0B}
+.badge-hard{background:#FAECE7;color:#993C1D}
+.q-num{font-size:13px;color:var(--color-text-secondary)}
+.q-text{font-size:15px;color:var(--color-text-primary);line-height:1.6;margin-bottom:1rem}
+.options{display:flex;flex-direction:column;gap:8px}
+.option-btn{padding:.65rem 1rem;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;cursor:pointer;text-align:left;transition:all .15s;line-height:1.4}
+.option-btn:hover:not(:disabled){background:var(--color-background-secondary)}
+.option-btn.correct{background:#EAF3DE;border-color:#639922;color:#3B6D11}
+.option-btn.wrong{background:#FCEBEB;border-color:#A32D2D;color:#A32D2D}
+.option-btn.reveal{background:#E6F1FB;border-color:#378ADD;color:#185FA5}
+.option-btn:disabled{cursor:default}
+.explanation{margin-top:.75rem;padding:.75rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:13px;color:var(--color-text-secondary);line-height:1.6;border-left:3px solid #7F77DD}
+.nav-row{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+.btn{padding:8px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:#534AB7;color:#EEEDFE;border-color:#534AB7}
+.btn-primary:hover{background:#3C3489;border-color:#3C3489;color:#EEEDFE}
+.result-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:2rem;text-align:center}
+.result-score{font-size:48px;font-weight:500;color:#534AB7}
+.result-label{font-size:16px;color:var(--color-text-secondary);margin-top:.5rem}
+.result-msg{font-size:15px;color:var(--color-text-primary);margin:1rem 0;line-height:1.6}
+.result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:1.25rem 0}
+</style>
+
+<div class="quiz-wrap">
+<h2 class="sr-only">Retinal Detachment Quiz — test your knowledge across three difficulty levels</h2>
+
+<div class="header">
+  <p style="font-size:20px;font-weight:500;color:var(--color-text-primary)">Retinal Detachment Quiz</p>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-top:4px">Choose a level or go mixed mode</p>
+</div>
+
+<div class="level-tabs">
+  <button class="level-tab" id="tab-easy" onclick="setLevel('easy')">Easy — Foundation</button>
+  <button class="level-tab" id="tab-medium" onclick="setLevel('medium')">Medium — Clinical</button>
+  <button class="level-tab" id="tab-hard" onclick="setLevel('hard')">Hard — Expert</button>
+  <button class="level-tab active-mixed" id="tab-mixed" onclick="setLevel('mixed')">Mixed</button>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-num" id="s-correct">0</div><div class="stat-label">Correct</div></div>
+  <div class="stat-card"><div class="stat-num" id="s-wrong">0</div><div class="stat-label">Wrong</div></div>
+  <div class="stat-card"><div class="stat-num" id="s-left">0</div><div class="stat-label">Remaining</div></div>
+</div>
+
+<div id="quiz-area"></div>
+</div>
+
+<script>
+const ALL_Q = [
+{level:'easy',q:'What does RD stand for in ophthalmology?',opts:['Retinal Detachment','Retinal Degeneration','Retinal Defect','Retinal Disease'],ans:0,exp:'RD = Retinal Detachment — separation of the neurosensory retina (NSR) from the retinal pigment epithelium (RPE).'},
+{level:'easy',q:'What fluid accumulates between the NSR and RPE in retinal detachment?',opts:['Aqueous humor','Vitreous gel','Subretinal fluid (SRF)','Choroidal blood'],ans:2,exp:'SRF (subretinal fluid) accumulates in the potential space between the NSR and RPE.'},
+{level:'easy',q:'How many main types of retinal detachment are there?',opts:['2','3','4','5'],ans:2,exp:'There are 4 types: Rhegmatogenous, Tractional, Exudative, and Combined tractional-rhegmatogenous.'},
+{level:'easy',q:'What does "rhegma" mean?',opts:['Fluid','Break','Traction','Tear'],ans:1,exp:'Rhegma = break. Rhegmatogenous RD occurs due to a full-thickness break in the sensory retina.'},
+{level:'easy',q:'What is the ora serrata?',opts:['The optic disc margin','Junction between retina and ciliary body','Posterior pole of the eye','The fovea'],ans:1,exp:'The ora serrata is the junction between the sensory retina and the ciliary body — the anterior border of the retina.'},
+{level:'easy',q:'What is PVD?',opts:['Posterior vitreous detachment','Primary visual defect','Peripheral vascular disease','Pigment vitreous disorder'],ans:0,exp:'PVD = Posterior Vitreous Detachment — separation of the cortical vitreous from the ILM of the NSR posterior to the vitreous base.'},
+{level:'easy',q:'What is the width of the vitreous base?',opts:['1-2 mm','3-4 mm','5-6 mm','7-8 mm'],ans:1,exp:'The vitreous base is a 3-4 mm wide zone straddling the ora serrata.'},
+{level:'easy',q:'Which symptom of RD is described as a "black curtain"?',opts:['Photopsia','Floaters','Visual field defect','Blurred vision'],ans:2,exp:'A visual field defect is perceived as a "black curtain" — it corresponds to the area of detached retina.'},
+{level:'easy',q:'What is photopsia?',opts:['Loss of color vision','Subjective sensation of a flash of light','Double vision','Blurred central vision'],ans:1,exp:'Photopsia = subjective sensation of a flash of light, caused by traction at vitreoretinal adhesion sites.'},
+{level:'easy',q:'What are floaters?',opts:['Retinal blood vessels','Moving vitreous opacities casting shadows on retina','Fixed scotomas','Pigment deposits on RPE'],ans:1,exp:'Floaters are moving vitreous opacities perceived when they cast shadows on the retina.'},
+
+{level:'medium',q:'What is the optimal location for a pars plana incision in a phakic eye?',opts:['2 mm from limbus','3.5 mm from limbus','4 mm from limbus','5 mm from limbus'],ans:2,exp:'4 mm from the limbus in phakic eyes, 3.5 mm in pseudophakic eyes — to avoid damaging the lens anteriorly or retina posteriorly.'},
+{level:'medium',q:'In tractional RD, what is the shape of the detachment on fundoscopy?',opts:['Convex and corrugated','Concave with no breaks','Convex and smooth','Bullous with shifting fluid'],ans:1,exp:'Tractional RD has a concave configuration, retinal breaks are absent, and SRF is shallower than in rhegmatogenous RD.'},
+{level:'medium',q:'Which type of RD shows "shifting fluid"?',opts:['Rhegmatogenous','Tractional','Exudative','Combined'],ans:2,exp:'Exudative RD shows shifting fluid — the SRF responds to gravity and shifts with position changes.'},
+{level:'medium',q:'What does "tobacco dust" in the anterior vitreous indicate?',opts:['Vitreous haemorrhage','Asteroid hyalosis','Pigment cells — strong sign of retinal detachment','Cholesterol crystals'],ans:2,exp:'"Tobacco dust" (Shafer\'s sign) = pigment cells in the anterior vitreous, a highly specific sign suggesting underlying RD.'},
+{level:'medium',q:'What is a Weiss ring?',opts:['A ring of laser burns around a tear','Solitary floater from detached annular attachment of vitreous to optic disc','Subretinal demarcation line','Choroidal neovascular ring'],ans:1,exp:'Weiss ring = solitary floater consisting of the detached annular attachment of the vitreous to the margin of the optic disc.'},
+{level:'medium',q:'What is the most common type of retinal break by pathogenesis?',opts:['Holes from chronic atrophy','Tears from dynamic vitreoretinal traction','Dialyses','Giant tears'],ans:1,exp:'Tears caused by dynamic vitreoretinal traction are the most clinically significant, with predilection for the superior fundus.'},
+{level:'medium',q:'What are the main causes of tractional RD?',opts:['High myopia and trauma','Proliferative retinopathy and penetrating posterior segment trauma','Choroidal tumours and inflammation','PVD and lattice degeneration'],ans:1,exp:'Main causes: proliferative retinopathy (diabetic, ROP) and penetrating posterior segment trauma.'},
+{level:'medium',q:'What is the IOP typically in an eye with RD?',opts:['Higher by 5 mmHg','Same as fellow eye','Lower by about 5 mmHg','Variable with no pattern'],ans:2,exp:'IOP is usually lower by about 5 mmHg compared to the normal eye. Extremely low IOP may suggest associated choroidal detachment.'},
+{level:'medium',q:'Which sign must be present to suspect underlying RD even when iritis is prominent?',opts:['Hypopyon','Tobacco dust in anterior vitreous','Posterior synechiae','Keratic precipitates'],ans:1,exp:'Iritis in RD can mislead — tobacco dust (Shafer\'s sign) alerts you to look for underlying RD as the cause.'},
+{level:'medium',q:'How long does it take for subretinal demarcation lines to form?',opts:['1-2 weeks','1 month','About 3 months','1 year'],ans:2,exp:'Subretinal demarcation lines ("high water marks") take about 3 months to develop — they mark the junction of flat and detached retina.'},
+{level:'medium',q:'What is pneumatic retinopexy?',opts:['Laser applied to retinal breaks','Intravitreal gas bubble to seal breaks without scleral buckling','Subretinal fluid drainage','Silicone oil injection'],ans:1,exp:'Pneumatic retinopexy uses an intravitreal expanding gas bubble (SF6 or C3F8) to seal retinal breaks and reattach the retina without scleral buckling.'},
+{level:'medium',q:'What is the purpose of scleral buckling?',opts:['Remove vitreous','Close break by apposing RPE to NSR and reduce vitreoretinal traction','Drain subretinal fluid directly','Inject tamponade agent'],ans:1,exp:'Scleral buckling creates an inward indentation to close the retinal break by apposing the RPE to the NSR and to reduce vitreoretinal traction.'},
+
+{level:'hard',q:'A patient presents with exudative RD. What must be ruled out first and foremost?',opts:['Harada disease','Intraocular tumour (e.g. choroidal melanoma)','Posterior scleritis','Central serous chorioretinopathy'],ans:1,exp:'Exudative RD must be considered caused by an intraocular tumour until proved otherwise — choroidal melanoma, haemangioma, metastases.'},
+{level:'hard',q:'Which type of vitreoretinal traction plays the key role in tractional RD and PVR?',opts:['Dynamic traction','Centripetal traction','Static traction','Anteroposterior dynamic'],ans:2,exp:'Static traction is independent of ocular movements and plays the key role in tractional RD and proliferative vitreoretinopathy (PVR).'},
+{level:'hard',q:'In diabetic tractional RD, why is PVD usually incomplete?',opts:['Vitreous is dehydrated','Strong adhesions of cortical vitreous to fibrovascular proliferation areas','Intraocular pressure is low','Retina is thickened'],ans:1,exp:'Strong adhesions of the cortical vitreous to areas of fibrovascular proliferation prevent complete PVD in diabetic eyes.'},
+{level:'hard',q:'What happens if a complete PVD occurs in diabetic proliferative retinopathy?',opts:['Massive vitreous haemorrhage occurs','New blood vessels avulse and RD does not develop','Tractional RD becomes rhegmatogenous','Macular hole forms'],ans:1,exp:'In the very rare event of complete PVD in proliferative DR, the new blood vessels are avulsed and paradoxically RD does not develop.'},
+{level:'hard',q:'What is "bridging" (trampoline) traction?',opts:['Traction from vitreous base anteriorly','Contraction of membranes from posterior retina to vitreous base','Membranes stretching from one part of posterior retina to another, pulling them together','Epiretinal membrane causing retinal puckering'],ans:2,exp:'Bridging/trampoline traction: fibrovascular membranes stretch between two points on the posterior retina or vascular arcades, tending to pull the two points together.'},
+{level:'hard',q:'Why do pre-existing retinal holes within the vitreous base NOT lead to RD?',opts:['They are too small','They are covered by RPE','The vitreous base stabilises the retina preventing fluid entry','There is no liquefied vitreous in this zone'],ans:2,exp:'The vitreous base provides firm attachment; the cortical vitreous is strongly adherent here, preventing fluid from entering through these holes.'},
+{level:'hard',q:'What is the key distinguishing feature of exudative RD vs rhegmatogenous RD on examination?',opts:['Exudative RD is concave; rhegmatogenous is convex','Both convex, but exudative surface is smooth (not corrugated) + shifting fluid','Exudative has tobacco dust; rhegmatogenous does not','Exudative affects both eyes; rhegmatogenous never does'],ans:1,exp:'Both are convex, but exudative RD has a smooth (non-corrugated) surface and shows shifting fluid. Rhegmatogenous RD is corrugated due to retinal oedema.'},
+{level:'hard',q:'When is drainage of SRF indicated during scleral buckling?',opts:['Always routinely performed','Only in bullous RD or when a more marked buckle elevation is required','Only if the break is posterior','Never — it is contraindicated'],ans:1,exp:'SRF drainage is indicated in bullous retinal detachment or when greater buckle elevation is needed. Complications include choroidal haemorrhage, retinal perforation, endophthalmitis.'},
+{level:'hard',q:'What is the visual field quadrant rule for locating the primary retinal break?',opts:['Break is in the same quadrant as the field defect','Break is in the opposite quadrant to where the field defect first appears','Break is always superior regardless of field defect','Break is always at 12 o\'clock'],ans:1,exp:'The break is in the OPPOSITE quadrant to where the visual field defect first appears — because the RD from the break detaches the opposite retina.'},
+{level:'hard',q:'What is a giant retinal tear and where is it most commonly located?',opts:['Any tear >3 clock hours, at the posterior pole','Circumferential tear involving ≥90° of globe circumference, most often in immediate post-oral retina','Full-thickness macular hole >400 microns','Tear associated with vitreous haemorrhage'],ans:1,exp:'Giant tear: involves 90° or more of the globe circumference. Most frequently located in the immediate post-oral retina, less commonly at the equator.'},
+{level:'hard',q:'What is the difference between an operculated tear and a U-tear?',opts:['No difference — same thing','U-tear has the flap still attached at the base; operculated has the flap completely torn away','Operculated tears only occur at the macula','U-tears are caused by atrophy; operculated by traction'],ans:1,exp:'U-tear (horseshoe): flap pulled anteriorly but BASE remains attached to retina. Operculated: the flap is completely torn away by the detached vitreous gel.'},
+{level:'hard',q:'What are the indications for vitrectomy in retinal detachment?',opts:['Any RD regardless of type','Rhegmatogenous RD where break cannot be visualised or closed by buckling; Tractional RD threatening/involving macula; Combined tractional-rhegmatogenous RD','Only tractional RD from diabetes','Only when scleral buckling has failed'],ans:1,exp:'Vitrectomy indications: (1) Rhegmatogenous RD — break not visualised or not closable by buckling; (2) Tractional RD — macula threatening or involved; (3) Combined tractional-rhegmatogenous RD.'},
+];
+
+let currentQ = [], idx = 0, correct = 0, wrong = 0, answered = false, currentLevel = 'mixed';
+
+function setLevel(lvl){
+  currentLevel = lvl;
+  ['easy','medium','hard','mixed'].forEach(l=>{
+    const t = document.getElementById('tab-'+l);
+    t.className = 'level-tab';
+    if(l===lvl) t.classList.add('active-'+lvl);
+  });
+  startQuiz();
+}
+
+function startQuiz(){
+  if(currentLevel==='mixed') currentQ = shuffle([...ALL_Q]);
+  else currentQ = shuffle(ALL_Q.filter(q=>q.level===currentLevel));
+  idx=0; correct=0; wrong=0; answered=false;
+  updateStats(); renderQ();
+}
+
+function shuffle(a){return a.sort(()=>Math.random()-.5)}
+
+function updateStats(){
+  document.getElementById('s-correct').textContent=correct;
+  document.getElementById('s-wrong').textContent=wrong;
+  document.getElementById('s-left').textContent=Math.max(0,currentQ.length-idx);
+  const pct = currentQ.length ? Math.round(idx/currentQ.length*100) : 0;
+  document.getElementById('progress').style.width=pct+'%';
+}
+
+function renderQ(){
+  const area = document.getElementById('quiz-area');
+  if(idx>=currentQ.length){showResult(area);return;}
+  const q = currentQ[idx];
+  const badgeClass = q.level==='easy'?'badge-easy':q.level==='medium'?'badge-medium':'badge-hard';
+  const levelLabel = q.level.charAt(0).toUpperCase()+q.level.slice(1);
+  area.innerHTML=`
+  <div class="question-card">
+    <div class="q-meta">
+      <span class="q-badge ${badgeClass}">${levelLabel}</span>
+      <span class="q-num">Q${idx+1} of ${currentQ.length}</span>
+    </div>
+    <p class="q-text">${q.q}</p>
+    <div class="options" id="opts">
+      ${q.opts.map((o,i)=>`<button class="option-btn" onclick="choose(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+    </div>
+    <div id="exp" style="display:none" class="explanation"></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  </div>`;
+  answered=false;
+}
+
+function choose(i){
+  if(answered) return;
+  answered=true;
+  const q = currentQ[idx];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===q.ans) b.classList.add('correct');
+    else if(j===i && i!==q.ans) b.classList.add('wrong');
+    else if(j!==q.ans && j!==i) b.classList.add('reveal');
+  });
+  if(i===q.ans) correct++; else wrong++;
+  idx++;
+  updateStats();
+  document.getElementById('exp').style.display='block';
+  document.getElementById('exp').textContent=q.exp;
+  document.getElementById('next-btn').style.display='inline-block';
+}
+
+function nextQ(){renderQ();}
+
+function showResult(area){
+  const total = currentQ.length;
+  const pct = Math.round(correct/total*100);
+  let msg='', col='#534AB7';
+  if(pct>=90){msg='Excellent! You have a strong command of retinal detachment. You\'re ready for clinical rounds.';col='#3B6D11';}
+  else if(pct>=70){msg='Good performance! Review the questions you missed, particularly on tractional vs exudative RD pathogenesis.';col='#854F0B';}
+  else if(pct>=50){msg='Fair result. Go back to the lecture on signs, symptoms, and RD types. Focus on the clinical distinguishing features.';col='#993C1D';}
+  else{msg='Keep studying! Re-read the lecture carefully — start with the basic anatomy and the four types of RD, then work up to clinical signs.';col='#A32D2D';}
+  area.innerHTML=`
+  <div class="result-card">
+    <div class="result-score" style="color:${col}">${pct}%</div>
+    <div class="result-label">${correct} / ${total} correct</div>
+    <div class="result-grid">
+      <div class="stat-card"><div class="stat-num" style="color:#3B6D11">${correct}</div><div class="stat-label">Correct</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#A32D2D">${wrong}</div><div class="stat-label">Wrong</div></div>
+      <div class="stat-card"><div class="stat-num">${pct}%</div><div class="stat-label">Score</div></div>
+    </div>
+    <p class="result-msg">${msg}</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="startQuiz()">Retry same level</button>
+      <button class="btn" onclick="setLevel('mixed')">Try mixed mode</button>
+    </div>
+  </div>`;
+  document.getElementById('progress').style.width='100%';
+}
+
+setLevel('mixed');
+</script>
