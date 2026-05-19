@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ophthalmology MCQ Quiz - Past Papers</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --deep-blue: #1a2f6a;
+    --royal: #2251cc;
+    --gold: #c9a84c;
+    --gold-light: #f0d484;
+    --cream: #fdf8ee;
+    --warm-white: #fffef9;
+    --green: #1a7a4a;
+    --green-bg: #e8f7ef;
+    --red: #c0392b;
+    --red-bg: #fdecea;
+    --grey: #6b7280;
+    --border: #e2d9c5;
+    --shadow: 0 8px 40px rgba(13,27,62,0.13);
+    --shadow-sm: 0 2px 12px rgba(13,27,62,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 60%, #1e3a8a 100%);
+    color: white;
+    text-align: center;
+    padding: 48px 24px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .site-header .eye-icon {
+    font-size: 52px;
+    margin-bottom: 10px;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(201,168,76,0.5));
+  }
+  .site-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .site-header h1 span { color: var(--gold-light); }
+  .arabic-quote {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    direction: rtl;
+    color: var(--gold-light);
+    opacity: 0.92;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    border-right: 3px solid var(--gold);
+    background: rgba(201,168,76,0.08);
+    border-radius: 4px;
+  }
+  .gold-divider {
+    width: 80px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px auto;
+  }
+
+  /* MAIN LAYOUT */
+  .main-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 16px 60px; }
+
+  /* CHAPTER SELECTOR */
+  .chapter-nav {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+  }
+  .chapter-nav h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--deep-blue);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .chapter-btn {
+    background: var(--warm-white);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.22s;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--navy);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .chapter-btn:hover {
+    border-color: var(--royal);
+    background: #eef3ff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .chapter-btn.active {
+    border-color: var(--royal);
+    background: linear-gradient(135deg, #eef3ff, #dde9ff);
+    color: var(--royal);
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(34,81,204,0.18);
+  }
+  .chapter-btn .ch-num {
+    background: var(--navy);
+    color: white;
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .chapter-btn.active .ch-num { background: var(--royal); }
+  .chapter-btn .ch-count {
+    margin-left: auto;
+    color: var(--grey);
+    font-size: 0.78rem;
+    flex-shrink: 0;
+  }
+
+  /* SCOREBOARD */
+  .scoreboard {
+    background: white;
+    border-radius: 16px;
+    padding: 22px 28px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .score-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--deep-blue);
+    flex: 1;
+    min-width: 160px;
+  }
+  .score-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+  .score-pill {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 6px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .score-pill.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .score-pill.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .score-pill.total { background: #eef3ff; border-color: var(--royal); color: var(--royal); }
+  .progress-bar-wrap {
+    width: 100%;
+    height: 7px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 2px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--royal), var(--gold));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .btn-reset {
+    background: none;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--grey);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+
+  /* QUIZ AREA */
+  .quiz-area { display: flex; flex-direction: column; gap: 20px; }
+
+  .question-card {
+    background: white;
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+  .question-card:hover { box-shadow: var(--shadow); }
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .q-num {
+    background: linear-gradient(135deg, var(--navy), var(--deep-blue));
+    color: white;
+    border-radius: 8px;
+    padding: 5px 13px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+  }
+  .q-text {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.55;
+    color: var(--navy);
+  }
+  .options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 0; }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    color: var(--navy);
+    transition: all 0.18s;
+    width: 100%;
+    font-weight: 400;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: #eef3ff;
+    border-color: var(--royal);
+    transform: translateX(3px);
+  }
+  .option-btn:disabled { cursor: default; }
+  .option-btn .opt-letter {
+    background: var(--border);
+    color: var(--navy);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .option-btn.correct-ans {
+    background: var(--green-bg);
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 600;
+  }
+  .option-btn.correct-ans .opt-letter { background: var(--green); color: white; }
+  .option-btn.wrong-ans {
+    background: var(--red-bg);
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .option-btn.wrong-ans .opt-letter { background: var(--red); color: white; }
+  .option-btn.neutral-reveal {
+    opacity: 0.55;
+  }
+
+  /* EXPLANATION */
+  .explanation {
+    display: none;
+    margin-top: 16px;
+    background: linear-gradient(135deg, #f0f7ff, #e8f0fe);
+    border: 1px solid #bcd0f7;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #1e3a8a;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--deep-blue); font-weight: 700; display: block; margin-bottom: 5px; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--grey);
+    font-size: 1.05rem;
+  }
+  .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 22px 20px;
+    font-size: 0.88rem;
+    letter-spacing: 0.02em;
+    margin-top: 60px;
+  }
+  .site-footer strong { color: var(--gold-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .site-header { padding: 36px 16px 28px; }
+    .chapter-grid { grid-template-columns: 1fr 1fr; }
+    .scoreboard { flex-direction: column; align-items: flex-start; }
+    .question-card { padding: 20px 16px; }
+  }
+
+  /* All questions badge */
+  .all-btn {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--navy), var(--deep-blue));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s;
+    letter-spacing: 0.02em;
+  }
+  .all-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,27,62,0.3); }
+  .all-btn.active { background: linear-gradient(135deg, var(--royal), #1a40a8); }
+
+  .note-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <span class="eye-icon">👁️</span>
+  <h1>HELLO SENIORS! <span>WELCOME TO</span><br>OPHTHALMOLOGY PAST PAPER EXAMS MCQ</h1>
+  <div class="gold-divider"></div>
+  <div class="arabic-quote">
+    وتدعو ألا يكون طريقك وعراً لتنجو<br>
+    فيكون وعراً وتنجو<br>
+    لتعلم أن النجاة من الله لا من الطريق
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- CHAPTER NAV -->
+  <div class="chapter-nav">
+    <h2>📚 Select a Chapter to Study</h2>
+    <div class="chapter-grid" id="chapterGrid">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- SCOREBOARD -->
+  <div class="scoreboard" id="scoreboard">
+    <div>
+      <div class="score-section-title" id="activeChapterTitle">All Questions</div>
+      <div class="progress-bar-wrap" style="margin-top:8px;width:260px;">
+        <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-pills">
+      <div class="score-pill total">📊 Answered: <span id="scoreTotalAnswered">0</span> / <span id="scoreTotalQ">0</span></div>
+      <div class="score-pill correct">✅ Correct: <span id="scoreCorrect">0</span></div>
+      <div class="score-pill wrong">❌ Wrong: <span id="scoreWrong">0</span></div>
+    </div>
+    <button class="btn-reset" onclick="resetChapterScore()">↺ Reset Score</button>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div class="quiz-area" id="quizArea">
+    <div class="empty-state"><span class="emoji">🎯</span>Select a chapter above to begin!</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  ALL DATA COLLECTED BY <strong>QUIZ ZONE</strong>, HELPERS TEAM <strong>@fmm edit</strong>
+</footer>
+
+<script>
+// =====================================================
+// ALL MCQ DATA — Categorized
+// =====================================================
+const ALL_CHAPTERS = [
+
+  // 1. INTRODUCTION (Anatomy, Physiology, Symptomatology)
+  {
+    id: 'intro',
+    num: 1,
+    title: 'Introduction',
+    subtitle: 'Anatomy, Physiology & Symptomatology',
+    questions: [
+      {
+        q: "Which extraocular muscle does NOT arise from the apex of the orbit?",
+        opts: ["Superior rectus","Superior oblique","Inferior oblique","Inferior rectus"],
+        ans: 2,
+        exp: "The Inferior Oblique muscle is the only extraocular muscle that does NOT originate from the apex of the orbit (annulus of Zinn). It arises from the orbital floor near the lacrimal groove and is the shortest extraocular muscle."
+      },
+      {
+        q: "The shortest extraocular muscle is:",
+        opts: ["Superior oblique","Inferior oblique","Superior rectus","Inferior rectus"],
+        ans: 1,
+        exp: "The Inferior Oblique (IO) is the shortest extraocular muscle at about 37mm. It is also unique as the only EOM not originating from the orbital apex."
+      },
+      {
+        q: "The distance of the Lateral Rectus insertion from the limbus is:",
+        opts: ["5.5 mm","6.5 mm","6.9 mm","7.7 mm"],
+        ans: 3,
+        exp: "Using the spiral of Tillaux: MR=5.5mm, IR=6.5mm, LR=6.9mm, SR=7.7mm from limbus. The lateral rectus is inserted 6.9mm from the limbus."
+      },
+      {
+        q: "Most of the thickness of the cornea is formed by:",
+        opts: ["Epithelial layer","Substantia propria (Stroma)","Descemet's membrane","Endothelium"],
+        ans: 1,
+        exp: "The corneal stroma (substantia propria) makes up about 90% of corneal thickness. It consists of regularly arranged collagen lamellae, keratocytes, and ground substance — responsible for corneal transparency."
+      },
+      {
+        q: "The basement membrane of the corneal endothelium is called:",
+        opts: ["Descemet's membrane","Bowman's membrane","Bruch's membrane","Substantia propria"],
+        ans: 0,
+        exp: "Descemet's membrane is the basement membrane of the corneal endothelium (inner layer). It is thickened with age and is very resistant to infection and trauma. Bowman's is the basement membrane of the corneal epithelium."
+      },
+      {
+        q: "The number of layers in the neurosensory retina is:",
+        opts: ["9","10","11","12"],
+        ans: 1,
+        exp: "The neurosensory retina has 10 layers: (1) Inner limiting membrane, (2) Nerve fiber layer, (3) Ganglion cell layer, (4) Inner plexiform layer, (5) Inner nuclear layer, (6) Outer plexiform layer, (7) Outer nuclear layer, (8) External limiting membrane, (9) Photoreceptor layer (rods & cones), (10) RPE."
+      },
+      {
+        q: "The optic disc diameter is approximately:",
+        opts: ["1 mm","1.5 mm","2 mm","3 mm"],
+        ans: 1,
+        exp: "The normal optic disc diameter is approximately 1.5 mm. This is a key clinical landmark. The fovea is located approximately 3.5 disc diameters temporal to and 0.5 disc diameters below the optic disc."
+      },
+      {
+        q: "Optic nerve axons emerge from which retinal layer?",
+        opts: ["Ganglion cells","Rods and cones","Amacrine cells","Inner nuclear layer"],
+        ans: 0,
+        exp: "The axons of the retinal ganglion cells form the nerve fiber layer, which then converge to form the optic nerve. Ganglion cells are the 3rd order neurons in the visual pathway."
+      },
+      {
+        q: "The diameter of the fovea centralis is:",
+        opts: ["0.5 mm","1 mm","1.5 mm","2.5 mm"],
+        ans: 0,
+        exp: "The fovea centralis is a small pit in the center of the macula with a diameter of approximately 0.5 mm (1.5 degrees of visual angle). The fovea contains only cones and is responsible for highest visual acuity."
+      },
+      {
+        q: "Regarding the lens anatomy, which statement is true?",
+        opts: ["The anterior capsule is thinner than the posterior","The posterior capsule is thinner than the anterior","The capsule is thickest at the posterior pole","None of the above"],
+        ans: 1,
+        exp: "The posterior capsule is thinner (~2-4 µm) than the anterior capsule (~14 µm). The capsule is thickest pre-equatorially. This is clinically important as the posterior capsule can rupture during phacoemulsification."
+      },
+      {
+        q: "Aqueous humour is primarily formed by:",
+        opts: ["Epithelium of the ciliary body","Posterior surface of the iris","The lens","Pars plana"],
+        ans: 0,
+        exp: "Aqueous humour is produced mainly by the non-pigmented epithelium of the ciliary processes (pars plicata of the ciliary body) via active secretion (~80%) and ultrafiltration (~20%). It flows from posterior chamber → through pupil → anterior chamber → trabecular meshwork → Schlemm's canal."
+      },
+      {
+        q: "The refractive power of the cornea is approximately:",
+        opts: ["18 D","40 D","42 D","60 D"],
+        ans: 2,
+        exp: "The cornea has a refractive power of approximately 43 Diopters (often stated as ~42-44D), making it the most powerful refracting surface of the eye. The total eye refractive power is ~60D, with the lens contributing ~20D."
+      },
+      {
+        q: "The normal pH of the tear film is:",
+        opts: ["6.1","7.4","8.2","9.2"],
+        ans: 1,
+        exp: "The normal tear film pH is approximately 7.4 (slightly alkaline, matching blood). Tear pH can vary from 6.5–7.6. Knowing tear pH is important for understanding the management of chemical burns."
+      },
+      {
+        q: "Corneal sensations are carried by which cranial nerve?",
+        opts: ["3rd nerve (Oculomotor)","5th nerve (Trigeminal)","4th nerve (Trochlear)","7th nerve (Facial)"],
+        ans: 1,
+        exp: "Corneal sensation is mediated by the ophthalmic division (V1) of the trigeminal nerve (CN V) via the nasociliary branch, specifically the long ciliary nerves. Loss of corneal sensation (e.g., herpes simplex) leads to neurotrophic keratitis."
+      },
+      {
+        q: "The action of the Superior Rectus muscle is:",
+        opts: ["Elevation, intorsion, abduction","Elevation, intorsion, adduction","Elevation, extorsion, adduction","Elevation, extorsion, abduction"],
+        ans: 1,
+        exp: "The Superior Rectus (SR) has the primary action of elevation, with secondary actions of intorsion and adduction. This is because its line of pull is directed nasally relative to the visual axis when the eye is in primary position."
+      },
+      {
+        q: "The Trochlear nerve (IV) supplies which muscle?",
+        opts: ["Superior Rectus","Superior Oblique","Lateral Rectus","Inferior Oblique"],
+        ans: 1,
+        exp: "The Trochlear nerve (CN IV) is the only cranial nerve that: (1) supplies only one muscle – the Superior Oblique, (2) decussates before exiting the brainstem, and (3) has the longest intracranial course."
+      },
+      {
+        q: "In scotopic vision (low light), the main role is played by:",
+        opts: ["Cones","Rods","Both","None"],
+        ans: 1,
+        exp: "Rods (120 million) are responsible for scotopic (dim light) vision. They are most concentrated in the peripheral retina and contain rhodopsin. Cones (6 million) are concentrated in the fovea and responsible for photopic (color) vision."
+      },
+      {
+        q: "The physiological tone of the ciliary muscle is approximately how many Diopters?",
+        opts: ["1.0 D","2.5 D","3.0 D","4.0 D"],
+        ans: 2,
+        exp: "The physiological tone of the ciliary muscle is approximately 3 Diopters. This is why cycloplegic refraction (e.g., with atropine) is essential in children to relax accommodation and get accurate refraction."
+      },
+      {
+        q: "Sudden, painless loss of vision can be caused by all of the following EXCEPT:",
+        opts: ["Central Retinal Artery Occlusion (CRAO)","Central Retinal Vein Occlusion (CRVO)","Vitreous Hemorrhage","Acute Congestive Glaucoma"],
+        ans: 3,
+        exp: "Acute Congestive (Angle-Closure) Glaucoma causes PAINFUL sudden loss of vision, often with nausea, vomiting, and rainbow halos. CRAO, CRVO, and vitreous hemorrhage all cause sudden PAINLESS loss of vision."
+      },
+      {
+        q: "Sudden, painful loss of vision occurs in:",
+        opts: ["Acute angle closure glaucoma","Diabetic retinopathy","Central retinal vein occlusion","Optic atrophy"],
+        ans: 0,
+        exp: "Acute angle closure glaucoma is characterized by sudden painful loss of vision due to rapid rise in IOP. The pain is severe, often with nausea, vomiting, fixed mid-dilated pupil, and corneal edema."
+      },
+      {
+        q: "'Photopsia' (flashes of light) is a characteristic symptom of:",
+        opts: ["Cataract","Glaucoma","Retinal Detachment","Corneal Ulcer"],
+        ans: 2,
+        exp: "Photopsia (flashes of light) occurs in retinal detachment due to traction on the retina by the vitreous. It is often accompanied by floaters and a curtain/shadow in the visual field. This is a warning sign requiring urgent evaluation."
+      },
+      {
+        q: "'Muscae Volitantes' (floaters) are most commonly associated with:",
+        opts: ["High myopia","Hypermetropia","Presbyopia","Astigmatism"],
+        ans: 0,
+        exp: "Floaters (muscae volitantes) are most commonly associated with high myopia due to premature vitreous liquefaction and posterior vitreous detachment (PVD). New floaters, especially with flashes, require urgent fundus examination to exclude retinal tear."
+      },
+      {
+        q: "Which of the following is NOT a source of nutrients to the cornea?",
+        opts: ["Air","Aqueous humour","Vitreous humour","Perilimbal capillaries"],
+        ans: 2,
+        exp: "The vitreous humour does NOT supply nutrients to the cornea. The cornea receives nutrients from: (1) Tears and atmospheric O2 (anterior surface), (2) Aqueous humour (posterior surface), and (3) Perilimbal capillaries (peripheral cornea)."
+      },
+      {
+        q: "The primary symptom of Photophthalmia is:",
+        opts: ["Pain and photophobia","Blurred vision","Discharge","Itching"],
+        ans: 0,
+        exp: "Photophthalmia (welder's flash / snow blindness) presents with severe pain, photophobia, and lacrimation after UV light exposure. Symptoms typically appear 6-12 hours after exposure due to corneal epithelial damage."
+      }
+    ]
+  },
+
+  // 2. EYELID
+  {
+    id: 'eyelid',
+    num: 2,
+    title: 'Eyelid Disorders',
+    subtitle: 'Anatomy, infections, malpositions, tumors',
+    questions: [
+      {
+        q: "How many tarsal (Meibomian) glands are typically present in the upper lid?",
+        opts: ["15","25","30 to 40","50"],
+        ans: 2,
+        exp: "The upper lid contains approximately 30-40 Meibomian glands, while the lower lid has about 20-30. These sebaceous glands open along the posterior lid margin and secrete the lipid layer of the tear film."
+      },
+      {
+        q: "The primary muscle responsible for opening the eye (lid elevation) is:",
+        opts: ["Muller's muscle","Orbicularis oculi","Levator palpebrae superioris (LPS)","Frontalis muscle"],
+        ans: 2,
+        exp: "The Levator Palpebrae Superioris (LPS) is the primary lid elevator, innervated by CN III (oculomotor). Müller's muscle (sympathetic innervation) contributes 2mm. Frontalis (CN VII) compensates in ptosis."
+      },
+      {
+        q: "The nerve supply to the levator palpebrae superioris muscle is:",
+        opts: ["Oculomotor (III)","Facial (VII)","Sympathetic","Trochlear (IV)"],
+        ans: 0,
+        exp: "The Levator Palpebrae Superioris is supplied by the superior division of the Oculomotor nerve (CN III). CN III palsy causes ptosis along with dilated pupil, 'down and out' eye position, and diplopia."
+      },
+      {
+        q: "A chalazion is a:",
+        opts: ["Acute staphylococcal infection of a Meibomian gland","Chronic lipogranulomatous inflammation of a Meibomian gland","Retention cyst of the gland of Moll","Abscess of the gland of Zeis"],
+        ans: 1,
+        exp: "A Chalazion is a chronic, sterile, lipogranulomatous inflammation (not a true cyst) of a Meibomian gland due to obstruction of its duct. Treatment: initial warm compresses → incision and curettage (I&C) from inside if persistent. It is painless and firm."
+      },
+      {
+        q: "A stye (hordeolum externum) is an infection of:",
+        opts: ["Meibomian glands","Glands of Moll","Glands of Zeis","Lacrimal gland"],
+        ans: 2,
+        exp: "A stye (hordeolum externum) is an acute staphylococcal infection of the glands of Zeis (sebaceous glands associated with eyelash follicles). It presents at the lid margin as a painful pointing abscess. Hordeolum internum affects the Meibomian gland."
+      },
+      {
+        q: "Entropion refers to:",
+        opts: ["Eversion of the lid margin","Inversion of the lid margin","Drooping of the upper lid","Eyelash misdirection"],
+        ans: 1,
+        exp: "Entropion is the inward turning (inversion) of the eyelid margin, causing lashes to rub against the cornea (trichiasis), leading to corneal abrasion and ulceration. It can be involutional (senile), cicatricial (from scarring), or congenital."
+      },
+      {
+        q: "Ectropion refers to:",
+        opts: ["Inversion of the lid margin","Eversion of the lid margin","Ptosis of the upper lid","Lagophthalmos"],
+        ans: 1,
+        exp: "Ectropion is the outward turning (eversion) of the eyelid margin, exposing the conjunctiva and causing epiphora, exposure keratopathy. Causes: senile (most common), cicatricial, paralytic (CN VII palsy), or mechanical."
+      },
+      {
+        q: "Trichiasis is best described as:",
+        opts: ["Absence of eyelashes","Abnormal direction of eyelashes toward the cornea","Double row of eyelashes","Loss of eyelashes"],
+        ans: 1,
+        exp: "Trichiasis is the abnormal inward direction of eyelashes toward and rubbing against the cornea/conjunctiva. It can result in corneal ulceration. Causes: trachoma (most common worldwide), entropion, blepharitis. Treatment: epilation, electrolysis, cryotherapy, or surgery."
+      },
+      {
+        q: "Ptosis is defined as drooping of the upper eyelid. The normal upper eyelid position covers:",
+        opts: ["None of the cornea","1-2 mm of the superior cornea","3-4 mm of the superior cornea","The entire pupil"],
+        ans: 1,
+        exp: "Normally, the upper eyelid rests 1-2mm below the superior limbus, covering 1-2mm of the superior cornea. The lower lid rests at the inferior limbus. Ptosis is defined as the upper lid margin being at or below the pupillary margin."
+      },
+      {
+        q: "In Marcus Gunn jaw winking ptosis:",
+        opts: ["The ptosis is due to CN III palsy","There is synkinesis between the pterygoid muscle and LPS","The levator is absent","Lid surgery is always required"],
+        ans: 1,
+        exp: "Marcus Gunn jaw winking is a congenital synkinesis where the ptotic lid elevates (winks) when the jaw moves (chewing, sucking). It results from aberrant connections between the motor branch of CN V3 (pterygoid muscles) and the LPS."
+      },
+      {
+        q: "The most common primary malignant tumor of the eyelid is:",
+        opts: ["Squamous cell carcinoma","Melanoma","Basal cell carcinoma","Sebaceous gland carcinoma"],
+        ans: 2,
+        exp: "Basal cell carcinoma (BCC) accounts for ~90-95% of all malignant eyelid tumors. It most commonly affects the lower eyelid and medial canthus. It has a 'rodent ulcer' appearance with rolled pearly edges but rarely metastasizes. Treatment: surgical excision."
+      },
+      {
+        q: "Distichiasis refers to:",
+        opts: ["Absence of eyelashes","Single row of eyelashes","Double row of eyelashes with the second row directed toward the cornea","Inward turning lashes"],
+        ans: 2,
+        exp: "Distichiasis is a condition where there are two rows of eyelashes; the second (posterior) row arises from the meibomian gland orifices and may be directed toward the cornea. It can be congenital or acquired (e.g., Stevens-Johnson syndrome)."
+      },
+      {
+        q: "Blepharitis is characterized by inflammation of the:",
+        opts: ["Conjunctiva","Cornea","Eyelid margin","Lacrimal gland"],
+        ans: 2,
+        exp: "Blepharitis is chronic inflammation of the eyelid margins. Types: (1) Anterior (staphylococcal) – crusting at lash bases, (2) Posterior (meibomian gland dysfunction – MGD). Symptoms: lid margin redness, crusting, itching, burning, dry eye. Treatment: lid hygiene, warm compresses, antibiotics."
+      },
+      {
+        q: "Lagophthalmos (inability to close the eye) is most commonly caused by:",
+        opts: ["CN III palsy","CN V palsy","CN VII (Facial nerve) palsy","Myasthenia gravis"],
+        ans: 2,
+        exp: "Lagophthalmos (failure to close the eyelid completely) is most commonly caused by facial nerve (CN VII) palsy causing orbicularis oculi weakness. This leads to exposure keratopathy, corneal ulceration. Treatment: lubricants, taping, lid weight implantation."
+      },
+      {
+        q: "A xanthelasma is:",
+        opts: ["A malignant eyelid tumor","A yellowish lipid deposit near the medial canthus","A viral lid infection","A congenital eyelid coloboma"],
+        ans: 1,
+        exp: "Xanthelasma are flat, yellowish plaques of cholesterol deposits on the medial aspect of the eyelids. Often associated with hyperlipidemia but can occur with normal lipid levels. They are benign but cosmetically disfiguring. Treatment: surgical excision, laser."
+      },
+      {
+        q: "Molluscum contagiosum causing chronic follicular conjunctivitis presents as:",
+        opts: ["Ulcerative lid lesion","Painless umbilicated nodule on the lid margin","Painful swelling of the Meibomian gland","Multiple vesicles on the lid"],
+        ans: 1,
+        exp: "Molluscum contagiosum (poxvirus) presents as painless, pearly white umbilicated (central depression) nodules on the lid margin. It causes chronic follicular conjunctivitis by shedding viral particles onto the conjunctiva. Treatment: expression/curettage of the nodule."
+      },
+      {
+        q: "The most common cause of unilateral ptosis in adults is:",
+        opts: ["Myasthenia gravis","Aponeurotic (involutional) ptosis","Congenital ptosis","Horner's syndrome"],
+        ans: 1,
+        exp: "Aponeurotic ptosis (senile/involutional ptosis) is the most common cause of acquired ptosis in adults due to dehiscence or disinsertion of the levator aponeurosis. The LPS function is normal (good levator function). High skin crease is characteristic."
+      }
+    ]
+  },
+
+  // 3. LACRIMAL
+  {
+    id: 'lacrimal',
+    num: 3,
+    title: 'Lacrimal System & Dry Eye',
+    subtitle: 'Anatomy, disorders, surgery',
+    questions: [
+      {
+        q: "The lacrimal gland is situated in which angle of the orbit?",
+        opts: ["Upper inner","Upper outer","Lower inner","Lower outer"],
+        ans: 1,
+        exp: "The lacrimal gland is located in the upper outer (superolateral) angle of the orbit, in the lacrimal fossa of the frontal bone. It has two lobes: orbital (larger) and palpebral (smaller, visible on lid eversion)."
+      },
+      {
+        q: "Which part of the orbicularis oculi muscle is referred to as Horner's muscle?",
+        opts: ["Temporal","Orbital","Lacrimal","Muller's muscle"],
+        ans: 2,
+        exp: "Horner's muscle is the deep (lacrimal) part of the orbicularis oculi muscle that encircles the lacrimal sac. Its contraction during blinking creates a pumping action that helps drain tears through the lacrimal system."
+      },
+      {
+        q: "The nasolacrimal duct (NLD) normally opens into the:",
+        opts: ["Superior meatus","Middle meatus","Inferior meatus","Maxillary sinus"],
+        ans: 2,
+        exp: "The nasolacrimal duct opens into the inferior meatus of the nasal cavity, beneath the inferior turbinate. It is guarded by the valve of Hasner (plica lacrimalis). Obstruction here causes epiphora in congenital NLD obstruction (CNLDO)."
+      },
+      {
+        q: "The most common cause of epiphora in newborns is:",
+        opts: ["Lacrimal gland aplasia","Congenital nasolacrimal duct obstruction (CNLDO)","Punctal atresia","Canalicular obstruction"],
+        ans: 1,
+        exp: "Congenital NLD obstruction (CNLDO) is the most common cause of epiphora in infants, affecting 2-6% of newborns. It is caused by failure of canalization of the Hasner valve at the lower end of the NLD. 90% resolve spontaneously by 1 year."
+      },
+      {
+        q: "The treatment of choice for congenital nasolacrimal duct obstruction that persists after 12 months is:",
+        opts: ["Massage and antibiotics indefinitely","Probing under general anesthesia","Dacryocystorhinostomy","Syringing only"],
+        ans: 1,
+        exp: "If CNLDO persists beyond 12 months (or 9-12 months in some protocols), probing of the nasolacrimal duct under general anesthesia is indicated. Crigler massage (pressure over lacrimal sac) should be done daily from birth to 9-12 months."
+      },
+      {
+        q: "Dacryocystitis refers to infection of:",
+        opts: ["Lacrimal gland","Lacrimal sac","Canaliculi","Nasolacrimal duct"],
+        ans: 1,
+        exp: "Dacryocystitis is infection/inflammation of the lacrimal sac, usually due to obstruction of the nasolacrimal duct. Acute: painful swelling at medial canthus, below the medial canthal tendon. Chronic: regurgitation of mucoid material on pressure. Treatment: antibiotics + DCR."
+      },
+      {
+        q: "Dacryocystorhinostomy (DCR) creates an anastomosis between:",
+        opts: ["Lacrimal gland and conjunctiva","Lacrimal sac and nasal cavity","Canaliculi and nasal cavity","Lacrimal gland and nasal cavity"],
+        ans: 1,
+        exp: "DCR creates a new drainage pathway between the lacrimal sac and the nasal cavity (middle meatus), bypassing the obstructed nasolacrimal duct. It can be external (most common) or endoscopic. Success rate ~90%."
+      },
+      {
+        q: "Acute dacryocystitis presents most characteristically with:",
+        opts: ["Painless swelling above medial canthal tendon","Tender swelling below medial canthal tendon","Discharge from lacrimal punctum","Proptosis"],
+        ans: 1,
+        exp: "Acute dacryocystitis presents with a painful, tender, red swelling BELOW the medial canthal tendon (the location of the lacrimal sac). It may point and rupture. Key distinction from lacrimal abscess: if swelling is ABOVE the tendon, suspect the lacrimal gland."
+      },
+      {
+        q: "Schirmer's test measures:",
+        opts: ["Tear drainage","Tear production","Tear film break-up time","IOP"],
+        ans: 1,
+        exp: "Schirmer's test measures basal tear secretion. A filter paper strip (5×35mm) is placed in the lower fornix; wetting <10mm in 5 minutes is abnormal. Schirmer I (without anesthesia) = reflex + basic secretion. Schirmer II (with anesthesia) = basic secretion only."
+      },
+      {
+        q: "The Tear Film Break-Up Time (TBUT) in a normal patient is:",
+        opts: ["Less than 5 seconds","5-7 seconds","Greater than 10 seconds","Greater than 20 seconds"],
+        ans: 2,
+        exp: "Normal TBUT is >10 seconds. A TBUT of <10 seconds suggests tear film instability (mucin deficiency or evaporative dry eye). TBUT is measured by observing the appearance of black spots in the fluorescein-stained tear film under cobalt blue light."
+      }
+    ]
+  },
+
+  // 4. ORBIT
+  {
+    id: 'orbit',
+    num: 4,
+    title: 'Orbit',
+    subtitle: 'Thyroid eye disease, orbital tumors, proptosis',
+    questions: [
+      {
+        q: "Pulsating proptosis is a characteristic feature of:",
+        opts: ["Cavernous sinus thrombosis","Carotid-cavernous fistula","Orbital cellulitis","Thyroid eye disease"],
+        ans: 1,
+        exp: "Pulsating (non-axial) proptosis with a bruit is pathognomonic of Carotid-Cavernous Fistula (CCF). The pulsation is transmitted from the carotid artery through the abnormal arteriovenous connection. Diagnosis: CT angiography. Treatment: endovascular occlusion."
+      },
+      {
+        q: "Bilateral proptosis in an adult is most commonly caused by:",
+        opts: ["Orbital cellulitis","Thyroid eye disease (Graves' Ophthalmopathy)","Dermoid cyst","Cavernous hemangioma"],
+        ans: 1,
+        exp: "Graves' Ophthalmopathy (thyroid eye disease) is the most common cause of BILATERAL proptosis in adults (also the most common cause of unilateral proptosis). It involves orbital and periorbital inflammation with extraocular muscle enlargement (inferior and medial recti most commonly)."
+      },
+      {
+        q: "Axial proptosis (displacement straight forward) is typical of:",
+        opts: ["Lacrimal gland tumor","Mucocele of ethmoid sinus","Tumors within the muscle cone (intraconal)","Periorbital cellulitis"],
+        ans: 2,
+        exp: "Axial (straight forward) proptosis indicates an intraconal lesion (within the muscle cone). Examples: optic nerve meningioma, cavernous hemangioma (most common benign orbital tumor in adults). Extraconal lesions cause non-axial (eccentric) proptosis."
+      },
+      {
+        q: "Orbital cellulitis in children most commonly arises from spread of infection from:",
+        opts: ["Dental abscess","Ethmoid sinusitis","Dacryocystitis","Skin trauma"],
+        ans: 1,
+        exp: "Orbital cellulitis most commonly arises from sinusitis, particularly ethmoid sinusitis (most common in children). The thin lamina papyracea separating the ethmoid sinus from the orbit allows easy spread. Chandler's classification grades orbital complications of sinusitis."
+      },
+      {
+        q: "The most common benign orbital tumor in adults is:",
+        opts: ["Dermoid cyst","Cavernous hemangioma","Rhabdomyosarcoma","Lymphoma"],
+        ans: 1,
+        exp: "Cavernous hemangioma (venous malformation) is the most common benign orbital tumor in adults, presenting in middle-aged females with painless, slowly progressive axial proptosis. MRI shows well-defined enhancing lesion. Treatment: surgical excision if symptomatic."
+      },
+      {
+        q: "The most common primary orbital malignancy in children is:",
+        opts: ["Lymphoma","Melanoma","Rhabdomyosarcoma","Neuroblastoma"],
+        ans: 2,
+        exp: "Rhabdomyosarcoma is the most common primary orbital malignancy in children, typically presenting under age 10 with rapidly progressive proptosis and lid swelling. CT shows irregular poorly defined mass. Treatment: combined chemo + radiotherapy (surgery rarely needed)."
+      },
+      {
+        q: "In thyroid eye disease (Graves' ophthalmopathy), which extraocular muscle is MOST commonly affected?",
+        opts: ["Superior rectus","Lateral rectus","Inferior rectus","Superior oblique"],
+        ans: 2,
+        exp: "In Graves' ophthalmopathy, the most commonly enlarged muscles are (in order): Inferior Rectus > Medial Rectus > Superior Rectus > Lateral Rectus (mnemonic: I'M SLow). Enlargement of the muscle belly (not tendon) is characteristic. IR involvement causes restriction of upgaze."
+      },
+      {
+        q: "Enophthalmos (sunken eye) occurs in:",
+        opts: ["Thyroid eye disease","Carotid cavernous fistula","Blow-out fracture of the orbital floor","Orbital cellulitis"],
+        ans: 2,
+        exp: "Enophthalmos (sunken appearance) is a classic feature of blow-out fracture of the orbital floor, due to herniation of orbital fat into the maxillary sinus and increased orbital volume. Diplopia on upgaze also occurs due to entrapment of the inferior rectus."
+      },
+      {
+        q: "Exophthalmometry measures proptosis. Normal globe projection is:",
+        opts: ["5-10 mm","10-15 mm","14-21 mm","22-28 mm"],
+        ans: 2,
+        exp: "Normal exophthalmometry reading (globe projection from lateral orbital rim) is 14-21 mm (mean ~16mm). Proptosis is diagnosed when the reading is >21mm or there is >2mm asymmetry between the two eyes. Hertel exophthalmometer is the standard instrument."
+      },
+      {
+        q: "A dermoid cyst of the orbit typically presents at:",
+        opts: ["Medial canthus","Superolateral (upper outer) angle of the orbit","Inferior orbital rim","Apex of the orbit"],
+        ans: 1,
+        exp: "Dermoid cysts are the most common orbital tumors in children. They typically arise at the superolateral (frontotemporal) angle of the orbit, near the suture lines. They are smooth, firm, non-tender, non-pulsatile, and may transilluminate. CT: well-defined cystic lesion with bone remodeling."
+      }
+    ]
+  },
+
+  // 5. CORNEA
+  {
+    id: 'cornea',
+    num: 5,
+    title: 'Cornea',
+    subtitle: 'Ulcers, keratitis, dystrophies, surgery',
+    questions: [
+      {
+        q: "Irrespective of the etiology of a corneal ulcer, the drug always indicated is:",
+        opts: ["Corticosteroids","Cycloplegics","Antibiotics","Antifungals"],
+        ans: 1,
+        exp: "Cycloplegics (e.g., atropine 1%) are ALWAYS indicated in corneal ulcers regardless of cause. They relieve ciliary spasm (pain), prevent posterior synechiae formation, and stabilize the blood-aqueous barrier. Corticosteroids are generally contraindicated in most corneal ulcers."
+      },
+      {
+        q: "Corneal sensations are diminished in:",
+        opts: ["Herpes simplex keratitis","Conjunctivitis","Fungal infections","Marginal keratitis"],
+        ans: 0,
+        exp: "Reduced corneal sensation (hypoesthesia) is a hallmark of Herpes Simplex Virus (HSV) keratitis due to destruction of corneal sensory nerve endings. This is clinically useful in diagnosing HSV and distinguishing it from other forms of keratitis."
+      },
+      {
+        q: "The color of fluorescein staining in corneal ulcer is:",
+        opts: ["Yellow","Blue","Green","Royal blue"],
+        ans: 2,
+        exp: "Fluorescein stain appears GREEN under cobalt blue light (blue light excites fluorescein causing it to emit green fluorescence). It stains areas of epithelial defect (breaks in tight junctions). Used to diagnose corneal ulcers, abrasions, and check for wound leak (Seidel test)."
+      },
+      {
+        q: "Dendritic (branching) ulcer of the cornea is caused by:",
+        opts: ["Bacteria","Herpes simplex virus","Acanthamoeba","Fungus"],
+        ans: 1,
+        exp: "Dendritic corneal ulcer is pathognomonic of Herpes Simplex Virus (HSV) keratitis. The branching pattern with terminal end-bulbs (true dendrites) is characteristic. Treatment: topical/systemic acyclovir. Avoid steroids in epithelial disease."
+      },
+      {
+        q: "The most important complication of herpes zoster ophthalmicus affecting the cornea is:",
+        opts: ["Bacterial superinfection","Neurotrophic keratitis","Corneal vascularization","Endothelial dystrophy"],
+        ans: 1,
+        exp: "Neurotrophic keratitis (from VZV destruction of corneal nerves) is the most important complication. Hutchinson's sign (rash on tip of nose = nasociliary nerve involvement) predicts severe ocular disease. Treatment: antiviral (acyclovir 800mg 5x/day), preservative-free lubricants."
+      },
+      {
+        q: "In a corneal ulcer, hypopyon (pus in anterior chamber) appears:",
+        opts: ["Always indicates perforation","Due to toxic exudates from the ulcer","Only in fungal infections","Indicates viral infection"],
+        ans: 1,
+        exp: "Hypopyon in corneal ulcer is a sterile collection of WBCs (not actual infection of AC) that forms due to toxic products and inflammatory mediators from the ulcer diffusing through the intact endothelium. It is gravity-dependent and shifts with head position. Most common in pneumococcal and fungal ulcers."
+      },
+      {
+        q: "Arcus senilis (corneal arcus) is due to deposition of:",
+        opts: ["Calcium","Copper","Lipids","Cystine"],
+        ans: 2,
+        exp: "Arcus senilis is a bilateral, peripheral, white/grey ring caused by lipid (cholesterol, phospholipids) deposition in the peripheral corneal stroma. In patients under 40, it is called arcus juvenilis and may indicate hyperlipidemia. It is separated from the limbus by a clear zone."
+      },
+      {
+        q: "Kayser-Fleischer ring (KF ring) is found in:",
+        opts: ["Diabetes mellitus","Wilson's disease","Hypercalcemia","Sarcoidosis"],
+        ans: 1,
+        exp: "Kayser-Fleischer rings are golden-brown/greenish rings at the peripheral cornea (Descemet's membrane) due to copper deposition in Wilson's disease (hepatolenticular degeneration). They are pathognomonic of Wilson's disease with neuropsychiatric involvement. Detected by slit lamp."
+      },
+      {
+        q: "Band keratopathy is due to deposition of:",
+        opts: ["Lipids","Calcium salts","Copper","Cystine crystals"],
+        ans: 1,
+        exp: "Band keratopathy is deposition of calcium salts (calcium phosphate) in the superficial corneal epithelium and Bowman's membrane, appearing as a horizontal white band across the cornea in the interpalpebral zone. Causes: chronic uveitis (JIA), hypercalcemia, chronic corneal disease. Treatment: EDTA chelation."
+      },
+      {
+        q: "The most common type of corneal dystrophy is:",
+        opts: ["Lattice dystrophy","Macular dystrophy","Granular dystrophy","Fuchs' endothelial dystrophy"],
+        ans: 3,
+        exp: "Fuchs' endothelial corneal dystrophy is the most common corneal dystrophy requiring penetrating keratoplasty. It affects endothelial cells causing corneal edema ('morning fog'), painful bullae. It is bilateral and more common in females. Treatment: eventually Descemet stripping endothelial keratoplasty (DSEK/DMEK)."
+      },
+      {
+        q: "Keratoconus is characterized by:",
+        opts: ["Flat, spherical cornea","Progressive thinning and forward conical protrusion of the cornea","Corneal dystrophy with calcium deposits","Peripheral corneal ulceration"],
+        ans: 1,
+        exp: "Keratoconus is a progressive, non-inflammatory ectasia (thinning and forward protrusion) of the cornea causing irregular astigmatism and decreased vision. Signs: Munson's sign (V-shaped indentation of lower lid), Fleischer ring (iron deposition), Vogt's striae. Treatment: RGP lenses → crosslinking → keratoplasty."
+      },
+      {
+        q: "Pterygium is a fibrovascular tissue growth that typically grows from:",
+        opts: ["Upper cornea toward the pupil","Nasal conjunctiva across the limbus onto the cornea","Temporal conjunctiva","Lower fornix"],
+        ans: 1,
+        exp: "Pterygium is a triangular fibrovascular growth from the NASAL bulbar conjunctiva that grows across the limbus onto the cornea, typically reaching the pupil axis first. It is associated with UV light exposure. Stocker's line (iron line at the leading edge). Treatment: surgical excision with conjunctival autograft."
+      }
+    ]
+  },
+
+  // 6. SCLERA (included in Cornea/Uvea section)
+  {
+    id: 'sclera',
+    num: 6,
+    title: 'Sclera',
+    subtitle: 'Episcleritis, scleritis, staphyloma',
+    questions: [
+      {
+        q: "Episcleritis differs from scleritis in that:",
+        opts: ["Episcleritis is more painful","Episcleritis blanches with phenylephrine drops and is less severe","Scleritis is always bilateral","Episcleritis always requires systemic workup"],
+        ans: 1,
+        exp: "Episcleritis: superficial inflammation of episclera, usually mild, self-limiting, blanches with topical phenylephrine (10%), and rarely associated with systemic disease. Scleritis: deep, severe, painful ('boring' pain), does NOT blanch, often associated with systemic disease (RA, Wegener's), may cause scleral thinning (scleromalacia)."
+      },
+      {
+        q: "Scleritis is most commonly associated with which systemic condition?",
+        opts: ["Diabetes mellitus","Rheumatoid arthritis","Hypertension","Hyperthyroidism"],
+        ans: 1,
+        exp: "Scleritis is most commonly associated with Rheumatoid Arthritis (~33% of cases). Other associations: Wegener's granulomatosis, SLE, ankylosing spondylitis, PAN. Investigation should include ANA, RF, ANCA, CXR. Treatment: NSAIDs, systemic steroids, immunosuppressives."
+      },
+      {
+        q: "Scleromalacia perforans refers to:",
+        opts: ["Acute necrotizing scleritis with inflammation","Anterior scleritis with nodule formation","Necrotizing scleritis WITHOUT inflammation (in rheumatoid arthritis)","Posterior scleritis"],
+        ans: 2,
+        exp: "Scleromalacia perforans is a type of necrotizing scleritis WITHOUT inflammation, seen in longstanding severe Rheumatoid Arthritis. The sclera becomes thin and avascular (yellowish) and may perforate. Despite its serious appearance, it is often painless. Treatment: systemic immunosuppression."
+      },
+      {
+        q: "A staphyloma is defined as:",
+        opts: ["Opacification of the sclera","Thinning and bulging of the sclera/cornea lined by uveal tissue","Infection of the sclera","Calcification of the sclera"],
+        ans: 1,
+        exp: "A staphyloma is an outward bulging/ectasia of the weakened sclera or cornea that is lined by uveal tissue (iris or choroid), giving it a dark color. Types: anterior (corneal/ciliary), equatorial, posterior. Posterior staphyloma is associated with high myopia."
+      },
+      {
+        q: "Blue sclerae are characteristically seen in:",
+        opts: ["Marfan syndrome and osteogenesis imperfecta","Rheumatoid arthritis","Diabetes mellitus","Down syndrome"],
+        ans: 0,
+        exp: "Blue sclerae are caused by abnormally thin sclera allowing the underlying uveal pigment (choroid) to show through. Classic causes: Osteogenesis imperfecta (brittle bone disease) and Marfan syndrome. The blue hue is a clinical sign of connective tissue disorders with abnormal collagen."
+      }
+    ]
+  },
+
+  // 7. CONJUNCTIVA
+  {
+    id: 'conjunctiva',
+    num: 7,
+    title: 'Conjunctiva',
+    subtitle: 'Conjunctivitis, trachoma, tumors',
+    questions: [
+      {
+        q: "A recurrent bilateral conjunctivitis in young boys with hot weather onset, burning, itching, lacrimation and large flat-topped cobblestone papillae is:",
+        opts: ["Trachoma","Vernal keratoconjunctivitis (VKC)","Mucopurulent Conjunctivitis","Phlyctenular conjunctivitis"],
+        ans: 1,
+        exp: "Vernal Keratoconjunctivitis (VKC) is a seasonal, recurrent, allergic bilateral conjunctivitis predominantly in young males in hot climates (spring/summer). Hallmark: 'cobblestone' giant papillae on the upper tarsal conjunctiva. Other signs: Tranta's dots, shield ulcer (corneal involvement). Treatment: mast cell stabilizers, topical cyclosporine, steroids."
+      },
+      {
+        q: "Tranta's spots are characteristic of:",
+        opts: ["Trachoma","Vernal keratoconjunctivitis","Phlyctenular conjunctivitis","Bacterial conjunctivitis"],
+        ans: 1,
+        exp: "Tranta's dots/spots are small white chalky dots at the limbal region in VKC, representing collections of degenerate eosinophils. They are pathognomonic of VKC (limbal type). They appear during active disease and disappear between attacks."
+      },
+      {
+        q: "The most common cause of preventable blindness worldwide is:",
+        opts: ["Cataract","Trachoma","Glaucoma","Onchocerciasis"],
+        ans: 1,
+        exp: "Trachoma (Chlamydia trachomatis, serovars A, B, Ba, C) is the leading cause of PREVENTABLE infectious blindness globally, particularly in dry, poverty-stricken regions. The SAFE strategy: Surgery (TT), Antibiotics (azithromycin), Facial cleanliness, Environmental improvement."
+      },
+      {
+        q: "The causative organism of trachoma is:",
+        opts: ["Staphylococcus aureus","Chlamydia trachomatis","Neisseria gonorrhoeae","Haemophilus influenzae"],
+        ans: 1,
+        exp: "Trachoma is caused by Chlamydia trachomatis (serovars A, B, Ba, C — TRIC serovars). Serovars D-K cause genital tract infections. Serovars L1-L3 cause lymphogranuloma venereum. Trachoma grading: WHO simplified grading (TF, TI, TS, TT, CO)."
+      },
+      {
+        q: "Herbert's pits in trachoma are:",
+        opts: ["Corneal ulcers","Follicle scars at the upper limbus","Corneal pannus","Subconjunctival hemorrhages"],
+        ans: 1,
+        exp: "Herbert's pits are pathognomonic scars (empty follicle remnants) at the superior limbus in healed trachoma. They represent cicatricial changes after limbal follicles resolve. This distinguishes old trachoma from other follicular conjunctivitis."
+      },
+      {
+        q: "Ophthalmia neonatorum caused by Neisseria gonorrhoeae presents within:",
+        opts: ["Hours of birth","2-5 days of birth","5-7 days of birth","2-4 weeks of birth"],
+        ans: 1,
+        exp: "Gonococcal ophthalmia neonatorum (hyperacute purulent conjunctivitis) presents within 2-5 days of birth with copious purulent discharge and severe lid edema. Risk: corneal perforation if untreated. Treatment: systemic ceftriaxone. Chlamydial ophthalmia neonatorum presents later (5-14 days)."
+      },
+      {
+        q: "Phlyctenular conjunctivitis is a hypersensitivity reaction to:",
+        opts: ["Staphylococcal toxins or TB proteins","Chlamydia trachomatis","Viral antigens","Pollen"],
+        ans: 0,
+        exp: "Phlyctenulosis is a delayed (Type IV) hypersensitivity reaction, most commonly to Staphylococcal antigens (most common in developed countries) or Mycobacterium tuberculosis proteins (common in developing countries). It appears as a small nodule at the limbus that may ulcerate and migrate across the cornea."
+      },
+      {
+        q: "Bacterial conjunctivitis characteristically shows:",
+        opts: ["Follicles on tarsal conjunctiva","Papillae with mucopurulent discharge","Vesicles on the lid margin","Dendritic ulcer"],
+        ans: 1,
+        exp: "Bacterial (mucopurulent) conjunctivitis shows papillae (small elevations with a central vessel, unlike follicles which are avascular) with mucopurulent discharge, lid crusting, and conjunctival injection. Most common organisms: Staphylococcus, Streptococcus, H. influenzae. Treatment: topical antibiotics."
+      },
+      {
+        q: "Subconjunctival hemorrhage is characterized by:",
+        opts: ["Painful red eye with discharge","Bright red, painless, sharply demarcated hemorrhage under conjunctiva","Chemosis and purulent discharge","Follicular reaction"],
+        ans: 1,
+        exp: "Subconjunctival hemorrhage is a bright red, painless, sharply demarcated extravasation of blood beneath the bulbar conjunctiva. It appears alarming but is benign and self-limiting (resolves in 1-2 weeks). Causes: Valsalva, hypertension, trauma, blood disorders, aspirin. No treatment needed."
+      },
+      {
+        q: "Adenoviral conjunctivitis (epidemic keratoconjunctivitis) is characterized by:",
+        opts: ["Papillary reaction with purulent discharge","Follicular reaction with pre-auricular lymphadenopathy","Cobblestone papillae","Giant papillae under upper eyelid"],
+        ans: 1,
+        exp: "Adenoviral EKC presents with acute follicular conjunctivitis with pre-auricular lymphadenopathy (the hallmark), watery discharge, and may progress to subepithelial corneal infiltrates (nummular keratitis). It is highly contagious. Serotypes 8, 19, 37 are most virulent. No specific treatment."
+      }
+    ]
+  },
+
+  // 8. UVEA
+  {
+    id: 'uvea',
+    num: 8,
+    title: 'Uveal Tract & Endophthalmitis',
+    subtitle: 'Uveitis, syndromes, management',
+    questions: [
+      {
+        q: "All of the following are part of uvea except:",
+        opts: ["Pars plicata","Pars plana","Choroid","Schwalbe's line"],
+        ans: 3,
+        exp: "The uveal tract consists of: Iris + Ciliary body (pars plicata + pars plana + ciliary muscle) + Choroid. Schwalbe's line is the termination of Descemet's membrane and marks the anterior boundary of the trabecular meshwork — it is NOT part of the uvea."
+      },
+      {
+        q: "One of the earliest features of anterior uveitis includes:",
+        opts: ["Keratic precipitates","Hypopyon","Posterior synechiae","Aqueous flare"],
+        ans: 3,
+        exp: "Aqueous flare (Tyndall effect) is one of the EARLIEST signs of anterior uveitis, caused by protein leakage from inflamed iris vessels into the aqueous. It is detected by slit lamp as a beam of light through the AC. KPs come later as WBCs deposit on the endothelium."
+      },
+      {
+        q: "The most diagnostic sign of anterior uveitis is:",
+        opts: ["Aqueous flare","Keratic precipitates","Constricted pupil","Raised intraocular pressure"],
+        ans: 1,
+        exp: "Keratic precipitates (KPs) are the most DIAGNOSTIC sign of anterior uveitis. These are deposits of WBCs on the corneal endothelium. Types: fine (non-granulomatous), 'mutton-fat' (large, greasy = granulomatous). Their presence distinguishes uveitis from other red eye conditions."
+      },
+      {
+        q: "'Mutton-fat' KPs in slit lamp examination is seen in:",
+        opts: ["Granulomatous iridocyclitis","Non-granulomatous iridocyclitis","Choroiditis","Vitreous hemorrhage"],
+        ans: 0,
+        exp: "Large, greasy 'mutton-fat' KPs indicate granulomatous uveitis. Causes: Sarcoidosis, TB, sympathetic ophthalmia, VKH syndrome, Fuchs' heterochromic cyclitis. They are clusters of macrophages and epithelioid cells on the inferior corneal endothelium. Non-granulomatous uveitis shows fine, stellate KPs."
+      },
+      {
+        q: "In anterior uveitis the pupil is generally:",
+        opts: ["Of normal size","Constricted","Dilated","Mid-dilated vertical oval"],
+        ans: 1,
+        exp: "In anterior uveitis (iritis/iridocyclitis), the pupil is characteristically constricted (miotic) due to irritation of the sphincter pupillae by inflammation. This helps differentiate it from acute angle closure glaucoma (mid-dilated, fixed pupil)."
+      },
+      {
+        q: "Koeppe's nodules are found in:",
+        opts: ["Cornea","Sclera","Iris","Conjunctiva"],
+        ans: 2,
+        exp: "Koeppe's nodules are small, round, white iris nodules seen at the pupillary margin in BOTH granulomatous and non-granulomatous uveitis. Busacca's nodules are larger iris nodules in the mid-iris zone seen only in granulomatous uveitis."
+      },
+      {
+        q: "A 35-year-old male with acute painful red eye, AC cells, flare, hypopyon, KPs, synechiae, and history of recurrent oral ulcers, genital lesions and joint swellings. His condition is most probably caused by:",
+        opts: ["Behcet's disease","Vogt-Koyanagi-Harada Syndrome","Sarcoidosis","Tuberculosis"],
+        ans: 0,
+        exp: "Behcet's disease: triad of recurrent oral aphthous ulcers + genital ulcers + uveitis (most commonly bilateral hypopyon uveitis). Additional features: skin lesions (erythema nodosum), arthritis, pathergy test positive. HLA-B51 association. Treatment: systemic steroids, immunosuppressives (azathioprine)."
+      },
+      {
+        q: "Vogt-Koyanagi-Harada syndrome includes all except:",
+        opts: ["Vitiligo","Deafness","Poliosis","Genitourinary disorders"],
+        ans: 3,
+        exp: "VKH syndrome (granulomatous panuveitis) includes: (V) Vitiligo, (K) alopecia, poliosis (white lashes/brow), (H) exudative retinal detachment, meningism, and sensorineural DEAFNESS. It does NOT involve the genitourinary system. HLA-DR4 association. More common in Asians."
+      },
+      {
+        q: "Most important line of treatment in iridocyclitis:",
+        opts: ["Atropine","Tropicamide","Steroids","Antibiotics"],
+        ans: 2,
+        exp: "Steroids (topical corticosteroids) are the MOST IMPORTANT treatment in iridocyclitis to suppress the inflammation. Atropine (cycloplegic/mydriatic) is also essential to prevent synechiae and relieve ciliary spasm. The combination of steroids + cycloplegics is the mainstay of uveitis treatment."
+      },
+      {
+        q: "Drug of choice for Acute Iridocyclitis is:",
+        opts: ["Acetazolamide","Atropine","Antibiotics","Aspirin"],
+        ans: 1,
+        exp: "Atropine (1% drops or ointment) is the drug of choice for acute iridocyclitis to: (1) Relieve ciliary spasm → pain relief, (2) Dilate pupil → prevent posterior synechiae, (3) Reduce vascular permeability. It is combined with topical steroids. Pilocarpine is absolutely CONTRAINDICATED."
+      },
+      {
+        q: "In the treatment of anterior uveitis which eye drop must NOT be used:",
+        opts: ["Topical steroids","Topical pilocarpine","Topical cycloplegics","Topical NSAIDs"],
+        ans: 1,
+        exp: "Pilocarpine (a miotic) is ABSOLUTELY CONTRAINDICATED in anterior uveitis because: (1) It constricts the pupil → promotes posterior synechiae formation, (2) It increases vascular permeability → worsens inflammation. Cycloplegics (atropine) and steroids are the treatment."
+      },
+      {
+        q: "After 48 hours of cataract extraction, a patient complained of ocular pain and visual loss. On examination: red eye, ciliary injection, corneal edema, and absent red reflex. First suspicion:",
+        opts: ["Secondary glaucoma","Anterior uveitis","Bacterial endophthalmitis","Acute conjunctivitis"],
+        ans: 2,
+        exp: "Bacterial endophthalmitis post-cataract surgery most commonly presents 24-72 hours postoperatively with severe pain, reduced vision, red eye, and absent red reflex. The most common causative organism is Staphylococcus epidermidis. Treatment: urgent intravitreal antibiotics (vancomycin + ceftazidime) ± vitrectomy (EVS trial)."
+      },
+      {
+        q: "The most common primarily intraocular malignancy in adults is:",
+        opts: ["Retinoblastoma","Choroidal melanoma","Squamous cell carcinoma of conjunctiva","Iris naevus"],
+        ans: 1,
+        exp: "Uveal (choroidal) melanoma is the most common primary intraocular malignancy in ADULTS. It arises from melanocytes of the uvea (choroid most common). Presents with decreased vision, visual field loss. 'Collar-stud' configuration on USS. Treatment: plaque brachytherapy, enucleation. 10-year mortality ~25-30%."
+      }
+    ]
+  },
+
+  // 9. RETINAL DISEASE
+  {
+    id: 'retina',
+    num: 9,
+    title: 'Retinal Disease',
+    subtitle: 'DR, AMD, RD, CRVO, CRAO, retinitis',
+    questions: [
+      {
+        q: "The most common cause of sudden painless loss of vision in diabetics is:",
+        opts: ["Diabetic macular edema","Vitreous hemorrhage","Retinal detachment","Neovascular glaucoma"],
+        ans: 1,
+        exp: "Vitreous hemorrhage (bleeding from new fragile vessels in proliferative diabetic retinopathy) is the most common cause of sudden painless loss of vision in diabetics. The patient describes 'red haze,' 'shower of floaters,' or 'black out' of vision. Treatment: vitrectomy if non-clearing."
+      },
+      {
+        q: "The earliest sign of diabetic retinopathy on fundoscopy is:",
+        opts: ["Cotton wool spots","Hard exudates","Microaneurysms","Neovascularization"],
+        ans: 2,
+        exp: "Microaneurysms are the EARLIEST sign of diabetic retinopathy — small, round red dots (outpouchings of capillary walls) due to loss of pericytes. They appear first in the posterior pole around the macula. Cotton wool spots (soft exudates) indicate ischemia and represent more advanced disease."
+      },
+      {
+        q: "Central Retinal Artery Occlusion (CRAO) presents with:",
+        opts: ["Painful loss of vision with blood and thunder fundus","Sudden painless loss of vision with cherry red spot at fovea","Gradual painless loss of vision","Painful loss with disc edema"],
+        ans: 1,
+        exp: "CRAO presents with sudden, painless, profound loss of vision. Fundoscopy: diffuse retinal whitening (ischemic edema) with a cherry red spot at the fovea (thin fovea allows choroidal circulation to show through while surrounding retina is white). RAPD present. Treat as ocular emergency within 90 min."
+      },
+      {
+        q: "In Central Retinal Vein Occlusion (CRVO), the fundus appearance is described as:",
+        opts: ["Cherry red spot","Blood and thunder appearance","Bone spicule pigmentation","Drusen"],
+        ans: 1,
+        exp: "CRVO shows the 'blood and thunder' fundus: flame-shaped hemorrhages in all 4 quadrants, dilated tortuous veins, disc edema, cotton wool spots. Ischemic CRVO: poor vision (<6/60), >10 disc areas of retinal capillary non-perfusion. Risk: rubeotic glaucoma. Treatment: anti-VEGF injections."
+      },
+      {
+        q: "Retinal detachment characterized by a tear in the retina is called:",
+        opts: ["Traction detachment","Exudative detachment","Rhegmatogenous detachment","Secondary detachment"],
+        ans: 2,
+        exp: "Rhegmatogenous RD (from Greek: rhegma = tear/break) is due to a full-thickness break in the neurosensory retina allowing fluid to enter the subretinal space. It is the most common type. Symptoms: flashes, floaters, curtain/shadow. Treatment: surgical (laser, cryotherapy, scleral buckle, vitrectomy)."
+      },
+      {
+        q: "Retinitis pigmentosa classically presents with:",
+        opts: ["Central vision loss first","Night blindness (nyctalopia) and constricted visual field","Sudden painless loss of vision","Painful red eye"],
+        ans: 1,
+        exp: "Retinitis Pigmentosa (RP) is a hereditary progressive retinal dystrophy affecting primarily rod photoreceptors. Classic presentation: night blindness (nyctalopia) → progressive peripheral field constriction ('tunnel vision') → eventual central vision loss. Fundus: bone-spicule pigmentation, waxy disc pallor, attenuated vessels."
+      },
+      {
+        q: "The gold standard investigation for retinal detachment is:",
+        opts: ["FFA (fluorescein angiography)","B-scan ultrasonography","OCT","CT scan"],
+        ans: 1,
+        exp: "B-scan ultrasonography is the gold standard for diagnosing retinal detachment, especially when the fundus view is obscured (dense cataract, vitreous hemorrhage). It shows a highly reflective mobile membrane. OCT is excellent for macular pathology but not useful for peripheral RD."
+      },
+      {
+        q: "Age-related macular degeneration (AMD) — the dry form is characterized by:",
+        opts: ["Choroidal neovascularization","Subretinal hemorrhage","Drusen and geographic atrophy","Exudative macular detachment"],
+        ans: 2,
+        exp: "Dry AMD (85-90% of cases): Drusen (yellow deposits of extracellular material beneath RPE) and geographic atrophy of RPE. It progresses slowly. Wet AMD (10-15%): choroidal neovascularization (CNV) → subretinal fluid/blood → rapid severe vision loss. Wet AMD treated with anti-VEGF (ranibizumab, bevacizumab, aflibercept)."
+      },
+      {
+        q: "Macular star (star-shaped exudates at macula) is seen in:",
+        opts: ["Glaucoma","Diabetic macular edema","Hypertensive retinopathy","Cataract"],
+        ans: 2,
+        exp: "A macular star (fan/star-shaped hard exudates radiating from the fovea) is characteristic of HYPERTENSIVE retinopathy (also seen in neuroretinitis). It forms because the Henle's layer around the fovea runs obliquely, depositing lipid in a star pattern. Grade 4 hypertensive retinopathy = papilledema + macular star (Keith-Wagener classification)."
+      },
+      {
+        q: "The most common cause of vitreous hemorrhage in adults is:",
+        opts: ["Retinal vein occlusion","Proliferative diabetic retinopathy","Trauma","Terson syndrome"],
+        ans: 1,
+        exp: "Proliferative Diabetic Retinopathy (PDR) is the most common cause of vitreous hemorrhage in adults (especially working-age adults). New vessels are fragile and bleed easily. In older patients, CRVO is also a major cause. In young healthy adults, posterior vitreous detachment (PVD) with retinal tear is common."
+      }
+    ]
+  },
+
+  // 10. OPTIC NERVE
+  {
+    id: 'opticnerve',
+    num: 10,
+    title: 'Optic Nerve',
+    subtitle: 'Optic neuritis, papilledema, atrophy',
+    questions: [
+      {
+        q: "Papilledema is defined as:",
+        opts: ["Optic disc inflammation","Passive congestion of the optic disc due to raised intracranial pressure","Optic disc atrophy","Optic disc cupping"],
+        ans: 1,
+        exp: "Papilledema is passive engorgement/edema of the optic disc due to RAISED INTRACRANIAL PRESSURE (ICP) transmitted along the subarachnoid space surrounding the optic nerve sheath. It is ALWAYS bilateral, and vision is initially normal (unlike optic neuritis). Causes: brain tumor, meningitis, hypertensive encephalopathy, idiopathic intracranial hypertension."
+      },
+      {
+        q: "Optic neuritis differs from papilledema in that:",
+        opts: ["Optic neuritis is always bilateral","Optic neuritis causes pain on eye movement","Papilledema causes pain on eye movement","Optic neuritis never reduces vision"],
+        ans: 1,
+        exp: "Optic neuritis: (1) Usually UNILATERAL, (2) PAINFUL on eye movement, (3) Causes ACUTE vision loss, (4) RAPD present, (5) Associated with MS (50% risk). Papilledema: bilateral, no pain, initially normal vision, due to raised ICP. VEP (visual evoked potential) is delayed in optic neuritis."
+      },
+      {
+        q: "Marcus Gunn pupil (RAPD) is best detected by:",
+        opts: ["Distant light reflex","Near reflex","Swinging flashlight test","Cover-uncover test"],
+        ans: 2,
+        exp: "A Relative Afferent Pupillary Defect (RAPD) = Marcus Gunn pupil is detected by the SWINGING FLASHLIGHT TEST. When light is swung from the normal to the affected eye, the affected eye's pupil dilates (paradoxically) instead of constricting. It indicates an optic nerve or extensive retinal lesion."
+      },
+      {
+        q: "Optic atrophy appears as:",
+        opts: ["Hyperemic disc with blurred margins","Pale/white disc with distinct margins","Disc with large cup","Disc with hemorrhages"],
+        ans: 1,
+        exp: "Primary optic atrophy: pale/chalk-white disc with DISTINCT (sharp) margins, normal surrounding retina. Causes: MS, tobacco-alcohol amblyopia, CRAO, trauma, pressure on optic nerve. Secondary atrophy (post-papilledema): pale disc with BLURRED margins and gliosis. Consecutive atrophy: from chorioretinal disease."
+      },
+      {
+        q: "Foster Kennedy syndrome consists of:",
+        opts: ["Bilateral papilledema and homonymous hemianopia","Ipsilateral optic atrophy and contralateral papilledema (from frontal lobe tumor)","Bilateral optic atrophy","Unilateral papilledema and contralateral blindness"],
+        ans: 1,
+        exp: "Foster Kennedy Syndrome: IPSILATERAL optic atrophy (direct compression of optic nerve by tumor) + CONTRALATERAL papilledema (raised ICP). Classic cause: olfactory groove or sphenoid wing meningioma (or frontal lobe tumor). The ipsilateral eye shows optic atrophy while the other shows papilledema."
+      }
+    ]
+  },
+
+  // 11. GLAUCOMA
+  {
+    id: 'glaucoma',
+    num: 11,
+    title: 'Glaucoma',
+    subtitle: 'POAG, PACG, secondary glaucoma, treatment',
+    questions: [
+      {
+        q: "The normal range of intraocular pressure (IOP) is:",
+        opts: ["10–21 mmHg","5–15 mmHg","15–25 mmHg","20–30 mmHg"],
+        ans: 0,
+        exp: "Normal IOP ranges from 10-21 mmHg (mean ~16 mmHg). IOP >21 mmHg (2 standard deviations above mean) is defined as ocular hypertension. However, glaucoma can occur at normal IOP (normal tension glaucoma), and IOP >21 mmHg doesn't always mean glaucoma."
+      },
+      {
+        q: "Which is considered the 'gold standard' for measuring IOP?",
+        opts: ["Schiotz tonometer","Goldmann applanation tonometer","Non-contact (Air-puff) tonometer","Digital palpation"],
+        ans: 1,
+        exp: "Goldmann Applanation Tonometry (GAT) is the GOLD STANDARD for IOP measurement. It is based on the Imbert-Fick law (force to flatten a known area of cornea). It is affected by corneal thickness (pachymetry correction needed). Schiotz is indentation tonometry used in developing countries."
+      },
+      {
+        q: "Primary Open Angle Glaucoma (POAG) is usually characterized by being:",
+        opts: ["Painful and acute","Asymptomatic and progressive ('The silent thief of sight')","Associated with a narrow angle","Highly symptomatic in early stages"],
+        ans: 1,
+        exp: "POAG is the 'silent thief of sight' — it is chronic, asymptomatic, and progressive with no pain. Patients lose peripheral vision gradually without noticing until late stages. By the time significant field loss is detected, ~40% of ganglion cells may already be lost. Diagnosis requires IOP measurement, disc assessment, and visual fields."
+      },
+      {
+        q: "The earliest clinically specific visual field defect in POAG is:",
+        opts: ["Baring of the blind spot","Paracentral scotoma","Seidel's scotoma","Roenne's nasal step"],
+        ans: 1,
+        exp: "Paracentral scotoma (5-10° from fixation near the blind spot) is the earliest SPECIFIC glaucomatous field defect. Other field defects in progression order: Baring of blind spot → Paracentral scotoma → Seidel's scotoma → Arcuate (Bjerrum) scotoma → Roenne's nasal step → Ring scotoma → Tubular vision."
+      },
+      {
+        q: "Bjerrum scotoma (Arcuate scotoma) is found at:",
+        opts: ["5–10 degrees from fixation","10–20 degrees from fixation","30–40 degrees from fixation","The extreme periphery"],
+        ans: 1,
+        exp: "Bjerrum's (arcuate) scotoma is an arc-shaped scotoma at 10-20 degrees from fixation that follows the course of nerve fiber bundles. It extends from the blind spot to the nasal meridian, arching above or below fixation. It is characteristic of glaucoma."
+      },
+      {
+        q: "Optic disc cupping in glaucoma is characterized by all of the following EXCEPT:",
+        opts: ["Cup/Disc ratio > 0.3","Asymmetry between the two eyes > 0.2","Pink rim tissue increasing in thickness","Nasal shifting of blood vessels"],
+        ans: 2,
+        exp: "In glaucomatous cupping, the neuroretinal RIM THINS and becomes pale (NOT pink, NOT increasing). The ISNT rule applies to normal discs (Inferior > Superior > Nasal > Temporal rim thickness). In glaucoma, this rule is violated. Cup/disc ratio >0.6 or asymmetry >0.2 is suspicious for glaucoma."
+      },
+      {
+        q: "The most important modifiable risk factor for POAG is:",
+        opts: ["Raised intraocular pressure","High Myopia","Old age","Family history"],
+        ans: 0,
+        exp: "Raised IOP is the MOST IMPORTANT and ONLY MODIFIABLE risk factor for POAG. All current glaucoma treatments work by reducing IOP. The landmark OHTS trial showed that IOP lowering reduces conversion from ocular hypertension to glaucoma by ~50%."
+      },
+      {
+        q: "Acute angle closure glaucoma presents with all of the following EXCEPT:",
+        opts: ["Severe pain with nausea/vomiting","Rainbow halos around lights","Fixed mid-dilated pupil","Gradual painless visual field loss"],
+        ans: 3,
+        exp: "Gradual painless field loss is characteristic of OPEN angle glaucoma (POAG). Acute ANGLE CLOSURE glaucoma presents with SUDDEN onset: severe ocular pain, headache, nausea/vomiting, rainbow halos (corneal edema diffracting light), fixed semi-dilated pupil, rock-hard eye, ciliary injection. Emergency treatment!"
+      },
+      {
+        q: "Fincham's test is used to clinically differentiate glaucoma halos from those caused by:",
+        opts: ["Conjunctivitis","Retinal detachment","Cataract","Corneal ulcer"],
+        ans: 2,
+        exp: "Fincham's test differentiates glaucoma halos (from corneal edema) vs cataract halos (from lens changes). Method: a pin-hole (stenopeic slit) is passed across the pupil. In GLAUCOMA, the halo disappears (as specific zones of edema are excluded). In CATARACT, halos persist regardless of pin-hole position."
+      },
+      {
+        q: "Pilocarpine is used in glaucoma because it:",
+        opts: ["Decreases aqueous production","Opens the trabecular meshwork by contracting the ciliary muscle","Increases uveoscleral outflow","Reduces episcleral venous pressure"],
+        ans: 1,
+        exp: "Pilocarpine (a miotic/parasympathomimetic) treats glaucoma by contracting the ciliary muscle → pulls trabecular meshwork open → increases conventional (trabecular) aqueous outflow → lowers IOP. It also causes miosis (pupil constriction). Side effects: brow ache, myopia, retinal detachment risk."
+      },
+      {
+        q: "The drug of choice for initial treatment of POAG is:",
+        opts: ["Pilocarpine","Prostaglandin analogs (e.g., latanoprost)","Oral acetazolamide","Systemic beta-blockers"],
+        ans: 1,
+        exp: "Prostaglandin analogs (latanoprost, travoprost, bimatoprost) are the FIRST-LINE treatment for POAG due to: (1) once daily dosing, (2) most effective IOP lowering (~25-35%), (3) excellent compliance, (4) minimal systemic side effects. They work by increasing uveoscleral outflow. Main side effect: iris pigmentation, eyelash growth."
+      },
+      {
+        q: "In acute congestive glaucoma, the first drug to be given is:",
+        opts: ["Pilocarpine 4%","Intravenous mannitol or oral glycerol","Topical beta-blockers","Prostaglandins"],
+        ans: 1,
+        exp: "In ACUTE angle closure glaucoma, the FIRST priority is to LOWER IOP rapidly. IV Mannitol (hyperosmotic agent) or oral glycerol dramatically reduces IOP by osmotic dehydration of the vitreous. Then: timolol, acetazolamide, and pilocarpine 2% (once IOP falls). Definitive treatment: Nd:YAG laser peripheral iridotomy."
+      },
+      {
+        q: "Laser peripheral iridotomy is the definitive treatment for:",
+        opts: ["Primary open angle glaucoma","Primary angle closure glaucoma","Neovascular glaucoma","Congenital glaucoma"],
+        ans: 1,
+        exp: "Laser Peripheral Iridotomy (LPI) is the definitive treatment for PRIMARY ANGLE CLOSURE GLAUCOMA (PACG) and also performed prophylactically in the fellow eye. It creates a hole in the iris, relieving pupillary block and allowing aqueous to bypass the pupil, opening the drainage angle."
+      },
+      {
+        q: "Haab's striae in congenital glaucoma are due to:",
+        opts: ["Corneal ulceration","Corneal scars from breaks in Descemet's membrane","Calcium deposits","Lipid deposits in cornea"],
+        ans: 1,
+        exp: "Haab's striae are horizontal or concentric tears/breaks in Descemet's membrane caused by stretching of the enlarged (buphthalmic) cornea in congenital glaucoma. They appear as white lines and are pathognomonic of congenital glaucoma. Associated with enlarged cornea (>12mm in newborn = buphthalmos)."
+      },
+      {
+        q: "The triad of congenital glaucoma includes:",
+        opts: ["Epiphora, photophobia, and blepharospasm","Ptosis, strabismus, and amblyopia","Nystagmus, cataract, and glaucoma","Disc pallor, field loss, and raised IOP"],
+        ans: 0,
+        exp: "The classic TRIAD of congenital glaucoma (buphthalmos): EPIPHORA (watering), PHOTOPHOBIA (light sensitivity), and BLEPHAROSPASM (involuntary lid closure) — due to corneal edema and irritation. Additionally: enlarged corneal diameter (>12mm), corneal clouding (Haab's striae). Treatment: goniotomy or trabeculotomy."
+      }
+    ]
+  },
+
+  // 12. LENS & CATARACT
+  {
+    id: 'lens',
+    num: 12,
+    title: 'Lens & Cataract',
+    subtitle: 'Anatomy, types, surgery, aphakia',
+    questions: [
+      {
+        q: "Which of the following is true regarding lens anatomy?",
+        opts: ["The posterior capsule is thinner than the anterior capsule","The anterior capsule is thinner than the posterior capsule","The capsule is thickest at the poles","The lens fibers are formed from the posterior epithelium"],
+        ans: 0,
+        exp: "The posterior capsule (~2-4 µm) is THINNER than the anterior capsule (~14 µm pre-equatorially). The capsule is thickest in the pre-equatorial zone anteriorly. This anatomy is critical in surgery: the thin posterior capsule is at risk of rupture during phacoemulsification."
+      },
+      {
+        q: "Nuclear cataract changes the refraction of the eye into:",
+        opts: ["Myopia (Index Myopia)","Hypermetropia","Astigmatism","Presbyopia"],
+        ans: 0,
+        exp: "Nuclear sclerosis INCREASES the refractive index of the lens nucleus → Index Myopia (myopic shift). Patients may experience 'second sight' — temporary improvement in reading without glasses. This is an important clinical clue to early nuclear cataract."
+      },
+      {
+        q: "The most common type of congenital cataract is:",
+        opts: ["Zonular (Lamellar) cataract","Posterior polar cataract","Blue dot cataract","Nuclear cataract"],
+        ans: 0,
+        exp: "Zonular (Lamellar) cataract is the most common type of congenital cataract, affecting a specific zone of the lens (often associated with hypocalcemia/vitamin D deficiency or neonatal tetany). It typically has a 'rider' — small spoke-like opacities extending from the outer edge."
+      },
+      {
+        q: "'Snowflake' cataract is a characteristic finding in:",
+        opts: ["Senile cataract","Diabetic cataract","Traumatic cataract","Steroid induced cataract"],
+        ans: 1,
+        exp: "'Snowflake' (or 'snow-storm') cataract consists of white flakes of opacification in the lens cortex and is characteristic of DIABETIC cataract in young patients. It can develop and mature rapidly. In older diabetics, cataracts resemble senile cataracts but develop earlier."
+      },
+      {
+        q: "Vossius ring is seen in:",
+        opts: ["Cornea","Anterior lens capsule following blunt trauma","Retina","Posterior capsule opacification"],
+        ans: 1,
+        exp: "Vossius ring is a ring-shaped imprint of iris pigment on the anterior lens capsule following blunt (concussion) trauma. It corresponds to the pupillary margin. It is a sign of previous trauma, does not reduce vision, and requires no treatment."
+      },
+      {
+        q: "Sunflower cataract is seen in:",
+        opts: ["Siderosis bulbi","Chalcosis bulbi (Wilson's disease)","Diabetes mellitus","Galactosemia"],
+        ans: 1,
+        exp: "Sunflower cataract (anterior and posterior subcapsular opacities in a sunflower pattern) is pathognomonic of COPPER deposition from CHALCOSIS BULBI (intraocular copper foreign body) or Wilson's disease (hepatolenticular degeneration). Also associated with Kayser-Fleischer rings."
+      },
+      {
+        q: "Steroids typically induce which kind of cataract?",
+        opts: ["Nuclear sclerotic","Posterior polar","Posterior subcapsular","Anterior cortical"],
+        ans: 2,
+        exp: "Steroids (topical, systemic, or inhaled) classically cause POSTERIOR SUBCAPSULAR CATARACT (PSC). PSC is also seen in: radiation, diabetes, myotonic dystrophy, and atopic dermatitis. PSC characteristically affects near vision more than distance vision (because it is central)."
+      },
+      {
+        q: "Phakolytic glaucoma is best treated by:",
+        opts: ["Fistulizing operation","Cataract extraction","Cyclo-destructive procedure","Medical treatment only"],
+        ans: 1,
+        exp: "Phakolytic glaucoma occurs in hypermature (Morgagnian) cataract when liquefied lens proteins leak through the intact capsule and block the trabecular meshwork. Treatment: CATARACT EXTRACTION is the definitive treatment to remove the source of proteins. Medical treatment (acetazolamide, mannitol) provides temporary IOP control."
+      },
+      {
+        q: "Lens subluxation is a hallmark feature of which syndrome?",
+        opts: ["Down syndrome","Marfan syndrome","Edward syndrome","Turner syndrome"],
+        ans: 1,
+        exp: "Marfan syndrome (autosomal dominant, fibrillin-1 gene mutation): lens subluxation (ectopia lentis) characteristically UPWARD AND TEMPORAL. Homocystinuria: downward and medial subluxation. Other features of Marfan: tall stature, arachnodactyly, aortic aneurysm, MVP. Vision correction ± lensectomy."
+      },
+      {
+        q: "Earliest visual rehabilitation occurs with:",
+        opts: ["Phacoemulsification plus IOL implantation","ICCE plus IOL implantation","ECCE plus IOL implantation","SICS (Small Incision Cataract Surgery)"],
+        ans: 0,
+        exp: "Phacoemulsification + IOL: smallest incision (~2.2-3mm), self-sealing, fastest visual recovery (days). SICS: manual, ~6mm, good for hard cataracts. ECCE: 10mm, longer recovery. ICCE: entire lens extracted, no posterior capsule → cannot implant posterior chamber IOL in capsular bag."
+      },
+      {
+        q: "Which laser is used for capsulotomy (for After-cataract)?",
+        opts: ["Diode laser","Excimer laser","Nd:YAG laser","Argon laser"],
+        ans: 2,
+        exp: "Nd:YAG (Neodymium-doped yttrium aluminium garnet) laser is used for posterior capsulotomy to treat Posterior Capsule Opacification (After-cataract / PCO) — the most common complication of ECCE. It creates a clear window in the opacified posterior capsule. Other uses: LPI (peripheral iridotomy in glaucoma)."
+      },
+      {
+        q: "In Aphakia, the eye becomes:",
+        opts: ["Strongly myopic","Strongly hypermetropic","Emmetropic","Presbyopic only"],
+        ans: 1,
+        exp: "Aphakia (absence of the crystalline lens) renders the eye STRONGLY HYPERMETROPIC (~+12-14 diopters). Without the lens's refractive power, the eye cannot focus at near or far. Correction: IOL implantation (best), contact lenses, or thick aphakic spectacles (+12-14D, with limitations like magnification and ring scotoma)."
+      },
+      {
+        q: "Cataract surgery should not be performed in the presence of:",
+        opts: ["Corneal nebula","Arcus senilis","Chronic dacryocystitis","Small pupil"],
+        ans: 2,
+        exp: "Chronic dacryocystitis (lacrimal sac infection) is a CONTRAINDICATION to cataract surgery. The infected lacrimal sac is a reservoir for bacteria that can cause devastating postoperative endophthalmitis. DCR (dacryocystorhinostomy) must be performed first to eliminate the infection before intraocular surgery."
+      }
+    ]
+  },
+
+  // 13. STRABISMUS
+  {
+    id: 'strabismus',
+    num: 13,
+    title: 'Strabismus',
+    subtitle: 'Squint, amblyopia, surgery',
+    questions: [
+      {
+        q: "The cover test is used to diagnose:",
+        opts: ["Refractive error","Strabismus (squint)","Amblyopia","Nystagmus"],
+        ans: 1,
+        exp: "The COVER TEST is the gold standard for diagnosing strabismus. The COVER-UNCOVER test detects tropias (manifest squint) — the uncovered eye makes a refixation movement. The ALTERNATING COVER TEST detects phorias (latent squint). It is an objective test not requiring patient cooperation."
+      },
+      {
+        q: "Amblyopia is defined as:",
+        opts: ["Refractive error not correctable by glasses","Reduced vision in one eye due to abnormal visual development in childhood, not correctable by optical means alone","Double vision","Inflammation of the optic nerve"],
+        ans: 1,
+        exp: "Amblyopia ('lazy eye') is reduced best corrected visual acuity in one (or rarely both) eyes due to abnormal visual experience during the sensitive period of visual development (birth to ~8-9 years). NOT correctable by optical means alone. Causes: strabismus (most common), anisometropia, deprivation (cataract, ptosis). Treatment: correct cause + patching of sound eye."
+      },
+      {
+        q: "The most common type of childhood strabismus is:",
+        opts: ["Exotropia","Esotropia","Hypertropia","Cyclotropia"],
+        ans: 1,
+        exp: "Esotropia (convergent squint / eyes turning in) is the most common type of childhood strabismus. The most common form is accommodative esotropia (associated with significant hypermetropia) — treatment: spectacle correction of hypermetropia ± surgery if deviation persists."
+      },
+      {
+        q: "The Hirschberg corneal light reflex test for 1mm of decentration equals approximately:",
+        opts: ["5 prism diopters","15 prism diopters","22 prism diopters","40 prism diopters"],
+        ans: 2,
+        exp: "In the Hirschberg test, a light reflex decentered by 1mm corresponds to approximately 7-22 prism diopters (most commonly cited as 15 PD per mm, or 7 degrees per mm). Nasal decentration = exotropia; Temporal decentration = esotropia. It is a quick but less precise method."
+      },
+      {
+        q: "Pseudo-strabismus is most commonly seen in children with:",
+        opts: ["Large eyes","Prominent epicanthal folds and broad nasal bridge","High myopia","Small eyes"],
+        ans: 1,
+        exp: "Pseudo-esotropia (false appearance of inward eye turn) is seen in infants/children with prominent epicanthal folds and broad nasal bridge, which obscures the nasal sclera, mimicking esotropia. The Hirschberg test and cover test are normal. It resolves as the child's face develops."
+      }
+    ]
+  },
+
+  // 14. ERRORS OF REFRACTION
+  {
+    id: 'refraction',
+    num: 14,
+    title: 'Errors of Refraction',
+    subtitle: 'Myopia, hypermetropia, astigmatism, presbyopia',
+    questions: [
+      {
+        q: "Myopia (short-sightedness) is corrected with which type of lens?",
+        opts: ["Convex (plus) lens","Concave (minus) lens","Cylindrical lens","Prism"],
+        ans: 1,
+        exp: "Myopia (nearsightedness) occurs when parallel rays focus in FRONT of the retina (axial elongation or increased corneal power). Corrected with CONCAVE (diverging, minus, biconcave) lenses which push the focus back to the retina. Myopes can see near objects without glasses."
+      },
+      {
+        q: "Hypermetropia is corrected with:",
+        opts: ["Concave lens","Convex lens","Plane lens","Cylindrical lens"],
+        ans: 1,
+        exp: "Hypermetropia (farsightedness) occurs when parallel rays focus BEHIND the retina. Corrected with CONVEX (converging, plus, biconvex) lenses. Young hypermetropes can overcome moderate hypermetropia through accommodation. Undetected hypermetropia is the most common cause of accommodative esotropia in children."
+      },
+      {
+        q: "Presbyopia is due to:",
+        opts: ["Increased curvature of the lens","Loss of elasticity of the crystalline lens with age","Elongation of the eyeball","Weakness of ciliary muscle"],
+        ans: 1,
+        exp: "Presbyopia (from Greek: presbys = old man) is the age-related loss of accommodation due to LOSS OF LENS ELASTICITY and increased lens hardness. It typically manifests around age 40-45 years. Patients cannot read small print at near. Correction: reading glasses (convex addition), bifocals, progressive lenses."
+      },
+      {
+        q: "Astigmatism is characterized by:",
+        opts: ["Eye focusing at one point in front of retina","Unequal curvatures in different meridians creating two focal lines","Vision decreasing only at near","Vision decreasing only at distance"],
+        ans: 1,
+        exp: "Astigmatism occurs when the cornea (or less commonly lens) has DIFFERENT curvatures in different meridians (e.g., steeper vertically than horizontally), preventing a single point of focus. Types: regular (correctable with cylindrical lens), irregular (keratoconus, scarring — needs RGP contact lens)."
+      },
+      {
+        q: "Anisometropia is defined as:",
+        opts: ["Equal refractive error in both eyes","Significantly different refractive errors in the two eyes (>2D difference)","Absence of refractive error","Double vision due to muscle imbalance"],
+        ans: 1,
+        exp: "Anisometropia is a >2 diopter difference in refractive error between the two eyes. It is an important cause of ANISOMETROPIC AMBLYOPIA because the more hypermetropic (or more blurred) eye's image is suppressed. Treatment: spectacle correction (causes aniseikonia) → contact lens → LASIK."
+      }
+    ]
+  },
+
+  // 15. TRAUMA & EMERGENCY
+  {
+    id: 'trauma',
+    num: 15,
+    title: 'Trauma & Emergency',
+    subtitle: 'Chemical burns, perforating injuries, hyphema',
+    questions: [
+      {
+        q: "The first and most important step in the management of chemical eye burns is:",
+        opts: ["Immediate irrigation with plain water or saline","Application of topical antibiotics","Referral to a specialist hospital","Use of topical steroids"],
+        ans: 0,
+        exp: "IMMEDIATE copious irrigation (with water, saline, or any available neutral fluid) is THE MOST IMPORTANT first step in chemical eye burns. Start IMMEDIATELY at the scene — do NOT waste time. Continue for at least 30 minutes (alkali) or 15-20 minutes (acid). Then check pH, examine, and treat accordingly. Every minute counts."
+      },
+      {
+        q: "Which chemical is considered more dangerous to the eye?",
+        opts: ["Acid burns","Alkali burns","Neutral solutions","Thermal burns"],
+        ans: 1,
+        exp: "ALKALI burns are MORE DANGEROUS than acid burns because: (1) Saponification of fatty acids in cell membranes, (2) Penetrate deeper (liquefactive necrosis), (3) Continue penetrating for hours after exposure, (4) Destroy the entire anterior segment. Common alkali: ammonia (worst), NaOH (lime). Acids cause coagulative necrosis → protective barrier."
+      },
+      {
+        q: "Alkali burns are more damaging than acid burns because:",
+        opts: ["They cause coagulative necrosis","They cause liquefactive necrosis and penetrate deeply","They affect only the epithelium","They are neutralized by tears"],
+        ans: 1,
+        exp: "Alkalis cause LIQUEFACTIVE NECROSIS — they saponify (dissolve) cell membranes and destroy collagen, allowing continued deep penetration into the eye. Acids cause COAGULATIVE NECROSIS — proteins precipitate and form a barrier that limits further penetration. This is why alkali burns are more severe."
+      },
+      {
+        q: "Seidel's test is used to detect:",
+        opts: ["Depth of corneal ulcer","Wound leak (aqueous humor escaping from a perforating wound)","Intraocular pressure","Tear film stability"],
+        ans: 1,
+        exp: "Seidel's test detects aqueous humor leaking from a perforating wound. Fluorescein dye is applied to the wound site; a 'stream' of clear aqueous diluting the fluorescein (appearing as a bright green rivulet under blue light) confirms the leak. A positive Seidel test indicates full-thickness wound."
+      },
+      {
+        q: "Hyphema refers to:",
+        opts: ["Pus in the anterior chamber","Blood in the anterior chamber","Fibrin in the anterior chamber","Pigment in the anterior chamber"],
+        ans: 1,
+        exp: "Hyphema is blood in the ANTERIOR CHAMBER, most commonly due to blunt (concussion) trauma, and less commonly spontaneous (from rubeosis iridis, blood dyscrasias). It appears as a fluid level of blood. Complications: rebleed (3-5 days), raised IOP, corneal blood staining. Treatment: rest, cycloplegia, avoid NSAIDs, surgical washout if needed."
+      },
+      {
+        q: "Sympathetic ophthalmia occurs following:",
+        opts: ["Chemical burn","Perforating injury to one eye, causing immune-mediated inflammation in the other eye","Bacterial endophthalmitis","Retinal detachment"],
+        ans: 1,
+        exp: "Sympathetic ophthalmia (SO) is a BILATERAL granulomatous panuveitis that develops in the FELLOW eye after a perforating injury or surgery to one eye (exciting eye). It is an autoimmune reaction to uveal antigens. Prevention: enucleation of the injured eye within 2 weeks if no visual potential. Treatment once established: systemic steroids."
+      },
+      {
+        q: "The most dangerous intraocular foreign body material is:",
+        opts: ["Glass","Iron/steel (causes siderosis bulbi)","Copper (causes chalcosis bulbi)","Gold"],
+        ans: 2,
+        exp: "Copper is the MOST TOXIC intraocular foreign body — causes CHALCOSIS BULBI with rapid inflammatory response (sunflower cataract, KF ring). Iron/steel causes SIDEROSIS BULBI (slowly progressive, rust deposits in all uveal tissues, leading to chronic retinal damage and vision loss). Gold, silver, and glass are relatively inert."
+      },
+      {
+        q: "The most important sign of a perforating corneal injury is:",
+        opts: ["Corneal edema","Conjunctival injection","Hypotony with shallow anterior chamber","Raised IOP"],
+        ans: 2,
+        exp: "The most important signs of corneal perforation are: HYPOTONY (soft eye) + SHALLOW ANTERIOR CHAMBER + iris prolapse through the wound (peaked/distorted pupil). Other signs: positive Seidel test, uveal tissue in wound. Management: immediate surgical repair, systemic antibiotics, tetanus prophylaxis."
+      }
+    ]
+  },
+
+  // 16. PEDIATRICS
+  {
+    id: 'pediatrics',
+    num: 16,
+    title: 'Pediatric Ophthalmology',
+    subtitle: 'Retinoblastoma, congenital, pediatric diseases',
+    questions: [
+      {
+        q: "Retinoblastoma most commonly presents as:",
+        opts: ["Painful red eye","Leukocoria (white pupillary reflex)","Bilateral proptosis","Sudden loss of vision"],
+        ans: 1,
+        exp: "Leukocoria ('white eye' or white pupillary reflex) is the most common presenting feature of Retinoblastoma (70% of cases). Other presentations: strabismus (20%), red eye, proptosis (advanced). Retinoblastoma is the most common intraocular malignancy in CHILDREN. Gene: RB1 (chromosome 13q14). Treat early to save vision and life."
+      },
+      {
+        q: "Retinoblastoma is associated with mutation in which gene/chromosome?",
+        opts: ["BRCA1 gene","RB1 gene on chromosome 13q14","p53 on chromosome 17","NF2 gene on chromosome 22"],
+        ans: 1,
+        exp: "Retinoblastoma is caused by mutations in the RB1 tumor suppressor gene on chromosome 13q14. It follows Knudson's 'two-hit' hypothesis. Hereditary form (40%): bilateral, multifocal, earlier onset. Sporadic (60%): unilateral, unifocal, later onset. Hereditary form associated with pinealoma (trilateral RB)."
+      },
+      {
+        q: "Retinopathy of Prematurity (ROP) is caused by:",
+        opts: ["Maternal hypertension","Excessive oxygen therapy in premature infants leading to retinal vessel proliferation","Congenital rubella infection","Birth trauma"],
+        ans: 1,
+        exp: "ROP occurs in premature infants (<32 weeks / <1500g) exposed to high oxygen concentrations. Mechanism: hyperoxia → vasoconstriction → retinal ischemia → VEGF release → neovascularization (similar to PDR). Screening: all premature infants. Treatment: laser photocoagulation to avascular retina, anti-VEGF injections, cryotherapy."
+      },
+      {
+        q: "Congenital rubella (first trimester) can cause all of the following ocular complications EXCEPT:",
+        opts: ["Congenital cataract","Glaucoma","Retinopathy (salt and pepper)","Choroidal melanoma"],
+        ans: 3,
+        exp: "Congenital Rubella Syndrome (maternal infection in 1st trimester) causes: (1) Cataract (nuclear, pearl-like, unilateral more common), (2) Glaucoma, (3) Retinopathy (salt-and-pepper fundus), (4) Microphthalmos, (5) Nystagmus. Systemic: cardiac defects (PDA), deafness, microcephaly. Choroidal melanoma is NOT a congenital rubella complication."
+      },
+      {
+        q: "The most common cause of childhood blindness in developing countries is:",
+        opts: ["Retinoblastoma","Cataract","Vitamin A deficiency (corneal xerosis/keratomalacia)","Glaucoma"],
+        ans: 2,
+        exp: "Vitamin A deficiency is the most common preventable cause of childhood blindness in developing countries. It causes: Bitot's spots (conjunctival xerosis), night blindness, corneal xerosis → keratomalacia → perforation and blindness. The WHO estimates 250,000-500,000 children become blind from VAD annually. Prevention: vitamin A supplementation."
+      },
+      {
+        q: "Bitot's spots are pathognomonic of:",
+        opts: ["Vernal keratoconjunctivitis","Vitamin A deficiency","Trachoma","Pinguecula"],
+        ans: 1,
+        exp: "Bitot's spots are foamy, triangular, silver-grey spots on the BULBAR CONJUNCTIVA (nasal and/or temporal) composed of keratinized epithelial cells and Corynebacterium xerosis. They are PATHOGNOMONIC of Vitamin A deficiency and represent conjunctival xerosis. Treatment: Vitamin A (200,000 IU)."
+      },
+      {
+        q: "Primary congenital glaucoma is most commonly treated by:",
+        opts: ["Topical prostaglandins","Goniotomy or trabeculotomy","Trabeculectomy","Laser peripheral iridotomy"],
+        ans: 1,
+        exp: "PRIMARY CONGENITAL GLAUCOMA is treated SURGICALLY (goniotomy or trabeculotomy) as the first-line treatment, unlike adult glaucoma where medical treatment is initial. Both procedures target the trabecular meshwork abnormality. Medical treatment (acetazolamide, timolol) is only a temporary measure before surgery."
+      },
+      {
+        q: "A white cornea (corneal haze/clouding) in a newborn is seen in:",
+        opts: ["Normal finding","Congenital glaucoma, Peters anomaly, or mucopolysaccharidosis","Retinoblastoma","Congenital cataract"],
+        ans: 1,
+        exp: "Corneal clouding (leucocoria from cornea) at birth is seen in: (1) Congenital Glaucoma (Haab's striae, enlarged cornea), (2) Peters Anomaly (central corneal opacity with iris adhesions), (3) Mucopolysaccharidoses (MPS storage), (4) CHED (congenital hereditary endothelial dystrophy). These must be distinguished from leukocoria (cataract, RB)."
+      }
+    ]
+  }
+];
+
+// =====================================================
+// STATE
+// =====================================================
+let activeChapterId = null;
+let scores = {}; // { chapterId: { correct: 0, wrong: 0, answered: {} } }
+
+// Init scores
+ALL_CHAPTERS.forEach(ch => {
+  scores[ch.id] = { correct: 0, wrong: 0, answered: {} };
+});
+
+// =====================================================
+// RENDER CHAPTER BUTTONS
+// =====================================================
+function renderChapterNav() {
+  const grid = document.getElementById('chapterGrid');
+  let html = '';
+  html += `<button class="all-btn ${activeChapterId === 'all' ? 'active' : ''}" onclick="selectChapter('all')">📋 All Questions — Full Exam Mode (${ALL_CHAPTERS.reduce((s,c)=>s+c.questions.length,0)} Questions)</button>`;
+  ALL_CHAPTERS.forEach(ch => {
+    html += `
+      <button class="chapter-btn ${activeChapterId === ch.id ? 'active' : ''}" onclick="selectChapter('${ch.id}')">
+        <span class="ch-num">${ch.num}</span>
+        <div>
+          <div>${ch.title}</div>
+          <div style="font-size:0.75rem;color:var(--grey);font-weight:400;margin-top:2px">${ch.subtitle}</div>
+        </div>
+        <span class="ch-count">${ch.questions.length}Q</span>
+      </button>`;
+  });
+  grid.innerHTML = html;
+}
+
+// =====================================================
+// SELECT CHAPTER
+// =====================================================
+function selectChapter(id) {
+  activeChapterId = id;
+  renderChapterNav();
+  renderQuiz();
+  updateScoreboard();
+}
+
+// =====================================================
+// GET ACTIVE QUESTIONS
+// =====================================================
+function getActiveQuestions() {
+  if (!activeChapterId) return [];
+  if (activeChapterId === 'all') {
+    let all = [];
+    ALL_CHAPTERS.forEach(ch => {
+      ch.questions.forEach((q, qi) => {
+        all.push({ ...q, _chId: ch.id, _chQi: qi, _globalId: `${ch.id}_${qi}` });
+      });
+    });
+    return all;
+  }
+  const ch = ALL_CHAPTERS.find(c => c.id === activeChapterId);
+  return ch ? ch.questions.map((q, qi) => ({ ...q, _chId: ch.id, _chQi: qi, _globalId: `${ch.id}_${qi}` })) : [];
+}
+
+// =====================================================
+// GET SCORE FOR ACTIVE CHAPTER
+// =====================================================
+function getActiveScore() {
+  if (!activeChapterId) return { correct: 0, wrong: 0, answered: {} };
+  if (activeChapterId === 'all') {
+    let merged = { correct: 0, wrong: 0, answered: {} };
+    ALL_CHAPTERS.forEach(ch => {
+      const s = scores[ch.id];
+      merged.correct += s.correct;
+      merged.wrong += s.wrong;
+      Object.assign(merged.answered, s.answered);
+    });
+    return merged;
+  }
+  return scores[activeChapterId] || { correct: 0, wrong: 0, answered: {} };
+}
+
+// =====================================================
+// RENDER QUIZ
+// =====================================================
+function renderQuiz() {
+  const questions = getActiveQuestions();
+  const score = getActiveScore();
+  const area = document.getElementById('quizArea');
+
+  if (!questions.length) {
+    area.innerHTML = '<div class="empty-state"><span class="emoji">🎯</span>Select a chapter above to begin!</div>';
+    return;
+  }
+
+  let html = '';
+  questions.forEach((q, idx) => {
+    const gId = q._globalId;
+    const answered = score.answered[gId];
+    const letters = ['A','B','C','D','E'];
+
+    html += `<div class="question-card" id="qcard_${gId}">
+      <div class="q-header">
+        <span class="q-num">Q${idx+1}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <div class="options">`;
+
+    q.opts.forEach((opt, oi) => {
+      let cls = '';
+      let disabled = '';
+      if (answered !== undefined) {
+        disabled = 'disabled';
+        if (oi === q.ans) cls = 'correct-ans';
+        else if (oi === answered && oi !== q.ans) cls = 'wrong-ans';
+        else cls = 'neutral-reveal';
+      }
+      html += `<button class="option-btn ${cls}" ${disabled} onclick="answerQ('${gId}', ${oi}, ${q.ans}, '${q._chId}')">
+        <span class="opt-letter">${letters[oi]}</span>
+        ${opt}
+      </button>`;
+    });
+
+    html += `</div>`;
+
+    if (answered !== undefined) {
+      html += `<div class="explanation show"><strong>💡 Explanation:</strong>${q.exp}</div>`;
+    } else {
+      html += `<div class="explanation" id="exp_${gId}"><strong>💡 Explanation:</strong>${q.exp}</div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  area.innerHTML = html;
+}
+
+// =====================================================
+// ANSWER QUESTION
+// =====================================================
+function answerQ(gId, chosen, correct, chId) {
+  const parts = gId.split('_');
+  const chScore = scores[chId];
+
+  if (chScore.answered[gId] !== undefined) return;
+
+  chScore.answered[gId] = chosen;
+  if (chosen === correct) {
+    chScore.correct++;
+  } else {
+    chScore.wrong++;
+  }
+
+  // Update card
+  const card = document.getElementById(`qcard_${gId}`);
+  if (card) {
+    const btns = card.querySelectorAll('.option-btn');
+    btns.forEach((btn, oi) => {
+      btn.disabled = true;
+      if (oi === correct) {
+        btn.className = 'option-btn correct-ans';
+      } else if (oi === chosen && oi !== correct) {
+        btn.className = 'option-btn wrong-ans';
+      } else {
+        btn.className = 'option-btn neutral-reveal';
+      }
+    });
+    const exp = card.querySelector('.explanation');
+    if (exp) exp.classList.add('show');
+  }
+
+  updateScoreboard();
+}
+
+// =====================================================
+// UPDATE SCOREBOARD
+// =====================================================
+function updateScoreboard() {
+  const questions = getActiveQuestions();
+  const score = getActiveScore();
+  const total = questions.length;
+  const answered = Object.keys(score.answered).length;
+
+  document.getElementById('scoreTotalAnswered').textContent = answered;
+  document.getElementById('scoreTotalQ').textContent = total;
+  document.getElementById('scoreCorrect').textContent = score.correct;
+  document.getElementById('scoreWrong').textContent = score.wrong;
+
+  const pct = total > 0 ? (answered / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  if (activeChapterId === 'all') {
+    document.getElementById('activeChapterTitle').textContent = 'All Chapters';
+  } else if (activeChapterId) {
+    const ch = ALL_CHAPTERS.find(c => c.id === activeChapterId);
+    if (ch) document.getElementById('activeChapterTitle').textContent = `Chapter ${ch.num}: ${ch.title}`;
+  }
+}
+
+// =====================================================
+// RESET SCORE
+// =====================================================
+function resetChapterScore() {
+  if (!activeChapterId) return;
+  if (activeChapterId === 'all') {
+    ALL_CHAPTERS.forEach(ch => {
+      scores[ch.id] = { correct: 0, wrong: 0, answered: {} };
+    });
+  } else {
+    scores[activeChapterId] = { correct: 0, wrong: 0, answered: {} };
+  }
+  renderQuiz();
+  updateScoreboard();
+}
+
+// =====================================================
+// INIT
+// =====================================================
+renderChapterNav();
+updateScoreboard();
+</script>
+</body>
+</html>
