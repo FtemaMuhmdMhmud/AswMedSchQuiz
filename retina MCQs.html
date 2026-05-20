@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retina MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Retina MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            // PART 1: ANATOMY & PHYSIOLOGY
+            {
+                section: "Part 1: Anatomy & Physiology",
+                question: "1. Number of layers in neurosensory retina is:",
+                options: ["a. 9", "b. 10", "c. 11", "d. 12"],
+                correct: 0
+            },
+            {
+                question: "2. Retina is thickest at:",
+                options: ["a. Disc", "b. Equator", "c. Ora serrata", "d. All have equal thickness"],
+                correct: 0
+            },
+            {
+                question: "3. The second order neuron of the retina is located in the:",
+                options: ["a. Rods & cones", "b. Inner nuclear layer (Bipolar cells)", "c. Inner plexiform layer", "d. Outer nuclear layer", "e. Ganglion cells"],
+                correct: 1
+            },
+            {
+                question: "4. Blind spot in the eye corresponds to:",
+                options: ["a. Fovea centralis", "b. Macula", "c. Optic disc", "d. None of the above"],
+                correct: 2
+            },
+            {
+                question: "5. Which of the following is ideal for evaluating macular functions in a patient whose vision is only hand movement:",
+                options: ["a. Color perception", "b. Confrontation test", "c. Light projection", "d. Light perception"],
+                correct: 0
+            },
+
+            // PART 2: DIABETIC RETINOPATHY
+            {
+                section: "Part 2: Diabetic Retinopathy",
+                question: "6. Earliest characteristic of diabetic retinopathy is:",
+                options: ["a. A-V narrowing", "b. Silver wiring", "c. Microaneurysms", "d. Hard exudates"],
+                correct: 2
+            },
+            {
+                question: "7. Fundus changes in background diabetic retinopathy include:",
+                options: ["a. Cotton wool spots", "b. Intra-retinal microvascular abnormalities (IRMAs)", "c. Neo-vessels in the retina", "d. Retinitis proliferans", "e. Micro-aneurysms"],
+                correct: 4
+            },
+            {
+                question: "8. Which of the following is not found in diabetic retinopathy on fundus examination:",
+                options: ["a. Microaneurysms", "b. Retinal hemorrhages", "c. Arteriolar dilatation", "d. Neovascularization"],
+                correct: 2
+            },
+            {
+                question: "9. Retinal change specific in proliferative diabetic retinopathy is:",
+                options: ["a. Micro-aneurysm", "b. Soft cotton wool exudates", "c. A-V shunt", "d. Neo-vascularization"],
+                correct: 3
+            },
+            {
+                question: "10. In proliferative diabetic retinopathy all the following is a feature EXCEPT:",
+                options: ["a. Retinal neovascularization (NVEs)", "b. Optic disc neovascularization (NVDs)", "c. Vitreous hemorrhage", "d. Giant retinal break"],
+                correct: 3
+            },
+            {
+                question: "11. Pathognomonic clinical signs of proliferative diabetic retinopathy is:",
+                options: ["a. Micro aneurysms", "b. Hard exudates", "c. Deep retinal hemorrhages", "d. Neovascularization of retina", "e. Vitreous hemorrhage"],
+                correct: 3
+            },
+            {
+                question: "12. Commonest lesion which hinders vision in diabetic retinopathy is:",
+                options: ["a. Macular edema", "b. Microaneurysm", "c. Retinal hemorrhage", "d. Retinal detachment"],
+                correct: 0
+            },
+            {
+                question: "13. In non-proliferative diabetic retinopathy, most common cause of blindness is:",
+                options: ["a. Sub-retinal hemorrhage", "b. Macular edema", "c. Retinal detachment", "d. Vitreous hemorrhage"],
+                correct: 1
+            },
+            {
+                question: "14. Which of the following is true of Diabetic retinopathy:",
+                options: ["a. Always associated with hypertension", "b. Seen only in uncontrolled diabetes", "c. Incidence increases with duration of disease", "d. Determines prognosis of the disease"],
+                correct: 2
+            },
+            {
+                question: "15. A patient of old standing diabetes mellitus noticed sudden muscae volitanes. On examination, the red reflex was dim, with no details of fundus could be seen. He might have:",
+                options: ["a. Non proliferative diabetic retinopathy", "b. Cystoid macular edema", "c. Vitreous hemorrhage", "d. Central retinal vein occlusion"],
+                correct: 2
+            },
+            {
+                question: "16. Laser treatment in diabetic retinopathy is indicated in:",
+                options: ["a. Dense vitreous hemorrhage", "b. Diffuse macular edema", "c. Tractional retinal detachment", "d. Macular epi-retinal membrane distortion"],
+                correct: 1
+            },
+            {
+                question: "17. Best treatment for proliferative retinopathy:",
+                options: ["a. Argon laser", "b. YAG laser", "c. Pan-retinal photocoagulation", "d. Scleral buckling operation"],
+                correct: 2
+            },
+            {
+                question: "18. A 60 year old diabetic patient presents with diabetic macular edema and Non-proliferative diabetic retinopathy. The following is the correct option in his treatment:",
+                options: ["a. Pan retinal photocoagulation (PRP)", "b. Intravitreal Anti-VEGF injection", "c. Pars plana vitrectomy", "d. Systemic steroids"],
+                correct: 1
+            },
+
+            // PART 3: RETINAL VASCULAR OCCLUSIONS & RETINOPATHIES
+            {
+                section: "Part 3: Retinal Vascular Occlusions & Retinopathies",
+                question: "19. 100 days glaucoma is seen in:",
+                options: ["a. Central Retinal Artery Occlusion", "b. Branch Retinal Artery Occlusion", "c. Central Retinal Vein Occlusion", "d. Branch Retinal Vein Occlusion"],
+                correct: 2
+            },
+            {
+                question: "20. Sudden loss of vision may be due to all the following EXCEPT:",
+                options: ["a. Central retinal artery occlusion", "b. Central retinal vein occlusion", "c. Retinal detachment", "d. Diabetic macular edema"],
+                correct: 3
+            },
+            {
+                question: "21. CRAO may present with:",
+                options: ["a. Cherry red spot", "b. Extensive retinal hemorrhage", "c. Tortuosity of retinal veins", "d. Cotton wool spots"],
+                correct: 0
+            },
+            {
+                question: "22. In Central retinal artery occlusion, a cherry red spot is due to:",
+                options: ["a. Hemorrhage at macula", "b. Increased choroidal perfusion", "c. Increase in retinal perfusion at macula", "d. The contrast between pale retina and reddish intact choriocapillaries"],
+                correct: 3
+            },
+            {
+                question: "23. A young patient with sudden painless loss of vision, with systolic murmur and ocular examination reveals a cherry red spot with clear AC, the likely diagnosis is:",
+                options: ["a. Central Retinal Artery Occlusion", "b. Central Retinal Vein Occlusion", "c. Diabetes Mellitus", "d. Branch Retinal Vein Occlusion"],
+                correct: 0
+            },
+            {
+                question: "24. Management of acute central retinal artery occlusion includes the following except:",
+                options: ["a. Ocular massage", "b. Anterior chamber paracentesis", "c. Intravenous acetazolamide", "d. Miotics", "e. Inhalation of carbogen"],
+                correct: 3
+            },
+            {
+                question: "25. In BRAO, loss of vision is due to:",
+                options: ["a. Vitreous hge", "b. Retinal hge", "c. Papilledema", "d. Scotoma"],
+                correct: 3
+            },
+            {
+                question: "26. Occlusion of the lower nasal branch of the central retinal artery results in one of the following field defects:",
+                options: ["a. Lower nasal sector field defect", "b. Upper nasal sector field defect", "c. Upper temporal field defect", "d. Lower temporal sector field defect"],
+                correct: 1
+            },
+            {
+                question: "27. Most significant risk factor in BRVO is:",
+                options: ["a. Hypertension", "b. DM", "c. Hyperlipidemia", "d. Leukemia"],
+                correct: 0
+            },
+            {
+                question: "28. Rubeosis iridis is seen in:",
+                options: ["a. Central retinal artery occlusion", "b. Central retinal vein occlusion", "c. Acute iridocyclitis", "d. Corneal ulcer", "e. Mucopurulent conjunctivitis"],
+                correct: 1
+            },
+            {
+                question: "29. A hypertensive and diabetic patient presented with sudden painless loss of vision. All are the possibilities except:",
+                options: ["a. CRAO", "b. CRVO", "c. Vitreous Hemorrhage", "d. Retinal detachment", "e. Neovascular glaucoma"],
+                correct: 4
+            },
+            {
+                question: "30. Systemic hypertension can predispose to the following ocular problem:",
+                options: ["a. Rhegmatogenous retinal detachment", "b. Musca volitanes", "c. Retinal vein occlusion", "d. Retinal vasculitis", "e. Melanoma of the choroid"],
+                correct: 2
+            },
+            {
+                question: "31. In patients with systemic hypertension the characteristic hge seen is:",
+                options: ["a. Dot hge", "b. Supra-choroidal hge", "c. Flame-shaped hge", "d. Wet sponge hge"],
+                correct: 2
+            },
+            {
+                question: "32. All of the following are seen in hypertensive retinopathy except:",
+                options: ["a. Generalized arteriolar spasm", "b. Focal arteriolar spasm", "c. CSR", "d. Exudates"],
+                correct: 2
+            },
+            {
+                question: "33. Pregnant lady at 27 week gestation developed marked elevation of her blood pressure and proteinuria then developed marked diminution of vision. It is mostly due to:",
+                options: ["a. Central retinal vein occlusion", "b. Rhegmatogenous retinal detachment", "c. Central retinal artery occlusion", "d. Exudative retinal detachment", "e. Tractional retinal detachment"],
+                correct: 3
+            },
+            {
+                question: "34. Retinopathy in neonates is mainly due to:",
+                options: ["a. Trauma", "b. O2 toxicity", "c. Prematurity", "d. Diabetes"],
+                correct: 2
+            },
+
+            // PART 4: RETINAL DETACHMENT & VITREOUS
+            {
+                section: "Part 4: Retinal Detachment & Vitreous",
+                question: "35. Flashing of light is an earliest sign of:",
+                options: ["a. Cataract", "b. Glaucoma", "c. Retinal detachment", "d. Corneal opacity"],
+                correct: 2
+            },
+            {
+                question: "36. All of the following are symptoms of Retinal Detachment except:",
+                options: ["a. Musca Volitants", "b. Flashes of light", "c. Deterioration of vision", "d. Severe ocular pain"],
+                correct: 3
+            },
+            {
+                question: "37. In retinal detachment, fluid accumulates between:",
+                options: ["a. Outer plexiform layer and inner nuclear layer", "b. Neurosensory retina and layer of retinal pigment epithelium", "c. Nerve fiber layer and rest of retina", "d. Retinal pigment epithelium and Bruch’s membrane"],
+                correct: 1
+            },
+            {
+                question: "38. Rhegmatogenous retinal detachments are more in patients with:",
+                options: ["a. Myopia", "b. Hyperopia", "c. Astigmatism", "d. Presbyopia"],
+                correct: 0
+            },
+            {
+                question: "39. Which of the following is a risk factor for retinal detachment?",
+                options: ["a. Black race", "b. Male sex", "c. Presbyopia", "d. Myopia"],
+                correct: 3
+            },
+            {
+                question: "40. Exudative retinal detachment is seen in:",
+                options: ["a. Penetrating injuries", "b. High myopia", "c. Pre-eclampsia", "d. Chorioretinal degeneration"],
+                correct: 2
+            },
+            {
+                question: "41. Simple retinal detachment is usually due to:",
+                options: ["a. Tumor", "b. Choroidal hemorrhage", "c. Exudative retinitis", "d. None of the above"],
+                correct: 3
+            },
+            {
+                question: "42. A patient with recent rhegmatogenous retinal detachment is presented with:",
+                options: ["a. Photophobia", "b. Amaurosis fugax", "c. Photopsia", "d. Neuralgic pain", "e. Red eye"],
+                correct: 2
+            },
+            {
+                question: "43. Which is the best way to examine retinal detachment:",
+                options: ["a. 90 D lens", "b. 78 D lens", "c. Indirect ophthalmoscopy", "d. Direct ophthalmoscopy"],
+                correct: 2
+            },
+            {
+                question: "44. What location for a retinal detachment would be most amenable to treatment by pneumatic retinopexy?",
+                options: ["a. Inferior rhagmatogenous detachment", "b. Superior tractional retinal detachment", "c. Superior rhagmatogenous detachment", "d. Traumatic macular hole"],
+                correct: 2
+            },
+            {
+                question: "45. A 50 yrs old male with myopia of -14D, developed rapid drop of vision with few days. The expected finding in this patient is:",
+                options: ["a. Peripheral lattice degeneration", "b. Glaucomatous cupping", "c. Posterior subcapsular cataract", "d. Fuchs spot hemorrhage"],
+                correct: 0
+            },
+            {
+                question: "46. Causes of vitreous hemorrhage include all EXCEPT:",
+                options: ["a. CRVO", "b. Asteroid hyalosis", "c. Cataract", "d. Hypermetropia"],
+                correct: 1
+            },
+            {
+                question: "47. Commonest cause of vitreous hge in a young adult is:",
+                options: ["a. DM", "b. Trauma", "c. Periphlebitis retinae", "d. CRVO"],
+                correct: 1
+            },
+            {
+                question: "48. All of the following statements about (posterior vitreous) detachment are true except:",
+                options: ["a. It is a common change in middle age", "b. It is usually of no pathological significance", "c. It may initiate a retinal detachment", "d. It requires surgical replacement"],
+                correct: 3
+            },
+
+            // PART 5: DYSTROPHIES, DEGENERATIONS & TUMORS
+            {
+                section: "Part 5: Dystrophies, Degenerations & Tumors",
+                question: "49. Night blindness is caused by:",
+                options: ["a. Central retinal vein occlusion", "b. Dystrophies of retinal rods", "c. Dystrophies of the retinal cones", "d. Retinal detachment"],
+                correct: 1
+            },
+            {
+                question: "50. Retinitis pigmentosa most commonly presents as:",
+                options: ["a. Diplopia", "b. Night blindness", "c. Scotoma", "d. Bitemporal hemianopia"],
+                correct: 1
+            },
+            {
+                question: "51. Triad of retinitis pigmentosa includes all except:",
+                options: ["a. Waxy disc pallor", "b. Arteriolar attenuation", "c. Macular hypopigmentation", "d. Bone spicule pigmentation"],
+                correct: 2
+            },
+            {
+                question: "52. Retinitis pigmentosa mainly affects:",
+                options: ["a. Rods", "b. Cones", "c. Both equally", "d. RPE"],
+                correct: 0
+            },
+            {
+                question: "53. In retinitis pigmentosa, the pigmentation in the retina starts at:",
+                options: ["a. Posterior pole", "b. Anterior to equator", "c. Equator", "d. At the disc"],
+                correct: 2
+            },
+            {
+                question: "54. Retinitis pigmentosa in the late stage is characterized by except:",
+                options: ["a. Affection of cones", "b. Can be complicated by 2ry optic atrophy", "c. Tubular field of vision", "d. Normal ERG"],
+                correct: 3
+            },
+            {
+                question: "55. All of the following statements about retinitis pigmentosa are true except:",
+                options: ["a. Myopia is common", "b. Night blindness occurs before reading difficulties", "c. Central vision is affected early", "d. Cataract extraction may improve vision"],
+                correct: 2
+            },
+            {
+                question: "56. The most common primary intraocular malignancy in adults is:",
+                options: ["a. Retinoblastoma", "b. Choroidal melanoma", "c. Squamous cell carcinoma of conjunctiva", "d. Iris nevus"],
+                correct: 1
+            },
+            {
+                question: "57. The earliest symptom in retinoblastoma is:",
+                options: ["a. Strabismus", "b. Poor vision", "c. Proptosis", "d. Leucokoria"],
+                correct: 3
+            },
+            {
+                question: "58. Metastasis of retinoblastoma is mainly by:",
+                options: ["a. Haematogenous", "b. Lymphatic", "c. Direct extension", "d. Optic nerve invasion"],
+                correct: 3
+            },
+            {
+                question: "59. Commotio retinae is seen in:",
+                options: ["a. Concussion injury", "b. Papilloedema", "c. Central retinal vein thrombosis", "d. Central retinal artery thrombosis"],
+                correct: 0
+            },
+
+            // CONT. RETINAL QUESTIONS (FROM DOCTOR NOTES)
+            {
+                section: "Cont. Retinal Questions (From Doctor Notes)",
+                question: "D1. What is the primary source of nutrition for the first four outer layers of the retina?",
+                options: ["A. The choriocapillaris", "B. The vitreous body", "C. The aqueous humor", "D. Central retinal artery"],
+                correct: 0
+            },
+            {
+                question: "D2. Which type of retinal detachment is primarily caused by fibrous membranes pulling on the retinal surface?",
+                options: ["A. Rhegmatogenous retinal detachment", "B. Serous retinal detachment", "C. Exudative retinal detachment", "D. Tractional retinal detachment"],
+                correct: 3
+            },
+            {
+                question: "D3. What is 'Tobacco Dust' (Shafer’s sign) indicative of during a clinical exam?",
+                options: ["A. A retinal tear or break", "B. The presence of a cataract", "C. Bacterial infection in the vitreous", "D. High intraocular pressure"],
+                correct: 0
+            },
+            {
+                question: "D4. What is the typical presentation of vision loss in a patient with central retinal artery occlusion?",
+                options: ["A. Gradual blurring over several months", "B. Distorted vision (metamorphopsia)", "C. Sudden, painless, severe vision loss", "D. Flashes and floaters followed by a curtain"],
+                correct: 2
+            },
+            {
+                question: "D5. In cases of hypertensive retinopathy, what happens at A/V crossing points?",
+                options: ["A. The artery and vein swap positions", "B. They fuse together to form a shunt", "C. The thickened artery compresses the underlying vein", "D. The vessels disappear due to high pressure"],
+                correct: 2
+            },
+            {
+                question: "D6. According to the lecture, when should a type 2 diabetic patient have their first retinal examination?",
+                options: ["A. Immediately upon diagnosis", "B. Once they reach 50 years of age", "C. Only if they notice a drop in vision", "D. 5 years after diagnosis"],
+                correct: 0
+            },
+            {
+                question: "D7. What role do rods play in vision compared to cones?",
+                options: ["A. Rods provide higher visual acuity than cones", "B. Rods are concentrated in the fovea", "C. Rods are responsible for color vision", "D. Rods are more numerous and responsible for night vision"],
+                correct: 3
+            },
+            {
+                question: "D8. Which condition is associated with cotton wool spots on the retina?",
+                options: ["A. Ischemia or infarction of the nerve fiber layer", "B. Chronic glaucoma", "C. Fungal infection in the retina", "D. Excessive sun exposure"],
+                correct: 0
+            },
+            {
+                question: "D9. If a patient reports a dark curtain descending over their vision, what should be suspected first?",
+                options: ["A. Acute conjunctivitis", "B. Retinal detachment", "C. Dry eye syndrome", "D. Age-related macular degeneration"],
+                correct: 1
+            },
+            {
+                question: "D10. The silver wiring and copper wiring appearances in the retina are results of:",
+                options: ["A. Normal aging processes", "B. Loss of pigment in the RPE", "C. Excessive accumulation of heavy metals", "D. Arteriolar wall thickening and sclerosis in hypertension"],
+                correct: 3
+            },
+            {
+                question: "D11. A patient with sudden vision loss and a stormy fundus most likely has:",
+                options: ["A. Vitreous hemorrhage", "B. Retinal detachment", "C. Central retinal artery occlusion", "D. Central retinal vein occlusion"],
+                correct: 3
+            },
+            {
+                question: "D12. Which of these is NOT a stage of the hypertensive retinopathy grading system?",
+                options: ["A. A/V crossing signs", "B. Arteriolar narrowing", "C. Neovascularization of the disc", "D. Papilledema"],
+                correct: 2
+            },
+            {
+                question: "D13. The lecturer mentions shifting fluid as a classic sign of which condition?",
+                options: ["A. Exudative retinal detachment", "B. Vitreous detachment", "C. Rhegmatogenous retinal detachment", "D. Macular hole"],
+                correct: 0
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            let currentSection = "";
+
+            quizData.forEach((q, qIndex) => {
+                if (q.section && q.section !== currentSection) {
+                    currentSection = q.section;
+                    const sectionHeading = document.createElement('div');
+                    sectionHeading.className = 'section-title';
+                    sectionHeading.textContent = currentSection;
+                    quizContainer.appendChild(sectionHeading);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacrimal MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Lacrimal MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            // PART 1: ANATOMY AND PHYSIOLOGY
+            {
+                section: "Part 1: Anatomy and Physiology",
+                question: "1. The lacrimal gland is situated in which angle of the orbit?",
+                options: ["a. Upper inner", "b. Upper outer", "c. Lower inner", "d. Lower outer"],
+                correct: 1
+            },
+            {
+                question: "2. Which part of the orbicularis oculi muscle is referred to as Horner's muscle?",
+                options: ["a. Temporal", "b. Orbital", "c. Lacrimal", "d. Muller's muscle"],
+                correct: 2
+            },
+            {
+                question: "3. The nasolacrimal duct (NLD) normally opens into the:",
+                options: ["a. Superior meatus", "b. Middle meatus", "c. Inferior meatus", "d. Maxillary sinus"],
+                correct: 2
+            },
+            {
+                question: "4. The normal pH of tears is approximately:",
+                options: ["a. 6.7", "b. 7.4", "c. 7.9", "d. 8.2"],
+                correct: 1
+            },
+            {
+                question: "5. Which layer of the tear film is in direct contact with the corneal epithelium?",
+                options: ["a. Lipid layer", "b. Aqueous layer", "c. Mucous layer", "d. All of the above"],
+                correct: 2
+            },
+            {
+                question: "6. The lipid layer of the tear film is primarily secreted by:",
+                options: ["a. Lacrimal gland", "b. Meibomian glands", "c. Goblet cells", "d. Glands of Krause"],
+                correct: 1
+            },
+            {
+                question: "7. \"Crocodile tears\" (lacrimation while eating) are caused by:",
+                options: ["a. Frey's syndrome", "b. Conjunctivitis", "c. Abnormal VII nerve regeneration", "d. Lacrimal tumor"],
+                correct: 2
+            },
+
+            // PART 2: DISORDERS AND CLINICAL MANAGEMENT
+            {
+                section: "Part 2: Disorders and Clinical Management",
+                question: "8. The primary treatment for congenital dacryocystitis in a 5-month-old infant should be:",
+                options: ["a. Syringing", "b. Antibiotic drops and lacrimal massage", "c. Immediate DCR surgery", "d. Dacryocystectomy"],
+                correct: 1
+            },
+            {
+                question: "9. Chronic dacryocystitis in an adult is best managed surgically by:",
+                options: ["a. Continuous probing", "b. Repeated syringing", "c. Dacryocystorhinostomy (DCR)", "d. Warm compresses"],
+                correct: 2
+            },
+            {
+                question: "10. The single most common causative organism isolated in acute dacryocystitis is:",
+                options: ["a. Staphylococcus aureus", "b. Pseudomonas aeruginosa", "c. Chlamydia trachomatis", "d. Acanthamoeba"],
+                correct: 0
+            },
+            {
+                question: "11. A dangerous complication of untreated acute dacryocystitis is:",
+                options: ["a. Orbital cellulitis", "b. Optic disc cupping", "c. Rhegmatogenous retinal detachment", "d. Focal posterior staphyloma"],
+                correct: 0
+            },
+            {
+                question: "12. Epiphora is specifically defined as watering due to:",
+                options: ["a. Hypersecretion from irritation", "b. Outflow mechanical obstruction of the lacrimal passages", "c. Chemical conjunctivitis burns", "d. Secondary optic neuropathy changes"],
+                correct: 1
+            },
+            {
+                question: "13. Schirmer's Test-1 is clinically performed to explicitly measure:",
+                options: ["a. Tear film break-up time stability", "b. Total aqueous tear secretion", "c. Patency of the nasolacrimal duct system", "d. Lipid deficiency status"],
+                correct: 1
+            },
+            {
+                question: "14. A basic Schirmer's test value of less than 5 mm after 5 minutes is a diagnostic tool used for:",
+                options: ["a. Infective keratitis", "b. Dry eye", "c. Watering eyes", "d. Horner's syndrome"],
+                correct: 1
+            },
+            {
+                question: "15. Tear film break-up time (TBUT) is used to evaluate:",
+                options: ["a. Aqueous deficiency", "b. Tear film stability (Mucin/Lipid deficiency)", "c. Patency of NLD", "d. Lacrimal pump function"],
+                correct: 1
+            },
+            {
+                question: "16. During lacrimal probing, if a \"soft stop\" is felt, the probe is in the:",
+                options: ["a. Lacrimal sac", "b. Common canaliculus", "c. Nasal bone", "d. Nasolacrimal duct"],
+                correct: 1
+            },
+            {
+                question: "17. During lacrimal probing, if a \"hard stop\" is felt, the probe is in the:",
+                options: ["a. Lacrimal sac (against lacrimal bone)", "b. Common canaliculus", "c. Pericanalicular tissue", "d. Inferior meatus"],
+                correct: 0
+            },
+            {
+                question: "18. In Dacryocystorhinostomy (DCR), the surgical opening into the nose is made at the:",
+                options: ["a. Superior meatus", "b. Middle meatus", "c. Inferior meatus", "d. Maxillary sinus"],
+                correct: 1
+            },
+            {
+                question: "19. In DCR, the surgical anastomosis is created between:",
+                options: ["a. Lacrimal sac and nasal mucosa", "b. Canaliculi and nasolacrimal duct", "c. Lacrimal sac and superior meatus", "d. Proximal and distal NLD"],
+                correct: 0
+            },
+            {
+                question: "20. The recommended timing for probing in a child with congenital NLD obstruction is usually:",
+                options: ["a. 3 months", "b. 6 months", "c. 9 months", "d. 1 year"],
+                correct: 3
+            },
+            {
+                question: "21. Which of the following is NOT an indication for DCR surgery?",
+                options: ["a. Lacrimal fistula", "b. Chronic dacryocystitis", "c. Mucocele of the lacrimal sac", "d. Acute dacryocystitis in the initial painful inflammatory stage"],
+                correct: 3
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            let currentSection = "";
+
+            quizData.forEach((q, qIndex) => {
+                if (q.section && q.section !== currentSection) {
+                    currentSection = q.section;
+                    const sectionHeading = document.createElement('div');
+                    sectionHeading.className = 'section-title';
+                    sectionHeading.textContent = currentSection;
+                    quizContainer.appendChild(sectionHeading);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

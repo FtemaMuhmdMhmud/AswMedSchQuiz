@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strabismus MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Strabismus MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. All the following are extraocular muscle of eye except:",
+                options: ["a. Superior rectus", "b. Ciliary muscle", "c. Inferior oblique", "d. Superior oblique"],
+                correct: 1
+            },
+            {
+                question: "2. The action of superior rectus is:",
+                options: ["a. Elevation, intorsion, adduction", "b. Elevation, intorsion, abduction", "c. Elevation, extorsion, adduction", "d. Elevation, extorsion, abduction"],
+                correct: 0
+            },
+            {
+                question: "3. The action of inferior oblique is:",
+                options: ["a. Depression, extorsion, abduction", "b. Elevation, extorsion, abduction", "c. Elevation, extorsion, adduction", "d. Depression, extorsion, adduction"],
+                correct: 1
+            },
+            {
+                question: "4. The only extraocular muscle which does not arise from the apex of the orbit is:",
+                options: ["a. Superior rectus", "b. Superior oblique", "c. Inferior oblique", "d. Inferior rectus"],
+                correct: 2
+            },
+            {
+                question: "5. The only extraocular muscle which does NOT arise from the apex of the orbit is:",
+                options: ["a. Superior rectus", "b. Superior oblique", "c. Inferior oblique", "d. Inferior rectus"],
+                correct: 2
+            },
+            {
+                question: "6. The shortest extraocular muscle is:",
+                options: ["a. Superior oblique", "b. Inferior oblique", "c. Superior rectus", "d. Inferior rectus"],
+                correct: 1
+            },
+            {
+                question: "7. The insertion of the Lateral Rectus is _____ mm from the limbus:",
+                options: ["a. 5.5", "b. 6.5", "c. 6.9", "d. 7.7"],
+                correct: 2
+            },
+            {
+                question: "8. The Trochlear nerve (IV) supplies which muscle?",
+                options: ["a. Superior rectus muscle", "b. Superior oblique muscle", "c. Lateral rectus muscle", "d. Inferior oblique muscle"],
+                correct: 1
+            },
+            {
+                question: "9. Superior oblique muscle is supplied by:",
+                options: ["a. 3rd cranial nerve", "b. 4th cranial nerve", "c. 6th cranial nerve", "d. 7th cranial nerve"],
+                correct: 1
+            },
+            {
+                question: "10. All the following extraocular muscles are supplied by the 3rd cranial nerve EXCEPT:",
+                options: ["a. Superior Rectus", "b. Inferior Oblique", "c. Superior Oblique", "d. Medial Rectus"],
+                correct: 2
+            },
+            {
+                question: "11. Cause of concomitant squint may be due to:",
+                options: ["a. Refractive errors", "b. Sensory loss", "c. Excessive accommodation", "d. All of the above"],
+                correct: 3
+            },
+            {
+                question: "12. Causes of concomitant squint include all the following except:",
+                options: ["a. Uncorrected refractive errors", "b. Sensory loss (e.g. cataract in child)", "c. Paralysis of the 6th cranial nerve", "d. Excessive accommodation"],
+                correct: 2
+            },
+            {
+                question: "13. In concomitant squint:",
+                options: ["a. Primary deviation > Secondary deviation", "b. Primary deviation < Secondary deviation", "c. Primary deviation = Secondary deviation", "d. None of the above"],
+                correct: 2
+            },
+            {
+                question: "14. Primary deviation = Secondary deviation in:",
+                options: ["a. Paralytic squint", "b. Concomitant squint", "c. Apparent squint", "d. Latent squint"],
+                correct: 1
+            },
+            {
+                question: "15. Secondary angle of deviation is larger than primary angle in:",
+                options: ["a. Apparent squint", "b. Latent squint", "c. Paralytic squint", "d. Concomitant squint"],
+                correct: 2
+            },
+            {
+                question: "16. 2ry angle of deviation is larger than 1ry angle in:",
+                options: ["a. Apparent squint", "b. Latent squint", "c. Paralytic squint", "d. Concomitant squint"],
+                correct: 2
+            },
+            {
+                question: "17. In paralytic squint, the difference between primary and secondary deviation in the gaze of direction of the paralytic muscle:",
+                options: ["a. Increases", "b. Decreases", "c. Remains the same"],
+                correct: 0
+            },
+            {
+                question: "18. Paralytic squint is characterized by the following EXCEPT:",
+                options: ["a. Limitation of movement in the direction of the paralyzed muscle", "b. Diplopia", "c. Primary deviation equals secondary deviation", "d. False projection"],
+                correct: 2
+            },
+            {
+                question: "19. Diplopia is a characteristic symptom of:",
+                options: ["a. Concomitant squint", "b. Paralytic squint", "c. Latent squint", "d. Apparent squint"],
+                correct: 1
+            },
+            {
+                question: "20. False projection is a clinical feature of:",
+                options: ["a. Concomitant squint", "b. Paralytic squint", "c. Latent squint", "d. Apparent squint"],
+                correct: 1
+            },
+            {
+                question: "21. In grades of binocular vision; grade 2 is:",
+                options: ["a. Simultaneous macular vision", "b. Fusion", "c. Stereopsis"],
+                correct: 1
+            },
+            {
+                question: "22. Grade 2 binocular vision is:",
+                options: ["a. Simultaneous macular vision", "b. Fusion", "c. Stereopsis"],
+                correct: 1
+            },
+            {
+                question: "23. Angle of deviation is measured by:",
+                options: ["a. Hirschberg test", "b. Cover test", "c. Madox rod", "d. Schirmer test"],
+                correct: 0
+            },
+            {
+                question: "24. The test used to measure the angle of deviation is:",
+                options: ["a. Cover test", "b. Hirschberg test", "c. Fluorescein test", "d. Schirmer's test"],
+                correct: 1
+            },
+            {
+                question: "25. Test used to measure angle of deviation is:",
+                options: ["a. Cover test", "b. Hirschberg test", "c. Visuoscopy", "d. Perimetry"],
+                correct: 1
+            },
+            {
+                question: "26. Hirschberg test is used to measure:",
+                options: ["a. Angle of squint", "b. Visual field", "c. Corneal curvature", "d. Intraocular pressure"],
+                correct: 0
+            },
+            {
+                question: "27. Cover test is used to diagnose:",
+                options: ["a. Corneal ulcer", "b. Latent and manifest squint", "c. Cataract", "d. Glaucoma"],
+                correct: 1
+            },
+            {
+                question: "28. Cover-uncover test is used to differentiate between:",
+                options: ["a. Phoria and Tropia", "b. Paralytic and Concomitant squint", "c. Myopia and Hypermetropia", "d. Real and Apparent squint"],
+                correct: 0
+            },
+            {
+                question: "29. Which test is used to diagnose eccentric fixation?",
+                options: ["a. Hirschberg test", "b. Cover test", "c. Visuoscopy", "d. Synoptophore"],
+                correct: 2
+            },
+            {
+                question: "30. Eccentric fixation is diagnosed by:",
+                options: ["a. Visuoscopy", "b. Hirschberg test", "c. Cover test", "d. Synoptophore"],
+                correct: 0
+            },
+            {
+                question: "31. Accommodative esotropia is most commonly associated with:",
+                options: ["a. Myopia", "b. Hypermetropia", "c. Astigmatism", "d. Presbyopia"],
+                correct: 1
+            },
+            {
+                question: "32. The commonest cause of concomitant esotropia in children is:",
+                options: ["a. Hypermetropia", "b. Myopia", "c. Astigmatism", "d. Trauma"],
+                correct: 0
+            },
+            {
+                question: "33. Mention criteria of infantile esotropia:",
+                options: ["a. Large angle of deviation", "b. Onset within first 6 months of life", "c. DVD and latent nystagmus", "d. All of the above"],
+                correct: 3
+            },
+            {
+                question: "34. In criteria of infantile esotropia, all are true except:",
+                options: ["a. Large angle of deviation", "b. Onset within first 6 months of life", "c. Associated with high myopia", "d. DVD and latent nystagmus"],
+                correct: 2
+            },
+            {
+                question: "35. A boy of 4 years, has alternating concomitant esotropia 30 degree. His refraction under atropine is +8D in both eyes. The first line of treatment is:",
+                options: ["a. Bilateral medial recti recession", "b. Glasses for correction of total hypermetropia", "c. Orthoptic exercise by synoptophore", "d. Surgery for cosmetic correction"],
+                correct: 1
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            quizData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

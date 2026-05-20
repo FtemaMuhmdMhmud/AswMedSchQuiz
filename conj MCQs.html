@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conjunctiva MCQs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fc;
+    --border: #e2e8f0;
+    --primary: #1a3a5c;
+    --accent: #2d7dd2;
+    --green: #16a34a;
+    --red: #dc2626;
+    --text: #1e293b;
+    --muted: #64748b;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+  header { background: var(--primary); color: white; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(26,58,92,0.25); }
+  .header-left h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+  .header-left p { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
+  .score-board { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 12px 20px; text-align: center; }
+  .score-board .score-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .score-board .score-label { font-size: 0.72rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  .progress-wrap { background: #e2e8f0; height: 4px; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #60a5fa); transition: width 0.4s ease; }
+
+  .part-header { background: var(--surface); border-left: 4px solid var(--accent); padding: 14px 20px; border-radius: 0 8px 8px 0; max-width: 900px; margin: 36px auto 20px; }
+  .part-header h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--primary); font-weight: 700; }
+
+  .questions-container { flex: 1; padding: 0 40px 40px; max-width: 900px; width: 100%; margin: 0 auto; }
+
+  .q-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; transition: box-shadow 0.2s; }
+  .q-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .q-card.answered-correct { border-color: #86efac; background: #f0fdf4; }
+  .q-card.answered-wrong { border-color: #fca5a5; background: #fff5f5; }
+
+  .q-header { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px 14px; }
+  .q-num { background: var(--primary); color: white; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem; min-width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .q-text { font-size: 0.97rem; font-weight: 600; line-height: 1.5; color: var(--text); padding-top: 5px; }
+
+  .options { padding: 0 20px 16px 68px; display: flex; flex-direction: column; gap: 8px; }
+  .option-btn { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1.5px solid var(--border); background: white; border-radius: 8px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; color: var(--text); text-align: left; transition: all 0.15s ease; }
+  .option-btn:hover:not(:disabled) { border-color: var(--accent); background: #eff6ff; transform: translateX(3px); }
+  .option-btn:disabled { cursor: default; }
+  .option-btn.correct { border-color: var(--green); background: #dcfce7; color: #15803d; font-weight: 600; }
+  .option-btn.wrong { border-color: var(--red); background: #fee2e2; color: #b91c1c; }
+  .option-btn.reveal-correct { border-color: var(--green); background: #dcfce7; color: #15803d; font-weight: 600; }
+
+  .option-letter { font-weight: 700; font-size: 0.8rem; min-width: 22px; height: 22px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+  .option-btn.correct .option-letter, .option-btn.reveal-correct .option-letter { background: var(--green); color: white; border-color: var(--green); }
+  .option-btn.wrong .option-letter { background: var(--red); color: white; border-color: var(--red); }
+
+  .explanation { margin: 0 20px 16px 68px; padding: 12px 16px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.88rem; color: #92400e; line-height: 1.6; display: none; }
+  .explanation.visible { display: block; animation: fadeIn 0.3s ease; }
+  .explanation strong { color: #78350f; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .result-badge { padding: 0 20px 14px 68px; font-size: 0.82rem; font-weight: 600; display: none; }
+  .result-badge.visible { display: flex; align-items: center; gap: 6px; }
+  .result-badge.correct-badge { color: var(--green); }
+  .result-badge.wrong-badge { color: var(--red); }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.85); padding: 20px 40px; text-align: center; font-size: 0.82rem; letter-spacing: 0.5px; }
+  footer span { opacity: 0.55; }
+  footer strong { color: white; }
+
+  .summary-bar { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 40px; display: flex; gap: 24px; align-items: center; font-size: 0.85rem; color: var(--muted); }
+  .stat { display: flex; align-items: center; gap: 6px; }
+  .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-gray { background: #94a3b8; }
+  .reset-btn { margin-left: auto; background: var(--primary); color: white; border: none; border-radius: 7px; padding: 7px 18px; font-size: 0.82rem; font-family: 'Source Sans 3', sans-serif; cursor: pointer; font-weight: 600; transition: background 0.15s; }
+  .reset-btn:hover { background: var(--accent); }
+
+  .part-section { max-width: 900px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Conjunctiva MCQs</h1>
+    <p>Comprehensive Conjunctiva Question Bank</p>
+  </div>
+  <div class="score-board">
+    <div class="score-num" id="score-display">0 / 0</div>
+    <div class="score-label">Score</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+
+<div class="summary-bar">
+  <div class="stat"><div class="stat-dot dot-green"></div> Correct: <strong id="stat-correct">0</strong></div>
+  <div class="stat"><div class="stat-dot dot-red"></div> Wrong: <strong id="stat-wrong">0</strong></div>
+  <div class="stat"><div class="stat-dot dot-gray"></div> Unanswered: <strong id="stat-unanswered">26</strong></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reset All</button>
+</div>
+
+<div id="app"></div>
+
+<footer>
+  <strong>Helpers @fmm</strong> &nbsp;|&nbsp; <span>Aswan Faculty of Medicine — Ophthalmology Question Bank</span>
+</footer>
+
+<script>
+const questions = [
+  // Part 1
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "A recurrent bilateral conjunctivitis occurring with the onset of hot weather in young boys with burning, itching, lacrimation, and large flat-topped cobblestone papillae is:",
+    options: ["Trachoma","Vernal keratoconjunctivitis (VKC)","Mucopurulent conjunctivitis","Phlyctenular conjunctivitis"],
+    answer: 1,
+    explanation: "<strong>Vernal keratoconjunctivitis (VKC)</strong> — spring catarrh — is a bilateral, recurrent, seasonal allergic conjunctivitis predominantly affecting young males in hot climates. The hallmark palpebral finding is large flat-topped cobblestone papillae on the upper tarsal conjunctiva."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "Tranta's spots are characteristically seen in:",
+    options: ["Blepharoconjunctivitis","Vernal conjunctivitis (Spring catarrh)","Phlyctenular conjunctivitis","Herpetic keratitis"],
+    answer: 1,
+    explanation: "<strong>Tranta's dots/spots</strong> are white chalky deposits of degenerated eosinophils found at the limbus in the <strong>limbal type of VKC</strong>. They are a pathognomonic feature of vernal keratoconjunctivitis."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "Intense itching is the most prominent and common symptom of:",
+    options: ["Trachoma","Blepharitis","Spring catarrh (VKC)","Phlyctenular conjunctivitis"],
+    answer: 2,
+    explanation: "<strong>Spring catarrh (VKC)</strong> — intense, unbearable itching is the cardinal symptom, driven by IgE-mediated mast cell degranulation and histamine release. It is the symptom that most distresses patients and prompts them to seek treatment."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "In spring catarrh (VKC), which of the following clinical findings is seen?",
+    options: ["Phlycten","Epithelioid cells","Ropy white discharge","Pannus"],
+    answer: 2,
+    explanation: "<strong>Ropy (mucoid, string-like) white discharge</strong> is characteristic of VKC — it results from the accumulation of eosinophils and mucus. Phlyctens are seen in phlyctenular conjunctivitis; epithelioid cells in granulomatous disease; pannus in trachoma."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "Cobblestone appearance (flat-topped papillae) is pathognomonic of:",
+    options: ["Trachoma","Spring catarrh — palpebral type","Purulent conjunctivitis","Phlyctenular conjunctivitis"],
+    answer: 1,
+    explanation: "<strong>Palpebral VKC (spring catarrh)</strong> — giant flat-topped cobblestone papillae on the upper tarsal conjunctiva are the hallmark. Trachoma produces follicles (not flat-topped papillae); phlyctenular conjunctivitis produces nodules at the limbus."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "Phlycten is an ocular manifestation of an allergy to an endogenous antigen, most commonly:",
+    options: ["Staphylococcal protein","Tuberculoprotein","Pollen","Fungal spores"],
+    answer: 1,
+    explanation: "<strong>Tuberculoprotein</strong> is the classic antigen responsible for phlyctenular conjunctivitis (a type IV delayed hypersensitivity reaction). However, staphylococcal protein has become more common in developed countries. In developing countries, TB remains the primary cause."
+  },
+  {
+    part: "Part 1: Allergic Conjunctivitis (VKC & Phlycten)",
+    q: "Maxwell-Lyons sign is associated with:",
+    options: ["Trachoma","Spring catarrh","Phlycten","Ophthalmia neonatorum"],
+    answer: 1,
+    explanation: "<strong>Maxwell-Lyons sign</strong> — a fine wrinkling or thickening of the upper tarsal conjunctival epithelium — is seen in <strong>spring catarrh (VKC)</strong>. It reflects the chronic inflammatory changes in the upper tarsal conjunctiva."
+  },
+  // Part 2
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Herbert's pits (scars at the limbus) are diagnostic features of:",
+    options: ["Active trachoma","Healed trachoma","Spring catarrh","Ophthalmia neonatorum"],
+    answer: 1,
+    explanation: "<strong>Healed trachoma</strong> — Herbert's pits are small, depressed scars at the superior limbus formed after the resolution of Herbert's follicles (limbal follicles of active trachoma). They are pathognomonic of previous trachoma infection."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Arlt's line (a horizontal line of scar) is characteristically found in:",
+    options: ["Lower palpebral conjunctiva","Upper palpebral conjunctiva at the junction of parts of the tarsus","Bulbar conjunctiva","Limbus"],
+    answer: 1,
+    explanation: "<strong>Arlt's line</strong> is a horizontal scar line in the <strong>upper palpebral conjunctiva</strong> at the subtarsal fold (junction of upper and lower thirds of the tarsus) — a cicatricial sequela of healed trachoma. It is a classic sign of trachomatous scarring (TS)."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Halberstaedter-Prowazek (HP) inclusion bodies in trachoma are:",
+    options: ["Intra-nuclear","Intra-cytoplasmic","Extra-cellular","Found in the stroma"],
+    answer: 1,
+    explanation: "<strong>Intra-cytoplasmic</strong> — HP (or Leber) inclusion bodies in trachoma are basophilic intracytoplasmic inclusions found in the conjunctival epithelial cells. They represent colonies of <em>Chlamydia trachomatis</em> reticulate bodies within epithelial cell cytoplasm."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "In trachoma, the patient is considered most infectious during which stage?",
+    options: ["Stage IV (Scarring)","Stage I and II (Follicles and Papillae)","Stage III (Pre-cicatricial)","When concretions are present"],
+    answer: 1,
+    explanation: "<strong>Stage I and II</strong> (MacCallan classification) — during the active follicular and papillary stages, chlamydial organisms are actively replicating and present in high numbers in the conjunctival secretions, making the patient maximally infectious."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Trachomatous pannus characteristically affects which part of the cornea first?",
+    options: ["Lower part","Upper part","Nasal side","Temporal side"],
+    answer: 1,
+    explanation: "Trachomatous pannus starts at the <strong>upper part (superior limbus)</strong> of the cornea — this is because the upper lid harbors the follicles and inflammation, and the superior limbal vessels are involved first. This differentiates it from pannus in other conditions."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Blindness in trachoma is primarily a result of:",
+    options: ["Acute infection","Secondary glaucoma","Cicatricial sequelae and corneal opacification","Optic atrophy"],
+    answer: 2,
+    explanation: "<strong>Cicatricial sequelae</strong> — trachoma blindness results from a cascade: conjunctival scarring → entropion/trichiasis → repeated corneal trauma → corneal ulceration → corneal opacification (leucoma). The acute infection itself rarely causes blindness."
+  },
+  {
+    part: "Part 2: Trachoma and Chlamydial Infections",
+    q: "Blood vessels in a trachomatous pannus lie between:",
+    options: ["Bowman's membrane and stroma","Epithelium and Bowman's membrane","Stroma and Descemet's membrane","Endothelium and stroma"],
+    answer: 1,
+    explanation: "In trachomatous pannus, blood vessels and inflammatory cells grow <strong>between the epithelium and Bowman's membrane</strong>. This is a key histological distinction — it differs from pannus in other conditions where vessels may lie in different layers."
+  },
+  // Part 3
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "The organism characteristically causing angular conjunctivitis (maceration of canthi) is:",
+    options: ["Moraxella Axenfeld bacillus","Pneumococci","Gonococci","Adenovirus"],
+    answer: 0,
+    explanation: "<strong>Moraxella lacunata (Axenfeld-Morax bacillus)</strong> causes angular conjunctivitis — characterized by maceration, excoriation, and redness specifically at the medial and lateral canthi. Treatment is zinc sulphate, which is bacteriostatic against Moraxella."
+  },
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "The treatment of choice for angular conjunctivitis is:",
+    options: ["Penicillin","Zinc oxide (or zinc sulphate)","Corticosteroids","Atropine"],
+    answer: 1,
+    explanation: "<strong>Zinc sulphate (0.25%)</strong> eye drops are the classic treatment of choice for angular conjunctivitis caused by Moraxella — zinc is directly bacteriostatic against this organism. Tetracycline or chloramphenicol eye drops are modern alternatives."
+  },
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "Ophthalmia neonatorum is most commonly caused by:",
+    options: ["Neisseria gonorrhoeae and Chlamydia","Staphylococcus aureus","Streptococcus viridans","Adenovirus"],
+    answer: 0,
+    explanation: "<strong>Neisseria gonorrhoeae and Chlamydia trachomatis</strong> are the two most important causes of ophthalmia neonatorum (conjunctivitis of the newborn). Gonococcal ON presents within 2–5 days of birth (hyperacute); chlamydial ON at 5–14 days."
+  },
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "Patching (bandage) of the eye is strictly contraindicated in which condition?",
+    options: ["Corneal abrasion","Bacterial corneal ulcer","Mucopurulent/purulent conjunctivitis","Post-glaucoma surgery"],
+    answer: 2,
+    explanation: "<strong>Mucopurulent/purulent conjunctivitis</strong> — eye patching is strictly contraindicated because it creates a warm, moist, anaerobic environment that promotes bacterial proliferation, worsening the infection and potentially causing corneal complications."
+  },
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "True membranous conjunctivitis (where the membrane leaves a bleeding surface when removed) is caused by:",
+    options: ["Corynebacterium diphtheriae","Adenovirus","Pneumococcus","Koch-Weeks bacillus"],
+    answer: 0,
+    explanation: "<strong>Corynebacterium diphtheriae</strong> causes true membranous conjunctivitis — the membrane is firmly adherent and bleeds when removed (due to fibrin penetrating the epithelium). Adenovirus and Pneumococcus cause pseudomembranes that peel off cleanly."
+  },
+  {
+    part: "Part 3: Infectious Conjunctivitis",
+    q: "Pre-auricular lymphadenopathy is a classic sign of:",
+    options: ["Spring catarrh","Phlyctenular conjunctivitis","Viral conjunctivitis (Adenovirus)","Bacterial conjunctivitis"],
+    answer: 2,
+    explanation: "<strong>Viral conjunctivitis (Adenovirus)</strong> — pre-auricular lymphadenopathy is a hallmark of viral (especially adenoviral) conjunctivitis, forming part of the classic triad: follicular conjunctivitis + pre-auricular lymphadenopathy + watery discharge."
+  },
+  // Part 4
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Pterygium is a fibrovascular degeneration of the conjunctiva usually located at the:",
+    options: ["Temporal side","Nasal side (inter-palpebral)","Superior side","Inferior side"],
+    answer: 1,
+    explanation: "<strong>Nasal side</strong> of the inter-palpebral fissure is the classic location of pterygium (>90% of cases). It is a wing-shaped fibrovascular growth encroaching on the cornea, associated with UV exposure, dust, and dry/hot climates."
+  },
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Pinguecula is characterized by:",
+    options: ["Encroachment on the cornea","Yellowish triangular nodule on the bulbar conjunctiva (nasal or temporal)","Association with discharge","Large follicles"],
+    answer: 1,
+    explanation: "<strong>Pinguecula</strong> is a yellowish-white nodule of elastotic degeneration on the bulbar conjunctiva adjacent to the limbus (nasal or temporal), within the palpebral fissure. Key point: unlike pterygium, it does NOT encroach onto the cornea."
+  },
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Bitot's spots (foamy triangular spots) are seen in:",
+    options: ["Vitamin A deficiency (Xerophthalmia)","Vitamin B12 deficiency","Trachoma","Spring catarrh"],
+    answer: 0,
+    explanation: "<strong>Vitamin A deficiency (Xerophthalmia)</strong> — Bitot's spots are foamy, cheesy, triangular patches of keratinized epithelium on the bulbar conjunctiva (usually temporal). They represent squamous metaplasia due to vitamin A deficiency and are classified as X1B in the WHO grading."
+  },
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Symblepharon is an adhesion between:",
+    options: ["The two lid margins","The palpebral and bulbar conjunctiva","The lens and the iris","The cornea and the iris"],
+    answer: 1,
+    explanation: "<strong>Symblepharon</strong> is adhesion between the <strong>palpebral (tarsal) and bulbar conjunctiva</strong> — it results from scarring after chemical burns, Stevens-Johnson syndrome, pemphigoid, or trachoma. It restricts ocular motility and causes discomfort."
+  },
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Subconjunctival hemorrhage (painless red spot) can be caused by all <em>except</em>:",
+    options: ["Trauma","Hypertension","Severe coughing (Pertussis)","Acute glaucoma"],
+    answer: 3,
+    explanation: "<strong>Acute glaucoma</strong> does NOT typically cause subconjunctival hemorrhage. SCH is caused by any sudden rise in venous pressure (coughing, sneezing, Valsalva, trauma) or vascular fragility (hypertension, blood dyscrasias, anticoagulants). Acute glaucoma causes ciliary injection and corneal edema."
+  },
+  {
+    part: "Part 4: Degenerations and Miscellaneous",
+    q: "Giant Papillary Conjunctivitis (GPC) is most commonly associated with:",
+    options: ["Diabetes","Contact lens wear","Old age","Exposure to smoke"],
+    answer: 1,
+    explanation: "<strong>Contact lens wear</strong> is the most common cause of Giant Papillary Conjunctivitis (GPC) — specifically soft contact lenses. The mechanical trauma and protein deposits on lens surfaces trigger an immune-mediated reaction causing large papillae (>1 mm) on the upper tarsal conjunctiva."
+  }
+];
+
+let state = {};
+let correct = 0, wrong = 0;
+const TOTAL = questions.length;
+
+function init() {
+  questions.forEach((_, i) => state[i] = null);
+  correct = 0; wrong = 0;
+  updateStats();
+  render();
+}
+
+function render() {
+  const app = document.getElementById('app');
+  const parts = {};
+  questions.forEach((q, i) => {
+    if (!parts[q.part]) parts[q.part] = [];
+    parts[q.part].push({ q, i });
+  });
+  let html = '';
+  Object.entries(parts).forEach(([part, items]) => {
+    html += `<div class="part-section"><div class="part-header"><h2>${part}</h2></div><div class="questions-container">`;
+    items.forEach(({ q, i }) => {
+      const letters = ['a','b','c','d','e'];
+      let cardClass = state[i] !== null ? (state[i] === q.answer ? 'answered-correct' : 'answered-wrong') : '';
+      html += `<div class="q-card ${cardClass}" id="card-${i}">
+        <div class="q-header"><div class="q-num">${i+1}</div><div class="q-text">${q.q}</div></div>
+        <div class="options">`;
+      q.options.forEach((opt, j) => {
+        let btnClass = '';
+        if (state[i] !== null) {
+          if (j === q.answer) btnClass = state[i] === j ? 'correct' : 'reveal-correct';
+          else if (j === state[i]) btnClass = 'wrong';
+        }
+        html += `<button class="option-btn ${btnClass}" ${state[i]!==null?'disabled':''} onclick="answer(${i},${j})">
+          <span class="option-letter">${letters[j]}</span>${opt}</button>`;
+      });
+      html += `</div>`;
+      if (state[i] !== null) {
+        const ok = state[i] === q.answer;
+        html += `<div class="result-badge visible ${ok?'correct-badge':'wrong-badge'}">${ok?'✓ Correct!':'✗ Incorrect'}</div>`;
+      } else {
+        html += `<div class="result-badge"></div>`;
+      }
+      html += `<div class="explanation ${state[i]!==null?'visible':''}">💡 ${q.explanation}</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  app.innerHTML = html;
+}
+
+function answer(qIndex, optIndex) {
+  if (state[qIndex] !== null) return;
+  state[qIndex] = optIndex;
+  const q = questions[qIndex];
+  if (optIndex === q.answer) correct++; else wrong++;
+  updateStats();
+  const card = document.getElementById(`card-${qIndex}`);
+  const letters = ['a','b','c','d','e'];
+  let inner = `<div class="q-header"><div class="q-num">${qIndex+1}</div><div class="q-text">${q.q}</div></div><div class="options">`;
+  q.options.forEach((opt, j) => {
+    let btnClass = '';
+    if (j === q.answer) btnClass = optIndex === j ? 'correct' : 'reveal-correct';
+    else if (j === optIndex) btnClass = 'wrong';
+    inner += `<button class="option-btn ${btnClass}" disabled><span class="option-letter">${letters[j]}</span>${opt}</button>`;
+  });
+  inner += `</div>`;
+  const ok = optIndex === q.answer;
+  inner += `<div class="result-badge visible ${ok?'correct-badge':'wrong-badge'}">${ok?'✓ Correct!':'✗ Incorrect'}</div>`;
+  inner += `<div class="explanation visible">💡 ${q.explanation}</div>`;
+  card.innerHTML = inner;
+  card.className = `q-card ${ok?'answered-correct':'answered-wrong'}`;
+}
+
+function updateStats() {
+  const answered = Object.values(state).filter(v => v !== null).length;
+  document.getElementById('score-display').textContent = `${correct} / ${answered}`;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-unanswered').textContent = TOTAL - answered;
+  document.getElementById('progress-bar').style.width = `${(answered/TOTAL)*100}%`;
+}
+
+function resetAll() {
+  questions.forEach((_, i) => state[i] = null);
+  correct = 0; wrong = 0;
+  updateStats();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+</body>
+</html>

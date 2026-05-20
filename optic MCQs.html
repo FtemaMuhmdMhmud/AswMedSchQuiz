@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optic nerve MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Optic nerve MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. The length of the orbital part of the optic nerve is approximately:",
+                options: ["A. 10 mm", "B. 25-30 mm", "C. 35-40 mm", "D. 50 mm"],
+                correct: 1
+            },
+            {
+                question: "2. The total number of axons in a single human optic nerve is approximately:",
+                options: ["A. 100,000", "B. 500,000", "C. 1.2 million", "D. 10 million"],
+                correct: 2
+            },
+            {
+                question: "3. The fibers of the optic nerve are myelinated by:",
+                options: ["A. Schwann cells", "B. Oligodendrocytes", "C. Astrocytes", "D. Microglia"],
+                correct: 1
+            },
+            {
+                question: "4. The second-order neuron of the visual pathway is the:",
+                options: ["A. Photoreceptors (Rods and Cones)", "B. Bipolar cell", "C. Ganglion cell", "D. Lateral geniculate body neuron"],
+                correct: 1 /* Corrected from 2 (Ganglion) to 1 (Bipolar cell) */
+            },
+            {
+                question: "5. The shortest part of the optic nerve is the:",
+                options: ["A. Intraocular part", "B. Intraorbital part", "C. Intracanalicular part", "D. Intracranial part"],
+                correct: 0
+            },
+            {
+                question: "6. Optic nerve head diameter (Disc diameter) is normally:",
+                options: ["A. 0.5 mm", "B. 1.5 mm", "C. 3 mm", "D. 5 mm"],
+                correct: 1
+            },
+            {
+                question: "7. The optic nerve axons acquire their myelin sheath:",
+                options: ["A. In the fovea", "B. Immediately posterior to the lamina cribrosa", "C. At the optic chiasm", "D. In the lateral geniculate body"],
+                correct: 1
+            },
+            {
+                question: "8. Optic neuritis is characterized by all of the following EXCEPT:",
+                options: ["A. Sudden painful vision loss", "B. Afferent pupillary defect (RAPD)", "C. Normal fundus presentation in retrobulbar neuritis", "D. Highly increased intraocular pressure"],
+                correct: 3
+            },
+            {
+                question: "9. An Relative Afferent Pupillary Defect (RAPD) is a hallmark clinical sign of a lesion in the:",
+                options: ["A. Oculomotor nerve", "B. Optic tract completely", "C. Optic nerve", "D. Visual cortex"],
+                correct: 2
+            },
+            {
+                question: "10. Papilledema specifically refers to optic disc swelling caused by:",
+                options: ["A. Intraocular inflammation", "B. Increased intracranial pressure (ICP)", "C. Ischemic optic neuropathy", "D. Retinal vein occlusion"],
+                correct: 1
+            },
+            {
+                question: "11. Early clinical features of true papilledema include all EXCEPT:",
+                options: ["A. Blurring of the optic disc margins", "B. Severe profound loss of central visual acuity early on", "C. Absence of spontaneous venous pulsations", "D. Hyperemia of the disc"],
+                correct: 1
+            },
+            {
+                question: "12. Foster Kennedy Syndrome features:",
+                options: ["A. Bilateral papilledema", "B. Optic atrophy in one eye and papilledema in the other", "C. Bilateral optic atrophy", "D. Optic disc cupping with normal tension"],
+                correct: 1
+            },
+            {
+                question: "13. Anterior Ischemic Optic Neuropathy (AION) is mainly due to occlusion of:",
+                options: ["A. Central retinal artery", "B. Short posterior ciliary arteries", "C. Ophthalmic artery", "D. Vortex veins"],
+                correct: 1
+            },
+            {
+                question: "14. Arteritic AION (Giant Cell Arteritis) is typically accompanied by:",
+                options: ["A. Jaw claudication and elevated ESR/CRP", "B. Low blood pressure and myopia", "C. Deep anterior chamber", "D. Normal sedimentation rate"],
+                correct: 0
+            },
+            {
+                question: "15. Optic disc cupping is classically associated with:",
+                options: ["A. Optic neuritis", "B. Glaucoma", "C. Papilledema", "D. Toxic optic neuropathy"],
+                correct: 1
+            },
+            {
+                question: "16. Visual field defect associated with a localized lesion at the optic chiasm (e.g., pituitary adenoma) is typically:",
+                options: ["A. Bitemporal hemianopia", "B. Binasal hemianopia", "C. Homonymous hemianopia", "D. Altitudinal defect"],
+                correct: 0
+            },
+            {
+                question: "17. A lesion in the right optic tract leads to:",
+                options: ["A. Right homonymous hemianopia", "B. Left homonymous hemianopia", "C. Bitemporal hemianopia", "D. Total blindness of the right eye"],
+                correct: 1
+            },
+            {
+                question: "18. Fibers from the inferior retina loop around the temporal horn of the lateral ventricle; this loop is known as:",
+                options: ["A. Baum's loop", "B. Meyer's loop", "C. Gratiolet's radiations", "D. Wilbrand's knee"],
+                correct: 1
+            },
+            {
+                question: "19. A temporal lobe lesion involving Meyer's loop produces a field defect described as:",
+                options: ["A. Homonymous inferior quadrantanopia ('Pie in the floor')", "B. Homonymous superior quadrantanopia ('Pie in the sky')", "C. Bitemporal hemianopia", "D. Central scotoma"],
+                correct: 1
+            },
+            {
+                question: "20. Homonymous hemianopia with macular sparing is highly characteristic of a lesion in the:",
+                options: ["A. Optic nerve", "B. Optic chiasm", "C. Optic tract", "D. Occipital cortex"],
+                correct: 3
+            },
+            {
+                question: "21. Total blindness of the left eye would result from a complete lesion of the:",
+                options: ["A. Left optic tract", "B. Left optic nerve", "C. Optic chiasm", "D. Right optic radiations"],
+                correct: 1
+            },
+            {
+                question: "22. The pupillary fibers separate from the visual pathway just before the lateral geniculate body to synapse in the:",
+                options: ["A. Pretectal nucleus", "B. Edinger-Westphal nucleus", "C. Superior colliculus", "D. Ciliary ganglion"],
+                correct: 0
+            },
+            {
+                question: "23. A lesion involving the parietal lobe radiations (Baum's loop) produces:",
+                options: ["A. Homonymous superior quadrantanopia", "B. Homonymous inferior quadrantanopia", "C. Bitemporal inferior quadrant defect", "D. Binasal defect"],
+                correct: 1
+            },
+            {
+                question: "24. Binasal hemianopia is most commonly associated with:",
+                options: ["A. Pituitary tumor", "B. Pressure on the lateral aspects of the chiasm (e.g. calcified carotids)", "C. Craniopharyngioma", "D. Optic tract lesion"],
+                correct: 1
+            },
+            {
+                question: "25. Argyll Robertson pupil is characterized by:",
+                options: ["A. Loss of accommodation with preserved light reflex", "B. Loss of light reflex with preserved accommodation reflex", "C. Dilated pupil with no reaction", "D. Mid-dilated fixed pupil"],
+                correct: 1
+            },
+            {
+                question: "26. Horner’s syndrome classic triad includes:",
+                options: ["A. Ptosis, Miosis, Anhidrosis", "B. Ptosis, Mydriasis, Proptosis", "C. Lid retraction, Miosis, Exophthalmos", "D. Ptosis, Miosis, Lacrimation"],
+                correct: 0
+            },
+            {
+                question: "27. Adie’s tonic pupil typically presents as:",
+                options: ["A. A small, irregular pupil in an old man", "B. A unilateral dilated pupil with slow response to near and light", "C. Bilateral constricted pupils seen in neurosyphilis", "D. Sign of a midbrain stroke"],
+                correct: 1
+            },
+            {
+                question: "28. Which of the following is true about Light-Near Dissociation?",
+                options: ["A. Seen in Argyll Robertson pupil", "B. Seen in Adie’s pupil", "C. Seen in Parinaud’s syndrome", "D. All of the above"],
+                correct: 3
+            },
+            {
+                question: "29. The drug used to confirm Horner’s syndrome by demonstrating pupillary dilation failure is:",
+                options: ["A. Cocaine (or Apraclonidine)", "B. Atropine", "C. Pilocarpine", "D. Tropicamide"],
+                correct: 0
+            },
+            {
+                question: "30. Optic disc drusen can simulate papilledema and are known as:",
+                options: ["A. Pseudopapilledema", "B. True neuroretinitis", "C. Toxic disc edema", "D. Optic pit"],
+                correct: 0
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            quizData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

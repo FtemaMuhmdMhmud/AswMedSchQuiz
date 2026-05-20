@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sclera MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Sclera MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. A painful, tender non-itchy localized redness of the conjunctiva can be due to:",
+                options: ["Bulbar spring catarrh", "Epi-scleritis", "Vascular pterygium", "Phlyctenular conjunctivitis"],
+                correct: 1
+            },
+            {
+                question: "2. Intercalary staphyloma is a type of:",
+                options: ["Equatorial staphyloma", "Posterior staphyloma", "Scleral staphyloma", "Anterior staphyloma"],
+                correct: 2
+            },
+            {
+                question: "3. Commonest cause of posterior staphyloma is:",
+                options: ["Glaucoma", "Retinal detachment", "Irido-cyclitis", "High myopia"],
+                correct: 3
+            },
+            {
+                question: "4. Intercalary staphyloma occurs at:",
+                options: ["Area extending up to 8 mm from limbus", "Limbus", "Posterior pole of eye", "Region of sclera which are perforated by vortex vein", "Equatorial region"],
+                correct: 1
+            },
+            {
+                question: "5. Posterior staphyloma is associated with:",
+                options: ["Pathological myopia", "Retinoblastoma", "Acid injury", "Sympathetic ophthalmia"],
+                correct: 0
+            },
+            {
+                question: "6. Following are avascular except:",
+                options: ["Cornea", "Sclera", "Vitreous", "Lens"],
+                correct: 1
+            }
+        ];
+
+        let score = 0;
+        let answeredQuestions = 0;
+        
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            quizData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            // Disable all buttons in this question block so user can't click multiple times
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct'); // Highlight correct answer
+            }
+        }
+
+        // Initialize quiz
+        loadQuiz();
+    </script>
+</body>
+</html>

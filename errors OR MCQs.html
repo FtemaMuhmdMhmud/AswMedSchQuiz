@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOR MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>EOR MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. The thickness of the cornea is measured by using:",
+                options: ["A) Schiotz tonometer", "B) Keratometer", "C) Pachymeter", "D) Aesthesiometer"],
+                correct: 2
+            },
+            {
+                question: "2. Bulging of the lower lid on down gaze in keratoconus is called:",
+                options: ["a. Schaffer sign", "b. Munson sign", "c. Stellweg sign", "d. Fleischer sign", "e. Hutchinson sign"],
+                correct: 1
+            },
+            {
+                question: "3. Munson's sign is seen in:",
+                options: ["1) Episcleritis", "2) Chalcosis", "3) Keratoconus", "4) Retinal Detachment"],
+                correct: 2
+            },
+            {
+                question: "4. A refractive error of +2.00 +2.00 x 180 would be classified as:",
+                options: ["a. Mixed astigmatism", "b. Compound hyperopic astigmatism", "c. Compound myopic astigmatism", "d. Simple hyperopic astigmatism"],
+                correct: 1
+            },
+            {
+                question: "5. In Aphakia:",
+                options: ["a. Accommodation is preserved", "b. Iridodonesis is a common sign", "c. Corrected by one pair of monofocal glasses", "d. Normal depth of anterior chamber"],
+                correct: 1
+            },
+            {
+                question: "6. A boy of 4 years has alternating concomitant esotropia 30 degrees. His refraction under atropine is +8D in both eyes. The first line of treatment is:",
+                options: ["a. Glasses for correction of absolute hypermetropia", "b. Glasses for correction of total hypermetropia", "c. Bilateral medial recti recession", "d. Orthoptic exercise by synoptophore"],
+                correct: 1
+            },
+            {
+                question: "7. Myopia can be caused by:",
+                options: ["a. Irregular curvature of the cornea", "b. Removal of the crystalline lens", "c. An eyeball that is too long", "d. A stretched-out retina"],
+                correct: 2
+            },
+            {
+                question: "8. Muscular asthenopia occurs due to:",
+                options: ["a. Myopia", "b. Hypermetropia", "c. Astigmatism", "d. Presbyopia"],
+                correct: 1
+            },
+            {
+                question: "9. In astigmatism, in a non-accommodating eye, light rays focus:",
+                options: ["a. Behind the retina", "b. In front of the retina", "c. At multiple focal points/lines", "d. On the macula"],
+                correct: 2
+            },
+            {
+                question: "10. A female age 25 complains of blurred vision. On examination, her refraction was -6D. The best lens for her is:",
+                options: ["a. Convex lens", "b. Concave lens", "c. Cylindrical lens", "d. Sphero-cylindrical lens"],
+                correct: 1
+            },
+            {
+                question: "11. Presbyopia is corrected by:",
+                options: ["A. Plus lens for far", "B. Plus lens for near", "C. Minus lens for far", "D. Minus lens for near"],
+                correct: 1
+            },
+            {
+                question: "12. Unilateral aphakia is likely to be corrected by any of the following except:",
+                options: ["a. Anterior chamber intraocular lens", "b. Posterior chamber intraocular lens", "c. Contact lens", "d. Glasses"],
+                correct: 3
+            },
+            {
+                question: "13. Retinoscopy is performed for:",
+                options: ["a. Examination of the retina", "b. Examination of the optic nerve", "c. Refractive power of the eye", "d. Axial length of the eye", "e. To find out the power of IOL"],
+                correct: 2
+            },
+            {
+                question: "14. When a patient focuses on near objects, the lens zonules:",
+                options: ["a. Rotate", "b. Contract", "c. Relax", "d. Twist"],
+                correct: 2
+            },
+            {
+                question: "15. In the absence of lens accommodation, a myopic eye focuses images:",
+                options: ["a. In front of the lens", "b. In front of the retina", "c. Behind the retina", "d. Behind the cornea"],
+                correct: 1
+            },
+            {
+                question: "16. Malignant myopia is characterized by all except:",
+                options: ["a. Axial length is increased", "b. Muscae volitantes", "c. Narrow A.C. angle", "d. Increased risk of retinal detachment"],
+                correct: 2
+            },
+            {
+                question: "17. Under the effect of atropine, we measure which component of hypermetropia:",
+                options: ["a. Total", "b. Latent", "c. Manifest", "d. Facultative", "e. Absolute"],
+                correct: 0
+            },
+            {
+                question: "18. Hypermetropia can cause all of the following except:",
+                options: ["a. Pseudo-exotropia", "b. Esotropia", "c. Esophoria", "d. Latent divergent squint", "e. Large positive angle alpha"],
+                correct: 3
+            },
+            {
+                question: "19. In regular astigmatism, if both meridians are in front of the retina, we have:",
+                options: ["a. Simple myopic astigmatism", "b. Simple hyperopic astigmatism", "c. Compound myopic astigmatism", "d. Compound hyperopic astigmatism"],
+                correct: 2
+            },
+            {
+                question: "20. Cylindrical lenses are prescribed for:",
+                options: ["a. Presbyopia", "b. Astigmatism", "c. Myopia", "d. Squint"],
+                correct: 1
+            },
+            {
+                question: "21. Accommodation is controlled by:",
+                options: ["a. Sphincter pupillae", "b. Dilator pupillae", "c. Ciliary muscle", "d. Levator palpebrae superioris"],
+                correct: 2
+            },
+            {
+                question: "22. The following are refractive errors except:",
+                options: ["a. Hypermetropia", "b. Myopia", "c. Astigmatism", "d. Presbyopia"],
+                correct: 3
+            },
+            {
+                question: "23. A child is taken by his mother to the doctor complaining of decreased school performance. The teacher says he frequently squeezes his eyes and has difficulty seeing the blackboard. What is the most probable diagnosis?",
+                options: ["a. Myopia", "b. Hypermetropia", "c. Presbyopia", "d. Astigmatism"],
+                correct: 0
+            },
+            {
+                question: "24. Commonest cause of posterior staphyloma is:",
+                options: ["a. Glaucoma", "b. Retinal detachment", "c. Iridocyclitis", "d. High myopia"],
+                correct: 3
+            },
+            {
+                question: "25. A-scan biometry is used to calculate the power of the intraocular lens by measuring:",
+                options: ["A. Corneal curvature", "B. Refractive index", "C. Axial length of the eye"],
+                correct: 2
+            },
+            {
+                question: "26. Best site where an intraocular lens is fitted:",
+                options: ["A. Capsular ligament", "B. Endo-sulcus", "C. Ciliary supported", "D. Capsular bag"],
+                correct: 3
+            },
+            {
+                question: "27. Shallow anterior chamber is seen in:",
+                options: ["A. High myopia", "B. Aphakia", "C. High hypermetropia", "D. All of the above"],
+                correct: 2
+            },
+            {
+                question: "28. Temporal crescent is seen typically in:",
+                options: ["A. Astigmatism", "B. Hypermetropia", "C. Myopia", "D. Squint"],
+                correct: 2
+            },
+            {
+                question: "29. Simple myopic astigmatism means:",
+                options: ["A. One meridian is myopic and the other is emmetropic", "B. Both meridians are myopic", "C. One meridian is hypermetropic and the other emmetropic", "D. Both meridians are emmetropic"],
+                correct: 0
+            },
+            {
+                question: "30. A patient wearing glasses of +5.00 diopters is more prone to have:",
+                options: ["A. Open angle glaucoma", "B. Closed angle glaucoma"],
+                correct: 1
+            },
+            {
+                question: "31. Tremulousness of iris (Iridodonesis) is seen in:",
+                options: ["A. Chronic iridocyclitis", "B. Closed angle glaucoma", "C. Aphakia", "D. Senile immature cataract"],
+                correct: 2
+            },
+            {
+                question: "32. Radial keratotomy is useful in:",
+                options: ["A. Myopia", "B. Hypermetropia", "C. Presbyopia", "D. Aphakia"],
+                correct: 0
+            },
+            {
+                question: "33. As regard Myopia, the following is true EXCEPT:",
+                options: ["a. Image forms in front of the retina in absence of accommodation", "b. Length of eyeball is short", "c. Patient can see near objects clearly with accommodation", "d. Against movement is observed by retinoscopy"],
+                correct: 1
+            },
+            {
+                question: "34 (Part 2 - Q1). Which objective sign is commonly seen in a myopic eye during oblique illumination?",
+                options: ["A. Shallow anterior chamber", "B. Deep anterior chamber", "C. Small pupil", "D. Small cornea"],
+                correct: 1
+            },
+            {
+                question: "35 (Part 2 - Q2). What is the cause of 'photopsia' in progressive myopia?",
+                options: ["A. Decreased retinal pigmentation", "B. Vitreoretinal traction", "C. Cortical cataract formation", "D. Increased intraocular pressure"],
+                correct: 1
+            },
+            {
+                question: "36 (Part 2 - Q3). Which component of hypermetropia is corrected by the physiological tone of the ciliary muscle?",
+                options: ["A. Facultative hypermetropia", "B. Manifest hypermetropia", "C. Absolute hypermetropia", "D. Latent hypermetropia"],
+                correct: 3
+            },
+            {
+                question: "37 (Part 2 - Q4). When treating an adult for hypermetropia, what is the recommended starting point for the prescription?",
+                options: ["A. No treatment is ever needed for adults.", "B. Give a minus lens to stimulate accommodation.", "C. Give the highest tolerated plus lens.", "D. Give the full atropine correction immediately."],
+                correct: 2
+            },
+            {
+                question: "38 (Part 2 - Q5). According to the 'Rule of Astigmatism', which meridian is typically more powerful in a normal eye?",
+                options: ["A. The oblique meridians", "B. The horizontal meridian", "C. The vertical meridian", "D. Both meridians have equal power."],
+                correct: 2
+            },
+            {
+                question: "39 (Part 2 - Q6). What clinical sign of astigmatism is observed during retinoscopy?",
+                options: ["A. Complete absence of reflex", "B. Scissoring reflex", "C. Bright orange glow", "D. Oil-droplet reflex"],
+                correct: 1
+            },
+            {
+                question: "40 (Part 2 - Q7). What is 'Aniseikonia'?",
+                options: ["A. A complete absence of the crystalline lens", "B. A difference in the refractive power of the two eyes", "C. A condition where light focuses behind the retina", "D. A difference in the size and shape of retinal images"],
+                correct: 3
+            },
+            {
+                question: "41 (Part 2 - Q8). In a mixed astigmatism case, what is the refractive state of the two principal meridians?",
+                options: ["A. Both meridians are myopic.", "B. Both meridians are hypermetropic.", "C. One meridian is myopic and the other is hypermetropic.", "D. One meridian is emmetropic and the other is ametropic."],
+                correct: 2
+            },
+            {
+                question: "42 (Part 2 - Q9). Which of the following is considered an advantage of contact lenses over glasses?",
+                options: ["A. They are easier to clean and maintain.", "B. They cause more significant aniseikonia.", "C. They provide a wider field of vision.", "D. They have zero risk of corneal infection."],
+                correct: 2
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            quizData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

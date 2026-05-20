@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lens MCQs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #ffffff;
+    --deep: #1a3a6b;
+    --blue: #2356a0;
+    --accent: #1a6fd4;
+    --gold: #b8860b;
+    --gold2: #d4a017;
+    --white: #1a2540;
+    --soft: #2d4070;
+    --muted: #5a6e90;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --correct-bg: rgba(22,163,74,0.10);
+    --wrong-bg: rgba(220,38,38,0.10);
+    --card: #ffffff;
+    --border: rgba(26,111,212,0.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0f4fa;
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--deep) 0%, var(--blue) 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-eye {
+    width: 48px; height: 48px;
+    background: var(--gold);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(232,200,114,0.4);
+  }
+  .header-eye svg { width: 26px; height: 26px; }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+  .header-text p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 32px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #5a6e90;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: #dce6f5;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    max-width: 900px;
+    margin: 16px auto 0;
+    padding: 0 32px;
+    display: flex;
+    gap: 12px;
+  }
+  .stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .stat-chip.correct { background: rgba(22,163,74,0.08); color: #16a34a; border: 1px solid rgba(22,163,74,0.25); }
+  .stat-chip.wrong   { background: rgba(220,38,38,0.08);  color: #dc2626;   border: 1px solid rgba(220,38,38,0.25);  }
+  .stat-chip.skipped { background: rgba(26,58,107,0.07); color: #1a3a6b;    border: 1px solid rgba(26,58,107,0.2); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot.c { background: #16a34a; }
+  .dot.w { background: #dc2626; }
+  .dot.s { background: #1a3a6b; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    max-width: 900px;
+    margin: 32px auto 0;
+    padding: 0 32px;
+  }
+  .section-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: #1a3a6b;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-left: 3px solid #1a6fd4;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* ── QUIZ CONTAINER ── */
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8px 32px 60px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: #ffffff;
+    border: 1px solid #dce6f5;
+    box-shadow: 0 2px 12px rgba(26,58,107,0.07);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    border-radius: 16px 0 0 16px;
+  }
+  .question-card:hover { border-color: rgba(74,144,217,0.35); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+  .question-card.answered-correct { border-color: rgba(46,204,113,0.3); }
+  .question-card.answered-correct::before { background: linear-gradient(180deg, var(--correct), transparent); }
+  .question-card.answered-wrong { border-color: rgba(231,76,60,0.3); }
+  .question-card.answered-wrong::before { background: linear-gradient(180deg, var(--wrong), transparent); }
+
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .q-num {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--blue), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: #1a2540;
+    font-weight: 500;
+  }
+
+  /* ── OPTIONS ── */
+  .options-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .option-item label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf5;
+    background: #f7faff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: #2d4070;
+    line-height: 1.5;
+  }
+  .option-item label:hover {
+    background: #e8f0fb;
+    border-color: #1a6fd4;
+    color: #1a2540;
+  }
+  .option-item input[type="radio"] { display: none; }
+
+  .opt-letter {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    background: #e8f0fb;
+    border: 1px solid #c5d8f0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1a6fd4;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  /* Selected state (before submit) */
+  .option-item input:checked + label {
+    background: #e0edff;
+    border-color: var(--accent);
+    color: #1a2540;
+  }
+  .option-item input:checked + label .opt-letter {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* Correct answer */
+  .option-item.show-correct label {
+    background: var(--correct-bg);
+    border-color: var(--correct);
+    color: #a8f0c6;
+    pointer-events: none;
+  }
+  .option-item.show-correct label .opt-letter {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+  }
+
+  /* Wrong answer chosen */
+  .option-item.show-wrong label {
+    background: var(--wrong-bg);
+    border-color: var(--wrong);
+    color: #f5a5a5;
+    pointer-events: none;
+  }
+  .option-item.show-wrong label .opt-letter {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: white;
+  }
+
+  /* Locked (answered) */
+  .question-card.locked label { cursor: default; pointer-events: none; }
+  .question-card.locked .option-item label:hover {
+    background: #f7faff;
+    border-color: #e2eaf5;
+    color: #2d4070;
+  }
+  .option-item.show-correct label:hover, .option-item.show-wrong label:hover { /* keep colors */ }
+
+  /* ── EXPLANATION BOX ── */
+  .explanation {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #f0f6ff;
+    border: 1px solid #c5d8f0;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    color: #2d4070;
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: #1a3a6b; font-weight: 700; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── CHECK BUTTON ── */
+  .check-btn {
+    margin-top: 16px;
+    padding: 9px 22px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #2d6db0);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.15s;
+    display: none;
+  }
+  .check-btn.visible { display: inline-block; }
+  .check-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .check-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+  /* ── RESULT BADGE ── */
+  .result-badge {
+    display: none;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .result-badge.show { display: flex; }
+  .result-badge.correct { color: var(--correct); }
+  .result-badge.wrong   { color: var(--wrong); }
+
+  /* ── FINAL SCORE CARD ── */
+  #score-section {
+    display: none;
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 32px 60px;
+  }
+  #score-section.show { display: block; }
+  .score-card {
+    background: #ffffff;
+    border: 1px solid #dce6f5;
+    border-radius: 20px;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(26,58,107,0.12);
+  }
+  .score-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #1a3a6b;
+    margin-bottom: 8px;
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #1a2540;
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+  .score-number span { font-size: 2.5rem; color: #5a6e90; }
+  .score-label { color: #5a6e90; font-size: 0.9rem; margin-bottom: 28px; }
+  .score-grid {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .score-item {
+    padding: 14px 24px;
+    border-radius: 12px;
+    min-width: 100px;
+  }
+  .score-item.c { background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); }
+  .score-item.w { background: rgba(231,76,60,0.1);  border: 1px solid rgba(231,76,60,0.3); }
+  .score-item.s { background: rgba(232,200,114,0.1);border: 1px solid rgba(232,200,114,0.3); }
+  .score-item .si-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+  .score-item.c .si-num { color: var(--correct); }
+  .score-item.w .si-num { color: var(--wrong); }
+  .score-item.s .si-num { color: var(--gold); }
+  .score-item .si-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+  .restart-btn {
+    margin-top: 32px;
+    padding: 13px 36px;
+    border: 2px solid #1a3a6b;
+    border-radius: 10px;
+    background: transparent;
+    color: #1a3a6b;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .restart-btn:hover { background: #1a3a6b; color: white; }
+
+  /* ── SUBMIT ALL ── */
+  .submit-all-wrap {
+    max-width: 900px;
+    margin: 10px auto 0;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .submit-all-btn {
+    padding: 14px 48px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--gold), #c8a830);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(232,200,114,0.3);
+    text-transform: uppercase;
+  }
+  .submit-all-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,200,114,0.4); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1a3a6b;
+    border-top: 1px solid #2356a0;
+    padding: 20px 32px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #a0b8d8;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  footer span { color: #e8c872; font-weight: 600; }
+
+  @media (max-width: 600px) {
+    .header-inner, .progress-wrap, .stats-bar, .section-label, .quiz-container, #score-section { padding-left: 16px; padding-right: 16px; }
+    .header-text h1 { font-size: 1.35rem; }
+    .score-number { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eye">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0a1628" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Lens MCQs</h1>
+      <p>Comprehensive Cataract &amp; Lens Bank · 45 Questions</p>
+    </div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-text">0 / 45 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-chip correct"><div class="dot c"></div><span id="cnt-correct">0</span> Correct</div>
+  <div class="stat-chip wrong"><div class="dot w"></div><span id="cnt-wrong">0</span> Wrong</div>
+  <div class="stat-chip skipped"><div class="dot s"></div><span id="cnt-skip">45</span> Remaining</div>
+</div>
+
+<div id="quiz-root"></div>
+
+<div class="submit-all-wrap" id="submit-wrap">
+  <button class="submit-all-btn" onclick="submitAll()">Submit All &amp; See Score</button>
+</div>
+
+<div id="score-section">
+  <div class="score-card">
+    <h2>Quiz Complete</h2>
+    <div class="score-number" id="sc-pct">—<span>%</span></div>
+    <div class="score-label" id="sc-label">—</div>
+    <div class="score-grid">
+      <div class="score-item c"><div class="si-num" id="sc-correct">0</div><div class="si-label">Correct</div></div>
+      <div class="score-item w"><div class="si-num" id="sc-wrong">0</div><div class="si-label">Wrong</div></div>
+      <div class="score-item s"><div class="si-num" id="sc-skip">0</div><div class="si-label">Unanswered</div></div>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">↺ Restart Quiz</button>
+  </div>
+</div>
+
+<footer>
+  Helpers <span>@fmm</span> &nbsp;·&nbsp; All answers scientifically reviewed &nbsp;·&nbsp; For educational use only
+</footer>
+
+<script>
+const questions = [
+  // I. Anatomy and Physiology
+  {
+    section: "I. Anatomy and Physiology of the Lens",
+    q: "Which of the following is true regarding lens anatomy?",
+    opts: ["The posterior capsule is thinner than the anterior capsule","The anterior capsule is thinner than the posterior capsule","The capsule is thickest at the poles","The lens fibers are formed from the posterior epithelium"],
+    ans: 0,
+    exp: "<strong>A — Posterior capsule is thinner than anterior.</strong> The anterior capsule (9–15 µm) is the thickest basement membrane in the body; the posterior capsule is much thinner (2–4 µm). The capsule is thinnest at the poles, and lens fibers are formed from the equatorial/germinative zone of the anterior epithelium."
+  },
+  {
+    section: null,
+    q: "True about lens anatomy:",
+    opts: ["Posterior capsule is thinner than anterior","Anterior capsule is thinner than posterior","Capsule is thickest at the poles","It is a vascular structure in adults"],
+    ans: 0,
+    exp: "<strong>A — Posterior capsule is thinner than anterior.</strong> The adult lens is completely avascular; it receives nutrients from the aqueous and vitreous by diffusion. The anterior capsule is the thickest, not the posterior."
+  },
+  {
+    section: null,
+    q: "Most of the refractive power of the crystalline lens is provided by:",
+    opts: ["The nucleus","The cortex","The capsule","The anterior epithelium"],
+    ans: 0,
+    exp: "<strong>A — The nucleus.</strong> The dense nucleus has a higher refractive index (~1.40) compared with the cortex (~1.38), contributing most of the lens's refractive power (~+18–20 D of the total ~+60 D of the eye)."
+  },
+  {
+    section: null,
+    q: "The main source of nutrition for the lens is:",
+    opts: ["Vitreous humour","Aqueous humour","Blood vessels in the capsule","Lacrimal fluid"],
+    ans: 1,
+    exp: "<strong>B — Aqueous humour.</strong> The avascular lens depends primarily on the aqueous humour (produced by the ciliary body) for oxygen, glucose, and nutrients via diffusion through the capsule."
+  },
+  {
+    section: null,
+    q: "The refractive power of the lens in an emmetropic eye is approximately:",
+    opts: ["10 to 12 Diopters","15 to 18 Diopters","40 to 42 Diopters","60 Diopters"],
+    ans: 1,
+    exp: "<strong>B — 15 to 18 Diopters.</strong> The crystalline lens provides approximately 15–20 D (commonly cited as ~18 D at rest). The total refracting power of the eye is ~60 D, of which the cornea contributes ~43 D and the lens ~17 D."
+  },
+  {
+    section: null,
+    q: "The lens grows in size and weight:",
+    opts: ["Until age 20","Until age 40","Throughout life","Only during fetal life"],
+    ans: 2,
+    exp: "<strong>C — Throughout life.</strong> Unlike most body structures, the lens continues to grow throughout life because new lens fibers are continually added from the equatorial epithelium without shedding old ones, making it progressively denser and less elastic."
+  },
+
+  // II. Congenital
+  {
+    section: "II. Congenital and Developmental Cataract",
+    q: "The most common type of congenital cataract is:",
+    opts: ["Zonular (Lamellar) cataract","Posterior polar cataract","Blue dot cataract (Punctate)","Nuclear cataract"],
+    ans: 0,
+    exp: "<strong>A — Zonular (Lamellar) cataract.</strong> This is the most common form of congenital/developmental cataract, affecting a discrete zone (lamella) of fibers laid down at a particular time of development, often associated with hypocalcemia or malnutrition."
+  },
+  {
+    section: null,
+    q: "Congenital cataract associated with \"Oil droplet\" appearance is seen in:",
+    opts: ["Galactosemia","Diabetes mellitus","Trauma","Down syndrome"],
+    ans: 0,
+    exp: "<strong>A — Galactosemia.</strong> The 'oil droplet' (or 'oil globule') cataract seen on retroillumination is pathognomonic of galactosemia (galactose-1-phosphate uridyltransferase deficiency). It results from accumulation of galactitol in the lens."
+  },
+  {
+    section: null,
+    q: "Treatment of congenital cataract should be followed by:",
+    opts: ["Correction of aphakia to prevent amblyopia","Immediate patching of the eye","Waiting until age 18 for IOL","No further treatment"],
+    ans: 0,
+    exp: "<strong>A — Correction of aphakia to prevent amblyopia.</strong> After surgery, visual rehabilitation with contact lenses or glasses (in infants) and patching of the fellow eye (to treat/prevent amblyopia) is critical. Early optical correction and amblyopia therapy are the cornerstones of management."
+  },
+  {
+    section: null,
+    q: "Lamellar (Zonular) cataract is typically associated with:",
+    opts: ["Hypercalcemia","Hypocalcemia (Vitamin D deficiency)","High myopia","Glaucoma"],
+    ans: 1,
+    exp: "<strong>B — Hypocalcemia (Vitamin D deficiency).</strong> Lamellar cataracts are classically associated with hypocalcemia (e.g., from hypoparathyroidism, Vitamin D deficiency, or rickets), as calcium is essential for normal lens fiber metabolism."
+  },
+  {
+    section: null,
+    q: "Rubella syndrome is associated with which type of cataract?",
+    opts: ["Nuclear cataract","Posterior polar cataract","Punctate cataract","Total cataract"],
+    ans: 3,
+    exp: "<strong>D — Total cataract.</strong> Congenital rubella (especially first-trimester infection) classically causes a dense total white cataract due to direct viral invasion of the lens. The virus persists within the lens for months after birth, making surgery potentially infectious. A pearly-white nuclear cataract may also be seen in milder cases."
+  },
+
+  // III. Senile
+  {
+    section: "III. Senile Cataract and Clinical Stages",
+    q: "Nuclear cataract changes the refraction of the eye into:",
+    opts: ["Myopia (Index Myopia)","Hypermetropia","Astigmatism","Presbyopia"],
+    ans: 0,
+    exp: "<strong>A — Myopia (Index Myopia).</strong> Progressive nuclear sclerosis increases the refractive index of the lens nucleus, causing index myopia. Patients may temporarily regain near vision ('second sight') before the cataract becomes visually disabling."
+  },
+  {
+    section: null,
+    q: "Constantly changing refractive error (Index Myopia) is characteristically seen in:",
+    opts: ["Diabetic cataract","Intumescent cataract","Morgagnian cataract","Early nuclear sclerosis"],
+    ans: 3,
+    exp: "<strong>D — Early nuclear sclerosis.</strong> Progressive nuclear sclerosis causes a gradual, sustained increase in the refractive index of the nucleus, producing index myopia. This 'constantly increasing' myopic shift is the hallmark of nuclear sclerotic cataract. Diabetic cataract causes fluctuating (not steadily progressive) refractive error tied to blood glucose swings."
+  },
+  {
+    section: null,
+    q: "Monocular diplopia is a symptom of:",
+    opts: ["Mature cataract","Incipient or Intumescent cataract","Aphakia","Absolute glaucoma"],
+    ans: 1,
+    exp: "<strong>B — Incipient or Intumescent cataract.</strong> Early cortical spoke-like opacities create multiple refracting zones within the lens, splitting light and causing monocular diplopia (or polyopia). This persists even with one eye closed, distinguishing it from binocular diplopia."
+  },
+  {
+    section: null,
+    q: "Second sight (improvement in near vision) in an elderly patient is due to:",
+    opts: ["Nuclear cataract","Cortical cataract","Posterior subcapsular cataract","Corneal edema"],
+    ans: 0,
+    exp: "<strong>A — Nuclear cataract.</strong> Increasing nuclear density raises the refractive index, causing progressive index myopia. In a previously presbyopic/hypermetropic patient, this myopic shift temporarily improves near vision without glasses — the classical 'second sight of the aged.'"
+  },
+  {
+    section: null,
+    q: "Hypermature cataract is characterized by all except:",
+    opts: ["Shrunken lens","Milky white appearance with floating nucleus","Shallow anterior chamber","Iridodonesis"],
+    ans: 2,
+    exp: "<strong>C — Shallow anterior chamber (NOT a feature of hypermature cataract).</strong> In hypermature (Morgagnian) cataract, the cortex liquefies and the lens shrinks, causing a deep anterior chamber and iridodonesis. Shallow anterior chamber is seen in intumescent (swollen) cataract."
+  },
+  {
+    section: null,
+    q: "Shallow anterior chamber is characteristically seen in:",
+    opts: ["Mature cataract","Intumescent cataract","Aphakia","High myopia"],
+    ans: 1,
+    exp: "<strong>B — Intumescent cataract.</strong> Water imbibition causes the lens to swell (intumescent), pushing the iris–lens diaphragm anteriorly, shallowing the anterior chamber and risking angle-closure glaucoma (phakomorphic glaucoma)."
+  },
+
+  // IV. Complicated, Traumatic, Metabolic
+  {
+    section: "IV. Complicated, Traumatic, and Metabolic Cataract",
+    q: "Vossius ring is seen in:",
+    opts: ["Cornea","Anterior lens capsule following blunt trauma","Retina","Posterior capsule opacification"],
+    ans: 1,
+    exp: "<strong>B — Anterior lens capsule following blunt trauma.</strong> Vossius ring is a circular pigment ring imprinted on the anterior lens capsule, caused by blunt trauma that forces the iris pigment epithelium against the lens. It is a classic sign of contusion injury."
+  },
+  {
+    section: null,
+    q: "Sunflower cataract is seen in:",
+    opts: ["Siderosis bulbi","Chalcosis bulbi (Wilson's disease)","Diabetes mellitus","Galactosemia"],
+    ans: 1,
+    exp: "<strong>B — Chalcosis bulbi (Wilson's disease).</strong> Copper deposition in the anterior lens capsule produces a characteristic sunflower (heliotrope) pattern. This is seen in copper-containing intraocular foreign bodies (chalcosis) and also in Wilson's disease (hepatolenticular degeneration)."
+  },
+  {
+    section: null,
+    q: "\"Snowflake\" cataract is a characteristic finding in:",
+    opts: ["Senile cataract","Diabetic cataract","Traumatic cataract","Steroid induced cataract"],
+    ans: 1,
+    exp: "<strong>B — Diabetic cataract.</strong> Snowflake (or 'snowstorm') cataract consists of white, flaky subcapsular opacities distributed throughout the lens cortex. It is the true diabetic cataract, seen classically in young poorly controlled diabetics."
+  },
+  {
+    section: null,
+    q: "Steroids typically induce which kind of cataract?",
+    opts: ["Nuclear sclerotic","Posterior polar","Posterior subcapsular","Anterior cortical"],
+    ans: 2,
+    exp: "<strong>C — Posterior subcapsular cataract.</strong> Both systemic and topical corticosteroids produce posterior subcapsular cataract (PSC). PSC causes disproportionate visual loss particularly with reading and in bright light. The mechanism involves inhibition of epithelial cell differentiation."
+  },
+  {
+    section: null,
+    q: "A 12-year-old boy receiving long-term treatment for spring catarrh developed defective vision. The likely cause is:",
+    opts: ["Posterior subcapsular cataract","Optic neuritis","Retinal detachment","Corneal leucoma"],
+    ans: 0,
+    exp: "<strong>A — Posterior subcapsular cataract.</strong> Spring catarrh (vernal keratoconjunctivitis) is treated with long-term topical corticosteroids, which are the classic cause of posterior subcapsular cataract. Any child on prolonged topical steroid therapy requires regular slit-lamp monitoring."
+  },
+  {
+    section: null,
+    q: "The etiology of complicated cataract includes all except:",
+    opts: ["Iridocyclitis","Retinitis pigmentosa","High Myopia","High Hypermetropia"],
+    ans: 3,
+    exp: "<strong>D — High Hypermetropia.</strong> Complicated cataract (secondary cataract) is caused by intraocular diseases such as chronic uveitis (iridocyclitis), retinitis pigmentosa, high myopia, glaucoma, and intraocular tumors. High hypermetropia per se does not cause complicated cataract."
+  },
+  {
+    section: null,
+    q: "Cataract is associated with which of the following muscular disorders?",
+    opts: ["Pseudo-muscular hypertrophy","Myotonic dystrophy","SLE","Myasthenia gravis"],
+    ans: 1,
+    exp: "<strong>B — Myotonic dystrophy.</strong> Myotonic dystrophy (Steinert disease) is classically associated with iridescent (Christmas tree / polychromatic) posterior subcapsular cataract and, in advanced stages, stellate anterior subcapsular opacities. It is an autosomal dominant condition."
+  },
+
+  // V. Lens-Induced Complications
+  {
+    section: "V. Lens-Induced Complications",
+    q: "Phakolytic glaucoma is best treated by:",
+    opts: ["Fistulizing operation","Cataract extraction","Cyclo-destructive procedure","Medical treatment only"],
+    ans: 1,
+    exp: "<strong>B — Cataract extraction.</strong> Phakolytic (lens-induced) open-angle glaucoma results from macrophages and lens proteins clogging the trabecular meshwork from a hypermature cataract. Definitive treatment is prompt cataract extraction after controlling IOP medically, not drainage surgery."
+  },
+  {
+    section: null,
+    q: "Lens-induced glaucoma is least likely to occur in:",
+    opts: ["Intumescent cataract","Hypermature cataract","Posterior subcapsular cataract","Anterior dislocation of the lens"],
+    ans: 2,
+    exp: "<strong>C — Posterior subcapsular cataract.</strong> Posterior subcapsular cataract does not cause significant physical changes to lens size or capsule integrity, so it rarely causes lens-induced glaucoma. The other options cause glaucoma by angle blockade (intumescent, anteriorly dislocated) or by protein leak (hypermature)."
+  },
+  {
+    section: null,
+    q: "Morgagnian cataract can cause which of the following complications?",
+    opts: ["Phakolytic glaucoma","Optic atrophy","Retinal detachment","Rubeosis iridis"],
+    ans: 0,
+    exp: "<strong>A — Phakolytic glaucoma.</strong> In Morgagnian (hypermature) cataract the liquefied lens proteins seep through the intact capsule and are phagocytosed by macrophages that obstruct the trabecular meshwork, causing phakolytic open-angle glaucoma."
+  },
+  {
+    section: null,
+    q: "Phakomorphic glaucoma is caused by:",
+    opts: ["Hypermature lens","Intumescent lens","Subluxated lens","After-cataract"],
+    ans: 1,
+    exp: "<strong>B — Intumescent lens.</strong> Phakomorphic glaucoma is a form of secondary angle-closure glaucoma caused by an intumescent (swollen, water-imbibed) lens that pushes the iris forward, causing pupillary block and angle closure."
+  },
+
+  // VI. Ectopia Lentis
+  {
+    section: "VI. Ectopia Lentis (Subluxation and Dislocation)",
+    q: "Lens subluxation is a hallmark feature of which syndrome?",
+    opts: ["Down syndrome","Marfan syndrome","Edward syndrome","Turner syndrome"],
+    ans: 1,
+    exp: "<strong>B — Marfan syndrome.</strong> Ectopia lentis (lens subluxation) is seen in ~60–80% of Marfan patients, typically with superotemporal displacement, due to fibrillin-1 gene mutation causing weak zonular fibers. Also seen in homocystinuria (inferonasal displacement)."
+  },
+  {
+    section: null,
+    q: "Features of a subluxated lens include all of the following except:",
+    opts: ["Uniocular diplopia","High myopia","Irregular anterior chamber","Tremulousness of the iris (Iridodonesis)"],
+    ans: 1,
+    exp: "<strong>B — High myopia (NOT a direct feature).</strong> Subluxated lens typically causes high astigmatism (from tilted lens), monocular diplopia, iridodonesis, and irregular anterior chamber depth. High myopia is not characteristically caused by subluxation itself; aphakic area may produce hypermetropia."
+  },
+  {
+    section: null,
+    q: "Tremulousness of the iris (Iridodonesis) is seen in:",
+    opts: ["Mature cataract","Subluxated lens or Aphakia","Intumescent cataract","Nuclear cataract"],
+    ans: 1,
+    exp: "<strong>B — Subluxated lens or Aphakia.</strong> Iridodonesis (trembling of the iris on eye movement) occurs because the iris loses its posterior support from the lens, seen in subluxation/dislocation of the lens and in aphakia."
+  },
+
+  // VII. Surgery
+  {
+    section: "VII. Cataract Surgery and Management",
+    q: "Earliest visual rehabilitation occurs with:",
+    opts: ["Phacoemulsification plus IOL implantation","ICCE plus IOL implantation","ECCE plus IOL implantation","SICS (Small Incision Cataract Surgery)"],
+    ans: 0,
+    exp: "<strong>A — Phacoemulsification plus IOL implantation.</strong> The small self-sealing incision (2.2–3 mm) in phacoemulsification requires no sutures, causes minimal induced astigmatism, and allows the fastest visual rehabilitation of any cataract surgical technique."
+  },
+  {
+    section: null,
+    q: "The incision size in modern phacoemulsification is typically:",
+    opts: ["1 mm","2.2 to 3.0 mm","6 mm","10 mm"],
+    ans: 1,
+    exp: "<strong>B — 2.2 to 3.0 mm.</strong> Standard phacoemulsification uses a clear corneal or scleral incision of 2.2–3.0 mm. Micro-coaxial (MICS) systems can use incisions as small as 1.8 mm. The 6 mm incision is characteristic of conventional ECCE."
+  },
+  {
+    section: null,
+    q: "In intra-capsular cataract extraction (ICCE) which part of the lens capsule is left behind?",
+    opts: ["Anterior lens capsule","Posterior lens capsule","Equatorial rim","No lens capsule is left behind"],
+    ans: 3,
+    exp: "<strong>D — No lens capsule is left behind.</strong> In ICCE, the entire lens (nucleus, cortex, and both capsules) is removed as one unit after breaking the zonular fibers (using alpha-chymotrypsin or cryoextraction). This is why posterior chamber IOLs cannot be implanted in the bag after ICCE."
+  },
+  {
+    section: null,
+    q: "The ideal site for IOL implantation is:",
+    opts: ["Anterior chamber","Ciliary sulcus","Capsular bag","Scleral fixation"],
+    ans: 2,
+    exp: "<strong>C — Capsular bag.</strong> In-the-bag IOL implantation is the gold standard. It provides optimal centration, reduces posterior capsule opacification (by maintaining lens epithelial cell apoptosis), and minimizes contact with uveal tissue compared with sulcus or anterior chamber placement."
+  },
+  {
+    section: null,
+    q: "Cataract surgery should not be performed in the presence of:",
+    opts: ["Corneal nebula","Arcus senilis","Chronic dacryocystitis","Small pupil"],
+    ans: 2,
+    exp: "<strong>C — Chronic dacryocystitis.</strong> Active or chronic dacryocystitis is an absolute contraindication to intraocular surgery because it is a reservoir of bacteria (commonly Streptococcus or Staphylococcus) that can cause devastating postoperative endophthalmitis. A DCR should precede cataract surgery."
+  },
+  {
+    section: null,
+    q: "During lens extraction, vitreous loss leads to all of the following except:",
+    opts: ["Asteroid hyalitis","Up-drawn pupil","Retinal detachment","Cystoid macular edema"],
+    ans: 0,
+    exp: "<strong>A — Asteroid hyalitis (NOT caused by vitreous loss).</strong> Asteroid hyalitis is a degenerative condition of the vitreous (calcium-lipid deposits) unrelated to vitreous loss during surgery. Vitreous loss during cataract surgery can cause up-drawn pupil (vitreous in wound), retinal detachment, and cystoid macular edema."
+  },
+  {
+    section: null,
+    q: "After 48 hours of cataract surgery, a patient presents with severe pain, ciliary injection, and absent red reflex. The suspicion is:",
+    opts: ["Secondary glaucoma","Bacterial endophthalmitis","Anterior uveitis","Expulsive hemorrhage"],
+    ans: 1,
+    exp: "<strong>B — Bacterial endophthalmitis.</strong> Acute postoperative bacterial endophthalmitis typically presents 48–72 hours after surgery with severe pain, decreased vision, hypopyon, absent red reflex, and marked lid edema. It requires urgent vitreous tap/biopsy and intravitreal antibiotics."
+  },
+
+  // VIII. After-Cataract and Lasers
+  {
+    section: "VIII. After-Cataract and Lasers",
+    q: "Which laser is used for capsulotomy (specifically for After-cataract)?",
+    opts: ["Diode laser","Excimer laser","Nd:YAG laser","Argon laser"],
+    ans: 2,
+    exp: "<strong>C — Nd:YAG laser.</strong> Neodymium:YAG laser (1064 nm) uses photodisruption (plasma formation) to create an opening in the opacified posterior capsule. It is the treatment of choice for posterior capsule opacification (after-cataract) after ECCE or phacoemulsification."
+  },
+  {
+    section: null,
+    q: "Ring of Soemmering and Elschnig's pearls are types of:",
+    opts: ["Congenital cataract","After-cataract (Posterior Capsule Opacification)","Traumatic cataract","Complicated cataract"],
+    ans: 1,
+    exp: "<strong>B — After-cataract (Posterior Capsule Opacification).</strong> After ECCE, residual lens epithelial cells regenerate: Elschnig's pearls (bladder cells / Wedl cells on the posterior capsule) and the ring of Soemmering (lens matter trapped equatorially between anterior and posterior capsule leaflets) are the two forms of after-cataract."
+  },
+  {
+    section: null,
+    q: "The most common cause of diminution of vision after ECCE is:",
+    opts: ["Posterior capsule opacification (After-cataract)","Cystoid macular edema","Corneal decompensation","Secondary glaucoma"],
+    ans: 0,
+    exp: "<strong>A — Posterior capsule opacification (After-cataract).</strong> PCO is the most common long-term complication of ECCE, occurring in up to 50% of patients within 5 years. Residual lens epithelial cells proliferate and migrate onto the posterior capsule, causing Elschnig's pearls and fibrous opacification."
+  },
+
+  // IX. Aphakia
+  {
+    section: "IX. Aphakia",
+    q: "Unilateral aphakia is likely to be corrected by any of the following except:",
+    opts: ["Anterior chamber IOL","Posterior chamber IOL","Contact lens","Glasses (Spectacles)"],
+    ans: 3,
+    exp: "<strong>D — Glasses (Spectacles).</strong> Aphakic glasses cause ~25–33% image magnification, which creates unacceptable aniseikonia (>5% difference) in unilateral aphakia, making binocular fusion impossible. IOLs and contact lenses minimize this difference and are the preferred corrections."
+  },
+  {
+    section: null,
+    q: "In Aphakia, the eye becomes:",
+    opts: ["Strongly myopic","Strongly hypermetropic","Emmetropic","Presbyopic only"],
+    ans: 1,
+    exp: "<strong>B — Strongly hypermetropic.</strong> Removal of the crystalline lens (~+18–20 D) leaves the eye strongly hypermetropic (+10 to +12 D), requiring thick plus-powered aphakic glasses, contact lenses, or an IOL for optical correction."
+  },
+  {
+    section: null,
+    q: "Optical disadvantages of aphakic glasses include all except:",
+    opts: ["Magnification of 25-30%","Jack-in-the-box phenomenon","Aniseikonia","Wider field of vision"],
+    ans: 3,
+    exp: "<strong>D — Wider field of vision (this is NOT a disadvantage; it's stated to highlight the exception).</strong> Aphakic glasses actually cause a narrower, ring-scotoma-limited field of vision with a characteristic 'jack-in-the-box' phenomenon (objects appearing suddenly at the edge of the scotoma ring), 25–33% image magnification, and severe aniseikonia in unilateral cases."
+  },
+  {
+    section: null,
+    q: "Treatment of choice in Aphakia is:",
+    opts: ["Posterior chamber IOL","Contact lenses","Spectacles","Anterior chamber IOL"],
+    ans: 0,
+    exp: "<strong>A — Posterior chamber IOL.</strong> A posterior chamber IOL placed in the capsular bag provides the best optical and anatomical outcome — no magnification, no aniseikonia, and no risk of corneal endothelial damage. It is the current gold standard for aphakia correction."
+  }
+];
+
+let state = {}; // key = index, value = {chosen, correct}
+
+function buildQuiz() {
+  state = {};
+  const root = document.getElementById('quiz-root');
+  root.innerHTML = '';
+
+  let currentSection = null;
+
+  questions.forEach((q, i) => {
+    if (q.section && q.section !== currentSection) {
+      currentSection = q.section;
+      const sl = document.createElement('div');
+      sl.className = 'section-label';
+      sl.innerHTML = `<h2>${currentSection}</h2>`;
+      root.appendChild(sl);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `card-${i}`;
+
+    const letters = ['a','b','c','d'];
+    const optionsHtml = q.opts.map((opt, oi) => `
+      <li class="option-item" id="opt-${i}-${oi}">
+        <input type="radio" name="q${i}" id="q${i}o${oi}" value="${oi}" onchange="onSelect(${i}, ${oi})">
+        <label for="q${i}o${oi}">
+          <span class="opt-letter">${letters[oi]}</span>
+          ${opt}
+        </label>
+      </li>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="question-header">
+        <div class="q-num">${i+1}</div>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <ul class="options-list">${optionsHtml}</ul>
+      <button class="check-btn" id="btn-${i}" onclick="checkAnswer(${i})">Check Answer</button>
+      <div class="result-badge" id="badge-${i}"></div>
+      <div class="explanation" id="exp-${i}">${q.exp}</div>
+    `;
+
+    // Wrap in quiz-container div
+    root.appendChild(card);
+  });
+
+  // Wrap all cards
+  updateStats();
+}
+
+function onSelect(qIdx, optIdx) {
+  if (state[qIdx] && state[qIdx].locked) return;
+  document.getElementById(`btn-${qIdx}`).classList.add('visible');
+}
+
+function checkAnswer(qIdx) {
+  const q = questions[qIdx];
+  const selected = document.querySelector(`input[name="q${qIdx}"]:checked`);
+  if (!selected) return;
+  const chosen = parseInt(selected.value);
+  const correct = chosen === q.ans;
+
+  state[qIdx] = { chosen, correct, locked: true };
+
+  const card = document.getElementById(`card-${qIdx}`);
+  card.classList.add('locked');
+  card.classList.add(correct ? 'answered-correct' : 'answered-wrong');
+
+  // Highlight options
+  q.opts.forEach((_, oi) => {
+    const li = document.getElementById(`opt-${qIdx}-${oi}`);
+    if (oi === q.ans) li.classList.add('show-correct');
+    else if (oi === chosen && !correct) li.classList.add('show-wrong');
+  });
+
+  // Badge
+  const badge = document.getElementById(`badge-${qIdx}`);
+  badge.className = `result-badge show ${correct ? 'correct' : 'wrong'}`;
+  badge.innerHTML = correct
+    ? `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Correct!`
+    : `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Incorrect`;
+
+  // Explanation
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+
+  // Hide check button
+  document.getElementById(`btn-${qIdx}`).style.display = 'none';
+
+  updateStats();
+}
+
+function updateStats() {
+  const answered = Object.keys(state).length;
+  const correct = Object.values(state).filter(s => s.correct).length;
+  const wrong = answered - correct;
+  const remaining = questions.length - answered;
+
+  document.getElementById('cnt-correct').textContent = correct;
+  document.getElementById('cnt-wrong').textContent = wrong;
+  document.getElementById('cnt-skip').textContent = remaining;
+  document.getElementById('prog-text').textContent = `${answered} / ${questions.length} answered`;
+  const pct = Math.round((answered / questions.length) * 100);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+}
+
+function submitAll() {
+  // Auto-check all unanswered with nothing selected
+  const answered = Object.keys(state).length;
+  const correct = Object.values(state).filter(s => s.correct).length;
+  const wrong = Object.values(state).filter(s => !s.correct).length;
+  const skipped = questions.length - answered;
+
+  const pct = Math.round((correct / questions.length) * 100);
+  let label = pct >= 80 ? '🎉 Excellent performance!' : pct >= 60 ? '👍 Good — keep revising!' : '📖 Needs more review.';
+
+  document.getElementById('sc-pct').innerHTML = `${pct}<span>%</span>`;
+  document.getElementById('sc-label').textContent = label;
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent = wrong;
+  document.getElementById('sc-skip').textContent = skipped;
+
+  document.getElementById('score-section').classList.add('show');
+  document.getElementById('submit-wrap').style.display = 'none';
+  document.getElementById('score-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function restartQuiz() {
+  document.getElementById('score-section').classList.remove('show');
+  document.getElementById('submit-wrap').style.display = 'block';
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Wrap all cards in a container div after building
+const origBuild = buildQuiz;
+buildQuiz = function() {
+  origBuild();
+  // Already structured correctly
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildQuiz();
+});
+</script>
+</body>
+</html>

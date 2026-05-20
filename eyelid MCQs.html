@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Eyelid MCQs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg-page: #f0f4fa;
+    --bg-card: #ffffff;
+    --header-from: #1a3a6b;
+    --header-to: #2356a0;
+    --accent: #1a6fd4;
+    --gold: #b8860b;
+    --text-dark: #1a2540;
+    --text-mid: #2d4070;
+    --text-muted: #5a6e90;
+    --border-card: #dce6f5;
+    --opt-bg: #f7faff;
+    --opt-border: #e2eaf5;
+    --opt-hover-bg: #e8f0fb;
+    --opt-letter-bg: #e8f0fb;
+    --opt-letter-border: #c5d8f0;
+    --opt-letter-color: #1a6fd4;
+    --selected-bg: #e0edff;
+    --correct: #16a34a;
+    --correct-bg: rgba(22,163,74,0.10);
+    --correct-border: rgba(22,163,74,0.3);
+    --wrong: #dc2626;
+    --wrong-bg: rgba(220,38,38,0.10);
+    --wrong-border: rgba(220,38,38,0.3);
+    --exp-bg: #f0f6ff;
+    --exp-border: #c5d8f0;
+    --progress-track: #dce6f5;
+    --section-color: #1a3a6b;
+    --section-bar: #1a6fd4;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-page);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--header-from) 0%, var(--header-to) 100%);
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .header-icon {
+    width: 48px; height: 48px;
+    background: var(--gold);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 18px rgba(184,134,11,0.35);
+  }
+  .header-icon svg { width: 26px; height: 26px; }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #e8c872;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+  .header-text p {
+    font-size: 0.78rem;
+    color: #a0b8d8;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 32px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--progress-track);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #27ae60);
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ── STATS ── */
+  .stats-bar {
+    max-width: 900px;
+    margin: 14px auto 0;
+    padding: 0 32px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .stat-chip.correct { background: rgba(22,163,74,0.08); color: #16a34a; border: 1px solid rgba(22,163,74,0.25); }
+  .stat-chip.wrong   { background: rgba(220,38,38,0.08);  color: #dc2626; border: 1px solid rgba(220,38,38,0.25); }
+  .stat-chip.remain  { background: rgba(26,58,107,0.07); color: #1a3a6b; border: 1px solid rgba(26,58,107,0.18); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot.c { background: #16a34a; }
+  .dot.w { background: #dc2626; }
+  .dot.r { background: #1a3a6b; }
+
+  /* ── SECTION LABEL ── */
+  .section-wrap {
+    max-width: 900px;
+    margin: 32px auto 0;
+    padding: 0 32px;
+  }
+  .section-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--section-color);
+    font-weight: 700;
+    border-left: 3px solid var(--section-bar);
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* ── QUIZ CONTAINER ── */
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8px 32px 60px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 26px 26px 22px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(26,58,107,0.07);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    border-radius: 16px 0 0 16px;
+  }
+  .question-card:hover { box-shadow: 0 4px 20px rgba(26,58,107,0.12); }
+  .question-card.answered-correct { border-color: rgba(22,163,74,0.3); }
+  .question-card.answered-correct::before { background: linear-gradient(180deg, var(--correct), transparent); }
+  .question-card.answered-wrong   { border-color: rgba(220,38,38,0.3); }
+  .question-card.answered-wrong::before   { background: linear-gradient(180deg, var(--wrong), transparent); }
+
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .q-num {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--header-from), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: white;
+    margin-top: 1px;
+  }
+  .q-text {
+    font-size: 0.96rem;
+    line-height: 1.65;
+    color: var(--text-dark);
+    font-weight: 500;
+  }
+
+  /* ── OPTIONS ── */
+  .options-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .option-item label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--opt-border);
+    background: var(--opt-bg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.89rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .option-item label:hover {
+    background: var(--opt-hover-bg);
+    border-color: var(--accent);
+    color: var(--text-dark);
+  }
+  .option-item input[type="radio"] { display: none; }
+  .opt-letter {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    background: var(--opt-letter-bg);
+    border: 1px solid var(--opt-letter-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--opt-letter-color);
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .option-item input:checked + label {
+    background: var(--selected-bg);
+    border-color: var(--accent);
+    color: var(--text-dark);
+  }
+  .option-item input:checked + label .opt-letter {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* Correct */
+  .option-item.show-correct label {
+    background: var(--correct-bg);
+    border-color: var(--correct);
+    color: #14532d;
+    pointer-events: none;
+  }
+  .option-item.show-correct label .opt-letter {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+  }
+  /* Wrong */
+  .option-item.show-wrong label {
+    background: var(--wrong-bg);
+    border-color: var(--wrong);
+    color: #7f1d1d;
+    pointer-events: none;
+  }
+  .option-item.show-wrong label .opt-letter {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: white;
+  }
+
+  /* Locked */
+  .question-card.locked label { cursor: default; pointer-events: none; }
+  .question-card.locked .option-item label:hover {
+    background: var(--opt-bg);
+    border-color: var(--opt-border);
+    color: var(--text-mid);
+  }
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    margin-top: 14px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--exp-bg);
+    border: 1px solid var(--exp-border);
+    font-size: 0.84rem;
+    line-height: 1.7;
+    color: var(--text-mid);
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: #1a3a6b; font-weight: 700; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── CHECK BUTTON ── */
+  .check-btn {
+    margin-top: 14px;
+    padding: 9px 22px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #1558b0);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.15s;
+    display: none;
+  }
+  .check-btn.visible { display: inline-block; }
+  .check-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── RESULT BADGE ── */
+  .result-badge {
+    display: none;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .result-badge.show { display: flex; }
+  .result-badge.correct { color: var(--correct); }
+  .result-badge.wrong   { color: var(--wrong); }
+
+  /* ── SUBMIT ALL ── */
+  .submit-all-wrap {
+    max-width: 900px;
+    margin: 10px auto 0;
+    padding: 0 32px 40px;
+    text-align: center;
+  }
+  .submit-all-btn {
+    padding: 14px 48px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #b8860b, #d4a017);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 18px rgba(184,134,11,0.25);
+    text-transform: uppercase;
+  }
+  .submit-all-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(184,134,11,0.35); }
+
+  /* ── SCORE CARD ── */
+  #score-section { display: none; max-width: 900px; margin: 24px auto; padding: 0 32px 60px; }
+  #score-section.show { display: block; }
+  .score-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(26,58,107,0.12);
+  }
+  .score-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--header-from);
+    margin-bottom: 6px;
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1;
+    margin: 18px 0 6px;
+  }
+  .score-number span { font-size: 2.5rem; color: var(--text-muted); }
+  .score-label { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .score-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .score-item { padding: 14px 24px; border-radius: 12px; min-width: 95px; }
+  .score-item.c { background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.25); }
+  .score-item.w { background: rgba(220,38,38,0.08);  border: 1px solid rgba(220,38,38,0.25); }
+  .score-item.s { background: rgba(26,58,107,0.07);  border: 1px solid rgba(26,58,107,0.18); }
+  .si-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+  .score-item.c .si-num { color: var(--correct); }
+  .score-item.w .si-num { color: var(--wrong); }
+  .score-item.s .si-num { color: var(--header-from); }
+  .si-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .restart-btn {
+    margin-top: 28px;
+    padding: 12px 36px;
+    border: 2px solid var(--header-from);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--header-from);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .restart-btn:hover { background: var(--header-from); color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1a3a6b;
+    border-top: 1px solid #2356a0;
+    padding: 20px 32px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #a0b8d8;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  footer span { color: #e8c872; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .header-inner, .progress-wrap, .stats-bar, .section-wrap, .quiz-container, #score-section, .submit-all-wrap { padding-left: 14px; padding-right: 14px; }
+    .header-text h1 { font-size: 1.35rem; }
+    .score-number { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-icon">
+      <!-- Eyelid / blink icon -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7"/>
+        <path d="M2 12s3.5 5 10 5 10-5 10-5"/>
+        <line x1="12" y1="17" x2="12" y2="20"/>
+        <line x1="7"  y1="16" x2="5"  y2="18"/>
+        <line x1="17" y1="16" x2="19" y2="18"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Eyelid MCQs</h1>
+      <p>Comprehensive Eyelid Disorders Bank · 41 Questions</p>
+    </div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-text">0 / 41 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-chip correct"><div class="dot c"></div><span id="cnt-correct">0</span> Correct</div>
+  <div class="stat-chip wrong">  <div class="dot w"></div><span id="cnt-wrong">0</span> Wrong</div>
+  <div class="stat-chip remain"> <div class="dot r"></div><span id="cnt-remain">41</span> Remaining</div>
+</div>
+
+<div id="quiz-root"></div>
+
+<div class="submit-all-wrap" id="submit-wrap">
+  <button class="submit-all-btn" onclick="submitAll()">Submit All &amp; See Score</button>
+</div>
+
+<div id="score-section">
+  <div class="score-card">
+    <h2>Quiz Complete</h2>
+    <div class="score-number" id="sc-pct">—<span>%</span></div>
+    <div class="score-label" id="sc-label">—</div>
+    <div class="score-grid">
+      <div class="score-item c"><div class="si-num" id="sc-correct">0</div><div class="si-label">Correct</div></div>
+      <div class="score-item w"><div class="si-num" id="sc-wrong">0</div><div class="si-label">Wrong</div></div>
+      <div class="score-item s"><div class="si-num" id="sc-skip">0</div><div class="si-label">Unanswered</div></div>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">↺ Restart Quiz</button>
+  </div>
+</div>
+
+<footer>
+  Helpers <span>@fmm</span> &nbsp;·&nbsp; All answers scientifically reviewed &nbsp;·&nbsp; For educational use only
+</footer>
+
+<script>
+const TOTAL = 41;
+const questions = [
+
+  // ── Part 1: Anatomy and Physiology ──────────────────────────────────────
+  {
+    section: "Part 1: Anatomy and Physiology of the Eyelids",
+    q: "How many tarsal (Meibomian) glands are typically present in the upper lid?",
+    opts: ["15","25","30 to 40","50"],
+    ans: 2,
+    exp: "<strong>C — 30 to 40.</strong> The upper eyelid contains approximately 30–40 Meibomian (tarsal) glands arranged in a single row within the tarsal plate, while the lower lid has about 20–30. These modified sebaceous glands secrete the lipid layer of the tear film."
+  },
+  {
+    section: null,
+    q: "The primary muscle responsible for opening the eye (lid elevation) is:",
+    opts: ["Muller's muscle","Orbicularis oculi","Levator palpebrae superioris (LPS)","Frontalis muscle"],
+    ans: 2,
+    exp: "<strong>C — Levator palpebrae superioris (LPS).</strong> The LPS is the principal elevator of the upper eyelid, contributing ~12–14 mm of excursion. It is supplied by the superior division of CN III. Müller's muscle provides an additional 2–3 mm under sympathetic tone."
+  },
+  {
+    section: null,
+    q: "The nerve supply to the levator palpebrae superioris muscle is:",
+    opts: ["Oculomotor nerve","Facial nerve","Trigeminal nerve","Abducens nerve"],
+    ans: 0,
+    exp: "<strong>A — Oculomotor nerve (CN III).</strong> The superior division of the oculomotor nerve innervates the LPS. This is why CN III palsy causes ptosis (drooping) alongside a dilated pupil and limitation of eye movement."
+  },
+  {
+    section: null,
+    q: "Closing of the eye is performed by the orbicularis oculi muscle, which is supplied by:",
+    opts: ["3rd cranial nerve","5th cranial nerve","7th cranial nerve","6th cranial nerve"],
+    ans: 2,
+    exp: "<strong>C — 7th cranial nerve (Facial nerve).</strong> The orbicularis oculi is the sphincter of the eyelids and is entirely supplied by the facial nerve (CN VII). Facial nerve palsy leads to lagophthalmos (inability to close the eye), risking corneal exposure."
+  },
+  {
+    section: null,
+    q: "Which part of the orbicularis oculi is known as Horner's muscle?",
+    opts: ["Orbital part","Pre-septal part","Lacrimal part","Pre-tarsal part"],
+    ans: 2,
+    exp: "<strong>C — Lacrimal part.</strong> The lacrimal part of the orbicularis oculi (also called Horner's muscle or Jones' muscle) originates from the lacrimal fascia/posterior lacrimal crest and surrounds the lacrimal sac. Its contraction during blinking creates negative pressure to pump tears into the lacrimal drainage system."
+  },
+  {
+    section: null,
+    q: "The muscle of Riolan is found in the:",
+    opts: ["Eyelid margin (behind the grey line)","Orbital roof","Lacrimal sac wall","Conjunctival fornix"],
+    ans: 0,
+    exp: "<strong>A — Eyelid margin (behind the grey line).</strong> The muscle of Riolan is a narrow bundle of orbicularis fibres at the very lid margin, posterior to the grey line and anterior to the Meibomian gland openings. It helps maintain the posterior lid margin in firm contact with the globe."
+  },
+  {
+    section: null,
+    q: "Muller's muscle (the involuntary elevator) is supplied by:",
+    opts: ["Sympathetic nerves","Parasympathetic nerves","Oculomotor nerve","Facial nerve"],
+    ans: 0,
+    exp: "<strong>A — Sympathetic nerves.</strong> Müller's muscle (superior tarsal muscle) is a smooth muscle supplied by sympathetic fibres from the superior cervical ganglion. Loss of sympathetic tone (Horner's syndrome) causes mild ptosis (~2 mm) and loss of the sympathetic component of lid retraction."
+  },
+  {
+    section: null,
+    q: "The glands of Zeis are:",
+    opts: ["Modified sweat glands","Modified sebaceous glands associated with cilia","Accessory lacrimal glands","Modified mucous glands"],
+    ans: 1,
+    exp: "<strong>B — Modified sebaceous glands associated with cilia.</strong> Zeis glands are sebaceous glands that open directly into the hair follicles of the eyelashes (cilia). Their acute suppurative infection causes a hordeolum externum (external stye), which points at the lid margin near the lash root."
+  },
+  {
+    section: null,
+    q: "The glands of Moll are:",
+    opts: ["Modified sebaceous glands","Modified sweat glands","Accessory lacrimal glands","Meibomian glands"],
+    ans: 1,
+    exp: "<strong>B — Modified sweat glands.</strong> Moll's glands are modified apocrine sweat glands located at the anterior lid margin near the eyelash roots. They may also be involved in hordeolum externum formation alongside Zeis glands."
+  },
+  {
+    section: null,
+    q: "Whitnall's ligament is an anatomical structure associated with:",
+    opts: ["Superior oblique muscle","Levator palpebrae superioris (LPS)","Medial palpebral ligament","Inferior rectus muscle"],
+    ans: 1,
+    exp: "<strong>B — Levator palpebrae superioris (LPS).</strong> Whitnall's ligament (superior transverse ligament) is a condensation of the LPS fascial sheath that acts as a fulcrum/check ligament, changing the vector of pull of the LPS from horizontal to vertical. It is an important landmark in ptosis surgery."
+  },
+  {
+    section: null,
+    q: "The \"Grey line\" of the lid margin is located between:",
+    opts: ["Skin and muscle","Muscle and tarsus","Tarsus and conjunctiva","Orbicularis and Meibomian gland openings"],
+    ans: 3,
+    exp: "<strong>D — Orbicularis (muscle of Riolan) and Meibomian gland openings.</strong> The grey line (intermarginal sulcus) is a subtle, slightly pigmented line on the lid margin representing the junction between the anterior lamella (skin + orbicularis) and posterior lamella (tarsus + conjunctiva). Surgically, splitting along the grey line allows separation of the two lamellae."
+  },
+  {
+    section: null,
+    q: "In a sagittal section of the upper lid, the following structures are encountered from skin to conjunctiva EXCEPT:",
+    opts: ["Skin and subcutaneous tissue","Orbicularis oculi muscle","Substantia propria of cornea","Tarsal plate","Palpebral conjunctiva"],
+    ans: 2,
+    exp: "<strong>C — Substantia propria of cornea.</strong> The cornea is a separate structure; it is not a layer of the eyelid. The correct order from anterior to posterior in the upper eyelid is: skin → subcutaneous tissue → orbicularis oculi → orbital septum / levator aponeurosis → tarsal plate → palpebral conjunctiva."
+  },
+
+  // ── Part 2: Positional and Eyelash Anomalies ────────────────────────────
+  {
+    section: "Part 2: Positional and Eyelash Anomalies",
+    q: "Distichiasis is defined as:",
+    opts: ["Inward misdirection of eyelashes","Accessory row of eyelashes from Meibomian gland openings","Absence of eyelashes","Downward drooping of the lid"],
+    ans: 1,
+    exp: "<strong>B — Accessory row of eyelashes from Meibomian gland openings.</strong> Distichiasis is a congenital or acquired condition where a second (accessory) row of lashes emerges from the Meibomian gland orifices. These aberrant lashes may rub against the cornea causing irritation, unlike trichiasis where normal lashes are misdirected."
+  },
+  {
+    section: null,
+    q: "Trichiasis is characteristically defined as:",
+    opts: ["Extra row of eyelashes","Misdirected eyelashes rubbing against the globe","Whitening of eyelashes","Loss of eyelashes"],
+    ans: 1,
+    exp: "<strong>B — Misdirected eyelashes rubbing against the globe.</strong> In trichiasis, normal lashes from the normal row grow in an abnormal posterior direction, abrading the corneal and conjunctival epithelium. It is commonly caused by trachoma, chronic blepharitis, or cicatricial entropion. Treatment includes epilation, electrolysis, or lid surgery."
+  },
+  {
+    section: null,
+    q: "Madarosis refers to:",
+    opts: ["Extra row of lashes","Loss of eyelashes or eyebrows","Inward turning of the lid","Outward turning of the lid"],
+    ans: 1,
+    exp: "<strong>B — Loss of eyelashes or eyebrows.</strong> Madarosis is the partial or complete loss of eyelashes (milphosis) and/or eyebrows. Causes include leprosy (classic cause), alopecia areata, hypothyroidism, SLE, seborrhoeic dermatitis, and chronic blepharitis."
+  },
+  {
+    section: null,
+    q: "Poliosis is defined as:",
+    opts: ["Absence of lashes","Premature whitening of eyelashes or eyebrows","Redundancy of skin","Misdirected lashes"],
+    ans: 1,
+    exp: "<strong>B — Premature whitening of eyelashes or eyebrows.</strong> Poliosis is localised depigmentation of lashes/brows/hair, appearing as a white tuft. Causes include Vogt–Koyanagi–Harada syndrome, Waardenburg syndrome, sympathetic ophthalmia, chronic anterior uveitis, and alopecia areata."
+  },
+  {
+    section: null,
+    q: "Tylosis is:",
+    opts: ["Drooping of the lid","Thickening of the lid margins","Inversion of the lid margin","Adhesion between the lids"],
+    ans: 1,
+    exp: "<strong>B — Thickening of the lid margins.</strong> Tylosis (tylosis ciliaris) refers to chronic thickening and induration of the eyelid margins, usually from long-standing blepharitis. It can result in loss of lashes, distorted lid architecture, and secondary corneal complications."
+  },
+  {
+    section: null,
+    q: "Coloboma of the eyelid is:",
+    opts: ["Extra skin in the medial canthus","Congenital notch or defect in the lid margin","Absence of the whole eyelid","Inversion of the lid margin"],
+    ans: 1,
+    exp: "<strong>B — Congenital notch or defect in the lid margin.</strong> An eyelid coloboma is a full-thickness congenital defect (notch) in the lid, most commonly affecting the upper lid medially. It can cause corneal exposure and amblyopia. It may be associated with Goldenhar syndrome or facial clefting."
+  },
+  {
+    section: null,
+    q: "Epicanthus is a congenital vertical skin fold located at:",
+    opts: ["The lateral canthus","The medial canthus","The center of the upper lid","The lower lid margin"],
+    ans: 1,
+    exp: "<strong>B — The medial canthus.</strong> Epicanthus is a vertical or oblique skin fold overlying the medial canthus, partially covering the inner corner of the eye. It is normal in East Asian populations and in infants (epicanthus inversus); pathological forms occur in Down syndrome and other chromosomal conditions. It can cause pseudo-esotropia."
+  },
+  {
+    section: null,
+    q: "Symblepharon is an adhesion between:",
+    opts: ["Upper and lower lid margins","Eyelid and the eyeball","Tarsus and the skin","Punctum and the canaliculus"],
+    ans: 1,
+    exp: "<strong>B — Eyelid and the eyeball.</strong> Symblepharon is an abnormal adhesion between the palpebral conjunctiva of the eyelid and the bulbar conjunctiva of the globe. Common causes include chemical burns, Stevens–Johnson syndrome, ocular pemphigoid, and trachoma. It restricts ocular motility and may cause dry eye."
+  },
+
+  // ── Part 3: Ptosis ───────────────────────────────────────────────────────
+  {
+    section: "Part 3: Ptosis (Drooping of the Eyelid)",
+    q: "Ptosis with a dilated pupil (Mydriasis) suggests:",
+    opts: ["Horner's syndrome","3rd cranial nerve palsy","Myasthenia gravis","7th cranial nerve palsy"],
+    ans: 1,
+    exp: "<strong>B — 3rd cranial nerve palsy.</strong> CN III supplies the LPS (ptosis) and the sphincter pupillae via parasympathetic fibres (mydriasis if lost). Together with limitation of adduction, elevation and depression plus exotropia, this classic triad points to an oculomotor nerve palsy — a surgical emergency when caused by a posterior communicating artery aneurysm."
+  },
+  {
+    section: null,
+    q: "Ptosis with a constricted pupil (Miosis) is diagnostic of:",
+    opts: ["3rd nerve palsy","Horner's syndrome","4th nerve palsy","6th nerve palsy"],
+    ans: 1,
+    exp: "<strong>B — Horner's syndrome.</strong> Interruption of the oculo-sympathetic pathway causes the classic triad: ptosis (Müller's muscle), miosis (dilator pupillae), and anhidrosis. Lower lid elevation ('upside-down ptosis') and enophthalmos are additional features. Causes include Pancoast tumour, carotid dissection, and brainstem lesions."
+  },
+  {
+    section: null,
+    q: "Marcus Gunn jaw-winking phenomenon is a type of:",
+    opts: ["Myogenic ptosis","Synkinetic ptosis","Paralytic ptosis","Mechanical ptosis"],
+    ans: 1,
+    exp: "<strong>B — Synkinetic ptosis.</strong> Marcus Gunn jaw-winking is a congenital synkinesis where the ptotic eyelid 'winks' open when the jaw moves (due to aberrant connections between CN V motor fibres to the pterygoid muscles and CN III fibres to the LPS). It accounts for ~5% of congenital ptosis."
+  },
+  {
+    section: null,
+    q: "In Myasthenia Gravis, the ptosis is characterized by:",
+    opts: ["Constancy throughout the day","Variability and fatigue (worsens with use)","Association with pupillary changes","Presence since birth"],
+    ans: 1,
+    exp: "<strong>B — Variability and fatigue (worsens with use).</strong> MG ptosis is classic for diurnal variation — worse in the evening/with sustained upgaze (Cogan's lid twitch, ice pack test positive). The pupil is always spared (neuromuscular junction disease, not autonomic). Tensilon (edrophonium) test and anti-AChR antibodies confirm the diagnosis."
+  },
+  {
+    section: null,
+    q: "For severe congenital ptosis with very poor levator function (0–4 mm), the procedure of choice is:",
+    opts: ["Levator resection","Fasanella-Servat operation","Frontalis sling (suspension) operation","Blaskovics operation"],
+    ans: 2,
+    exp: "<strong>C — Frontalis sling (suspension) operation.</strong> When levator function is ≤4 mm, the levator is functionally useless for elevation. A frontalis sling (using fascia lata, silicone rod, or suture material) directly harnesses the frontalis muscle to elevate the lid, bypassing the non-functional levator."
+  },
+  {
+    section: null,
+    q: "Fasanella-Servat operation is indicated for:",
+    opts: ["Severe ptosis with no levator function","Mild ptosis (Horner's or mild congenital)","Myasthenia gravis","3rd nerve palsy"],
+    ans: 1,
+    exp: "<strong>B — Mild ptosis (Horner's or mild congenital).</strong> The Fasanella–Servat procedure resects a small amount of conjunctiva, Müller's muscle, and the upper border of the tarsus, achieving ~2–3 mm of lid elevation. It is ideal for mild ptosis with good levator function, particularly Horner's syndrome."
+  },
+  {
+    section: null,
+    q: "Bell's phenomenon is used to assess the risk of:",
+    opts: ["Glaucoma","Post-operative exposure keratopathy after ptosis surgery","Retinal detachment","Optic atrophy"],
+    ans: 1,
+    exp: "<strong>B — Post-operative exposure keratopathy after ptosis surgery.</strong> Bell's phenomenon is the reflex upward and outward rotation of the globe on attempted eyelid closure. A positive (present) Bell's phenomenon protects the cornea if lagophthalmos occurs post-operatively. An absent Bell's phenomenon significantly raises the risk of corneal exposure damage."
+  },
+  {
+    section: null,
+    q: "Mild ptosis is defined as a drooping of:",
+    opts: ["2 mm","3 mm","4 mm","More than 5 mm"],
+    ans: 0,
+    exp: "<strong>A — 2 mm.</strong> The standard classification of ptosis by degree is: mild = 2 mm (MRD1 of 3–4 mm), moderate = 3 mm (MRD1 of 2 mm), severe = 4 mm or more (MRD1 of 1 mm or less). This guides surgical planning and urgency."
+  },
+
+  // ── Part 4: Entropion, Ectropion and Lagophthalmos ───────────────────────
+  {
+    section: "Part 4: Entropion, Ectropion and Lagophthalmos",
+    q: "The most common cause of cicatricial entropion is:",
+    opts: ["Old age","Trachoma","Acute conjunctivitis","High myopia"],
+    ans: 1,
+    exp: "<strong>B — Trachoma.</strong> Trachoma (Chlamydia trachomatis) causes progressive conjunctival scarring (Herbert's pits, Arlt's line) that contracts the posterior lamella, inverting the upper lid margin — causing cicatricial entropion and trichiasis. It is the leading infectious cause of preventable blindness worldwide."
+  },
+  {
+    section: null,
+    q: "Spastic entropion most commonly affects the:",
+    opts: ["Upper lid","Lower lid","Both lids equally","Medial canthus"],
+    ans: 1,
+    exp: "<strong>B — Lower lid.</strong> Spastic (involuntary/acute) entropion is almost exclusively a lower lid condition in elderly patients. It results from lid laxity combined with overriding of the pre-tarsal orbicularis by the pre-septal orbicularis, often precipitated by ocular irritation or surgery."
+  },
+  {
+    section: null,
+    q: "Lagophthalmos is the inability to close the eye, caused by paralysis of:",
+    opts: ["3rd cranial nerve","7th cranial nerve","5th cranial nerve","4th cranial nerve"],
+    ans: 1,
+    exp: "<strong>B — 7th cranial nerve (Facial nerve).</strong> The orbicularis oculi (the eye-closing muscle) is innervated by CN VII. Facial nerve palsy at any level causes lagophthalmos — incomplete eyelid closure — with resultant corneal exposure, dryness, and risk of exposure keratopathy."
+  },
+  {
+    section: null,
+    q: "Ectropion of the lower lid with epiphora in an elderly person is usually:",
+    opts: ["Spastic","Senile (Involutional)","Cicatricial","Paralytic"],
+    ans: 1,
+    exp: "<strong>B — Senile (Involutional).</strong> Involutional (senile/atonic) ectropion is the most common type in the elderly, caused by progressive laxity of the lower lid retractors, tarsal plate, medial and lateral canthal tendons. The everted punctum fails to drain tears, causing epiphora. Treatment is surgical lid tightening."
+  },
+  {
+    section: null,
+    q: "Cicatricial ectropion of the upper lid follows:",
+    opts: ["Trachoma","Burns or trauma to the skin of the lid","Facial nerve palsy","Senility"],
+    ans: 1,
+    exp: "<strong>B — Burns or trauma to the skin of the lid.</strong> Cicatricial ectropion results from scarring and contraction of the anterior lamella (skin), pulling the lid away from the globe. Chemical or thermal burns, trauma, and skin grafting are the most common causes. Upper lid involvement is less common and almost always cicatricial."
+  },
+  {
+    section: null,
+    q: "Epiphora in facial palsy is mostly due to:",
+    opts: ["Paralytic ectropion","Lagophthalmos","Lacrimal pump failure","Reflex hypersecretion"],
+    ans: 2,
+    exp: "<strong>C — Lacrimal pump failure.</strong> The lacrimal pump mechanism depends on the coordinated blinking action of the orbicularis oculi (especially Horner's muscle around the lacrimal sac). In facial palsy, paralysis of the orbicularis abolishes the pumping action, so tears overflow despite the lacrimal drainage system being anatomically intact."
+  },
+
+  // ── Part 5: Inflammations and Clinical Signs ─────────────────────────────
+  {
+    section: "Part 5: Inflammations and Clinical Signs",
+    q: "Hordeolum externum (Stye) is an acute suppurative inflammation of:",
+    opts: ["Meibomian gland","Zeis or Moll glands","Wolfring glands","Krause glands"],
+    ans: 1,
+    exp: "<strong>B — Zeis or Moll glands.</strong> A stye (external hordeolum) is an acute staphylococcal abscess of the Zeis (sebaceous) or Moll (sweat) glands at the anterior lid margin, pointing externally at the lash base. Contrast with internal hordeolum (Meibomian gland abscess) which points internally through the conjunctiva."
+  },
+  {
+    section: null,
+    q: "Hordeolum internum is an acute suppurative inflammation of:",
+    opts: ["Zeis gland","Meibomian gland","Lacrimal gland","Moll gland"],
+    ans: 1,
+    exp: "<strong>B — Meibomian gland.</strong> An internal hordeolum is an acute staphylococcal abscess of the Meibomian gland within the tarsal plate. It is larger and more painful than an external stye, points through the palpebral conjunctiva, and can leave a residual chalazion (granuloma) if inadequately treated."
+  },
+  {
+    section: null,
+    q: "Chalazion is a chronic inflammatory granuloma of:",
+    opts: ["Moll gland","Meibomian gland","Zeis gland","Sweat gland"],
+    ans: 1,
+    exp: "<strong>B — Meibomian gland.</strong> A chalazion is a sterile, chronic lipogranulomatous inflammation of a Meibomian gland, caused by obstruction of its orifice with subsequent lipid extravasation triggering a foreign-body giant-cell reaction. It presents as a painless firm nodule in the tarsal plate and is treated by incision and curettage (I&C)."
+  },
+  {
+    section: null,
+    q: "Ulcerative blepharitis is characterized by:",
+    opts: ["Greasy scales on the lid margin","Yellow crusts which leave bleeding ulcers when removed","Absence of pain","Association with high myopia"],
+    ans: 1,
+    exp: "<strong>B — Yellow crusts which leave bleeding ulcers when removed.</strong> Ulcerative (staphylococcal) blepharitis is characterised by hard, yellow, fibrinous crusts matted around the lash bases. When removed they leave raw, bleeding ulcers. It leads to lash loss (madarosis), notching of the lid margin, and chronic conjunctivitis."
+  },
+  {
+    section: null,
+    q: "Squamous blepharitis is characterized by:",
+    opts: ["Bleeding ulcers","Greasy white scales (dandruff) on the lid margin","Purulent discharge","Subcutaneous nodules"],
+    ans: 1,
+    exp: "<strong>B — Greasy white scales (dandruff) on the lid margin.</strong> Squamous (seborrhoeic) blepharitis is characterised by soft, greasy, white/grey scales (scurf) on the lid margins and lashes, associated with seborrhoeic dermatitis of the scalp. The lashes are intact and the margin does not ulcerate. Treatment includes lid hygiene and antidandruff shampoo."
+  },
+  {
+    section: null,
+    q: "Redundant skin of the upper eyelid in elderly patients is called:",
+    opts: ["Blepharochalasis","Dermatochalasis","Cryptophthalmos","Epicanthus"],
+    ans: 1,
+    exp: "<strong>B — Dermatochalasis.</strong> Dermatochalasis is age-related redundancy of upper (and/or lower) eyelid skin and orbicularis, due to loss of elasticity. The excess skin may overhang the lid margin, causing mechanical ptosis, superior visual field loss, and dermatitis in skin folds. Correction is by blepharoplasty. (Blepharochalasis is a different — and rarer — condition of recurrent angioedematous attacks causing thin, wrinkled, atrophic skin, usually in young patients.)"
+  },
+  {
+    section: null,
+    q: "\"S\" shaped deformity of the upper lid is seen in:",
+    opts: ["Chalazion","Plexiform neuroma or Lacrimal gland tumor","Hordeolum externum","Entropion"],
+    ans: 1,
+    exp: "<strong>B — Plexiform neuroma or Lacrimal gland tumor.</strong> The characteristic S-shaped (sigmoid) contour of the upper lid occurs when a mass deforms the lid in two directions: a temporal fullness (from the lesion) and a compensatory nasal elevation. Plexiform neurofibroma (NF-1) is the classic cause; lacrimal gland tumours (especially pleomorphic adenoma) also produce this sign."
+  }
+
+];
+
+let state = {};
+
+function buildQuiz() {
+  state = {};
+  const root = document.getElementById('quiz-root');
+  root.innerHTML = '';
+  let currentSection = null;
+  const letters = ['a','b','c','d','e'];
+
+  questions.forEach((q, i) => {
+    if (q.section && q.section !== currentSection) {
+      currentSection = q.section;
+      const sw = document.createElement('div');
+      sw.className = 'section-wrap';
+      sw.innerHTML = `<h2>${currentSection}</h2>`;
+      root.appendChild(sw);
+    }
+
+    // container
+    const wrap = document.createElement('div');
+    wrap.className = 'quiz-container';
+    wrap.style.paddingTop = '0';
+    wrap.style.paddingBottom = '0';
+    wrap.style.marginBottom = '0';
+
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `card-${i}`;
+
+    const optionsHtml = q.opts.map((opt, oi) => `
+      <li class="option-item" id="opt-${i}-${oi}">
+        <input type="radio" name="q${i}" id="q${i}o${oi}" value="${oi}" onchange="onSelect(${i})">
+        <label for="q${i}o${oi}">
+          <span class="opt-letter">${letters[oi]}</span>${opt}
+        </label>
+      </li>`).join('');
+
+    card.innerHTML = `
+      <div class="question-header">
+        <div class="q-num">${i+1}</div>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <ul class="options-list">${optionsHtml}</ul>
+      <button class="check-btn" id="btn-${i}" onclick="checkAnswer(${i})">Check Answer</button>
+      <div class="result-badge" id="badge-${i}"></div>
+      <div class="explanation" id="exp-${i}">${q.exp}</div>`;
+
+    wrap.appendChild(card);
+    root.appendChild(wrap);
+  });
+
+  updateStats();
+}
+
+function onSelect(qIdx) {
+  if (state[qIdx] && state[qIdx].locked) return;
+  document.getElementById(`btn-${qIdx}`).classList.add('visible');
+}
+
+function checkAnswer(qIdx) {
+  const q = questions[qIdx];
+  const selected = document.querySelector(`input[name="q${qIdx}"]:checked`);
+  if (!selected) return;
+  const chosen = parseInt(selected.value);
+  const correct = chosen === q.ans;
+  state[qIdx] = { chosen, correct, locked: true };
+
+  const card = document.getElementById(`card-${qIdx}`);
+  card.classList.add('locked', correct ? 'answered-correct' : 'answered-wrong');
+
+  q.opts.forEach((_, oi) => {
+    const li = document.getElementById(`opt-${qIdx}-${oi}`);
+    if (oi === q.ans) li.classList.add('show-correct');
+    else if (oi === chosen && !correct) li.classList.add('show-wrong');
+  });
+
+  const badge = document.getElementById(`badge-${qIdx}`);
+  badge.className = `result-badge show ${correct ? 'correct' : 'wrong'}`;
+  badge.innerHTML = correct
+    ? `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Correct!`
+    : `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Incorrect`;
+
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  document.getElementById(`btn-${qIdx}`).style.display = 'none';
+  updateStats();
+}
+
+function updateStats() {
+  const answered = Object.keys(state).length;
+  const correct  = Object.values(state).filter(s => s.correct).length;
+  const wrong    = answered - correct;
+  const remain   = TOTAL - answered;
+  document.getElementById('cnt-correct').textContent = correct;
+  document.getElementById('cnt-wrong').textContent   = wrong;
+  document.getElementById('cnt-remain').textContent  = remain;
+  document.getElementById('prog-text').textContent   = `${answered} / ${TOTAL} answered`;
+  const pct = Math.round((answered / TOTAL) * 100);
+  document.getElementById('prog-pct').textContent    = pct + '%';
+  document.getElementById('prog-fill').style.width   = pct + '%';
+}
+
+function submitAll() {
+  const answered = Object.keys(state).length;
+  const correct  = Object.values(state).filter(s => s.correct).length;
+  const wrong    = answered - correct;
+  const skipped  = TOTAL - answered;
+  const pct = Math.round((correct / TOTAL) * 100);
+  const label = pct >= 80 ? '🎉 Excellent performance!' : pct >= 60 ? '👍 Good — keep revising!' : '📖 Needs more review.';
+
+  document.getElementById('sc-pct').innerHTML = `${pct}<span>%</span>`;
+  document.getElementById('sc-label').textContent = label;
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent   = wrong;
+  document.getElementById('sc-skip').textContent    = skipped;
+
+  document.getElementById('score-section').classList.add('show');
+  document.getElementById('submit-wrap').style.display = 'none';
+  document.getElementById('score-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function restartQuiz() {
+  document.getElementById('score-section').classList.remove('show');
+  document.getElementById('submit-wrap').style.display = 'block';
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener('DOMContentLoaded', buildQuiz);
+</script>
+</body>
+</html>

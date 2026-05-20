@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glaucoma MCQs Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .score-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: var(--success-color) !important;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: var(--error-color) !important;
+            color: #721c24;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Glaucoma MCQs</header>
+
+    <main>
+        <div class="score-container">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </main>
+
+    <footer>Helpers @fmm edit</footer>
+
+    <script>
+        const quizData = [
+            // SECTION 1: GENERAL DIAGNOSIS & TONOMETRY
+            {
+                section: "Section 1: General Diagnosis & Tonometry",
+                question: "1. The normal range of intraocular pressure (IOP) is generally recognized as:",
+                options: ["A. 5-15 mmHg", "B. 10-21 mmHg", "C. 15-25 mmHg", "D. 20-30 mmHg"],
+                correct: 1
+            },
+            {
+                question: "2. Tonometry is a clinical test used specifically to measure:",
+                options: ["A. Visual acuity", "B. Corneal thickness", "C. Angle of the anterior chamber", "D. Intraocular pressure"],
+                correct: 3
+            },
+            {
+                question: "3. Which of the following is considered the \"gold standard\" instrumentation method for measuring IOP?",
+                options: ["A. Schiotz tonometer", "B. Goldmann applanation tonometer", "C. Non-contact (Air-puff) tonometer", "D. Digital palpation (finger tension)"],
+                correct: 1
+            },
+            {
+                question: "4. Fincham's test is used to clinically differentiate glaucoma halos from those caused by:",
+                options: ["A. Conjunctivitis", "B. Cataract", "C. Retinal detachment", "D. Corneal ulcer"],
+                correct: 1
+            },
+            {
+                question: "5. Rainbow halos around lights are a characteristic clinical symptom of:",
+                options: ["A. Acute congestive glaucoma", "B. Early nuclear cataract", "C. Mucopurulent conjunctivitis", "D. All of the above"],
+                correct: 3
+            },
+            {
+                question: "6. In glaucoma, the symptomatic halos observed around lights:",
+                options: ["A. Persist when a stenopeic slit is passed across the pupil", "B. Disappear when a stenopeic slit is passed across the pupil", "C. Become significantly larger in dark conditions", "D. Change into a single fixed bright spot"],
+                correct: 0
+            },
+            {
+                question: "7. The diurnal variation of IOP in a normal individual is typically within:",
+                options: ["A. 2-5 mmHg", "B. 5-10 mmHg", "C. 10-15 mmHg", "D. No variation occurs"],
+                correct: 0
+            },
+
+            // SECTION 2: PATHOPHYSIOLOGY & ANATOMICAL STRUCTURES
+            {
+                section: "Section 2: Pathophysiology & Anatomical Structures",
+                question: "8. Aqueous humor production takes place specifically at the ciliary body via the:",
+                options: ["A. Pigmented epithelial cells", "B. Non-pigmented epithelial cells", "C. Stromal blood vessels", "D. Ciliary muscle fibers"],
+                correct: 1
+            },
+            {
+                question: "9. Glaucoma is best defined pathologically as a triad or condition involving:",
+                options: ["A. High IOP alone without any associated changes", "B. Sudden transient loss of vision with normal optic nerves", "C. Progressive optic neuropathy with characteristic visual field defects where IOP is a key risk factor", "D. Non-progressive excavation of the disc without functional defects"],
+                correct: 2
+            },
+            {
+                question: "10. In the examination of the anterior chamber angle structures during gonioscopy, which of the following represents the correct anatomical order from posterior to anterior?",
+                options: ["A. Ciliary body band, Scleral spur, Trabecular meshwork, Schwalbe's line", "B. Schwalbe's line, Trabecular meshwork, Scleral spur, Ciliary body band", "C. Trabecular meshwork, Schwalbe's line, Ciliary body band, Scleral spur", "D. Scleral spur, Ciliary body band, Schwalbe's line, Trabecular meshwork"],
+                correct: 0
+            },
+
+            // SECTION 3: CLINICAL FORMS & RISK FACTORS
+            {
+                section: "Section 3: Clinical Forms & Risk Factors",
+                question: "11. High axial Myopia is an established systemic/ocular risk factor closely associated with:",
+                options: ["A. Primary open-angle glaucoma (POAG)", "B. Primary angle-closure glaucoma (PACG)", "C. Neovascular glaucoma", "D. Acute angle-closure crisis"],
+                correct: 0
+            },
+            {
+                question: "12. Hypermetropia (short axial length eyes) predisposes patients characteristically to:",
+                options: ["A. Primary open-angle glaucoma (POAG)", "B. Primary angle-closure glaucoma (PACG)", "C. Normal tension glaucoma", "D. Juvenile open-angle glaucoma"],
+                correct: 1
+            },
+            {
+                question: "13. Which patient profile represents the classic high-risk combination for Primary Open Angle Glaucoma?",
+                options: ["A. Young hyperopic male with clear lenses", "B. 50-year-old Black female with myopia and a positive family history", "C. 60-year-old Asian female with a shallow anterior chamber", "D. Infant presenting with dynamic epiphora"],
+                correct: 1
+            },
+            {
+                question: "14. Which patient profile fits the high-risk demographic criteria for Primary Angle Closure Glaucoma?",
+                options: ["A. Young myopic male with family history of retinal breaks", "B. 60-year-old Asian female with a shallow anterior chamber, hypermetropia, and a thick lens", "C. Middle-aged individual with normal central corneal thickness", "D. Infant with congenital megalocornea"],
+                correct: 1
+            },
+
+            // SECTION 4: CONGENITAL GLAUCOMA (BUPHTHALMOS)
+            {
+                section: "Section 4: Congenital Glaucoma (Buphthalmos)",
+                question: "15. In Buphthalmos (congenital glaucoma), a pathognomonic diagnostic sign is a horizontal corneal diameter greater than:",
+                options: ["A. 9 mm", "B. 10.5 mm", "C. 12 mm", "D. 14 mm"],
+                correct: 2
+            },
+            {
+                question: "16. Congenital glaucoma is primarily managed as a:",
+                options: ["A. Purely medical condition treated with lifelong miotics", "B. Surgical condition where the definitive intervention depends on corneal haziness", "C. Condition resolving spontaneously over time", "D. Contraindication to any form of structural filtration"],
+                correct: 1
+            },
+            {
+                question: "17. If a child with congenital glaucoma presents with a clear cornea, the surgical procedure of choice is:",
+                options: ["A. Trabeculotomy", "B. Goniotomy", "C. Cyclophotocoagulation", "D. Enucleation"],
+                correct: 1
+            },
+            {
+                question: "18. If a child with congenital glaucoma presents with a hazy/cloudy cornea that limits visualization of the angle, the surgical procedure chosen is:",
+                options: ["A. Goniotomy", "B. Trabeculotomy", "C. Prolonged systemic acetazolamide therapy alone", "D. High-dose topical pilocarpine monotherapy"],
+                correct: 1
+            },
+
+            // SECTION 5: VISUAL FIELD CHANGES & EMERGENCIES
+            {
+                section: "Section 5: Visual Field Changes & Emergencies",
+                question: "19. Which of the following describes an early perimetric central field change associated with glaucoma?",
+                options: ["A. Total macular loss", "B. Bitemporal hemianopia", "C. Baring of the blind spot and isolated paracentral scotomas", "D. Homonymous quadrantanopia"],
+                correct: 2
+            },
+            {
+                question: "20. The classic arcuate visual field defect that develops in glaucoma by tracing nerve fiber pathways is known as a:",
+                options: ["A. Seidel scotoma", "B. Bjerrum scotoma", "C. Ring scotoma", "D. Altitudinal defect"],
+                correct: 1
+            },
+            {
+                question: "21. Acute angle-closure glaucoma represents a major medical emergency. If the IOP remains significantly elevated (e.g., > 50 mmHg) for more than 48 hours, it will rapidly lead to:",
+                options: ["A. Cortical cataract", "B. Neovascularization of the iris", "C. Irreversible Optic Atrophy", "D. Retinal detachment induction"],
+                correct: 2
+            },
+            {
+                question: "22. Initial systemic emergency management to reduce intraocular pressure in acute angle-closure glaucoma includes:",
+                options: ["A. Intravenous osmotic agents (e.g., Mannitol) and Carbonic Anhydrase Inhibitors (Acetazolamide)", "B. High-dose systemic corticosteroids exclusively", "C. Intravenous atropine administration", "D. Epinephrine drops and dynamic dilation"],
+                correct: 0
+            },
+            {
+                question: "23. If an acute angle-closure crisis is successfully broken medically and gonioscopy reveals peripheral anterior synechiae (PAS) involving less than 50% of the angle, the definitive treatment is:",
+                options: ["A. Sub-scleral trabeculectomy", "B. Peripheral YAG laser iridotomy", "C. Lifelong systemic Mannitol infusions", "D. Scleral buckling"],
+                correct: 1
+            },
+            {
+                question: "24. If extensive peripheral anterior synechiae (PAS > 50%) remain after controlling an acute attack, the required intervention is:",
+                options: ["A. Gonioscopy repeat therapy every 2 days only", "B. External fistulizing surgery (e.g., sub-scleral trabeculectomy)", "C. Atropine drops three times daily", "D. Total cyclodialysis without filtration"],
+                correct: 1
+            },
+            {
+                question: "25. Following an episode of unilateral acute primary angle-closure glaucoma, management of the contralateral (fellow) eye requires:",
+                options: ["A. Regular observation without intervention", "B. Mandatory prophylactic laser peripheral iridotomy", "C. Immediate filtration surgery", "D. Chronic lifelong miotics drop schedule"],
+                correct: 1
+            }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        document.getElementById('total').textContent = quizData.length;
+
+        function loadQuiz() {
+            let currentSection = "";
+
+            quizData.forEach((q, qIndex) => {
+                if (q.section && q.section !== currentSection) {
+                    currentSection = q.section;
+                    const sectionHeading = document.createElement('div');
+                    sectionHeading.className = 'section-title';
+                    sectionHeading.textContent = currentSection;
+                    quizContainer.appendChild(sectionHeading);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.textContent = q.question;
+                card.appendChild(questionEl);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+
+                q.options.forEach((option, oIndex) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.addEventListener('click', () => handleAnswer(qIndex, oIndex, optionsContainer));
+                    optionsContainer.appendChild(button);
+                });
+
+                card.appendChild(optionsContainer);
+                quizContainer.appendChild(card);
+            });
+        }
+
+        function handleAnswer(questionIndex, selectedIndex, container) {
+            const buttons = container.querySelectorAll('.option-btn');
+            const correctIndex = quizData[questionIndex].correct;
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[selectedIndex].classList.add('wrong');
+                buttons[correctIndex].classList.add('correct');
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

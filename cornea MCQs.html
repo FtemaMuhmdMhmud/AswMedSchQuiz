@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cornea MCQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f9fc;
+    --border: #e2e8f0;
+    --primary: #1a3a5c;
+    --accent: #2d7dd2;
+    --green: #16a34a;
+    --red: #dc2626;
+    --text: #1e293b;
+    --muted: #64748b;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+  header { background: var(--primary); color: white; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(26,58,92,0.25); }
+  .header-left h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+  .header-left p { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
+  .score-board { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 12px 20px; text-align: center; }
+  .score-board .score-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .score-board .score-label { font-size: 0.72rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  .progress-wrap { background: #e2e8f0; height: 4px; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #60a5fa); transition: width 0.4s ease; }
+
+  .part-header { background: var(--surface); border-left: 4px solid var(--accent); margin: 36px 40px 20px; padding: 14px 20px; border-radius: 0 8px 8px 0; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .part-header h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--primary); font-weight: 700; }
+
+  .questions-container { flex: 1; padding: 0 40px 40px; max-width: 900px; width: 100%; margin: 0 auto; }
+
+  .q-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; transition: box-shadow 0.2s; }
+  .q-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .q-card.answered-correct { border-color: #86efac; background: #f0fdf4; }
+  .q-card.answered-wrong { border-color: #fca5a5; background: #fff5f5; }
+
+  .q-header { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px 14px; }
+  .q-num { background: var(--primary); color: white; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem; min-width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .q-text { font-size: 0.97rem; font-weight: 600; line-height: 1.5; color: var(--text); padding-top: 5px; }
+
+  .options { padding: 0 20px 16px 68px; display: flex; flex-direction: column; gap: 8px; }
+  .option-btn { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1.5px solid var(--border); background: white; border-radius: 8px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; color: var(--text); text-align: left; transition: all 0.15s ease; }
+  .option-btn:hover:not(:disabled) { border-color: var(--accent); background: #eff6ff; transform: translateX(3px); }
+  .option-btn:disabled { cursor: default; }
+  .option-btn.correct { border-color: var(--green); background: #dcfce7; color: #15803d; font-weight: 600; }
+  .option-btn.wrong { border-color: var(--red); background: #fee2e2; color: #b91c1c; }
+  .option-btn.reveal-correct { border-color: var(--green); background: #dcfce7; color: #15803d; font-weight: 600; }
+
+  .option-letter { font-weight: 700; font-size: 0.8rem; min-width: 22px; height: 22px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+  .option-btn.correct .option-letter, .option-btn.reveal-correct .option-letter { background: var(--green); color: white; border-color: var(--green); }
+  .option-btn.wrong .option-letter { background: var(--red); color: white; border-color: var(--red); }
+
+  .explanation { margin: 0 20px 16px 68px; padding: 12px 16px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.88rem; color: #92400e; line-height: 1.6; display: none; }
+  .explanation.visible { display: block; animation: fadeIn 0.3s ease; }
+  .explanation strong { color: #78350f; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .result-badge { padding: 0 20px 14px 68px; font-size: 0.82rem; font-weight: 600; display: none; }
+  .result-badge.visible { display: flex; align-items: center; gap: 6px; }
+  .result-badge.correct-badge { color: var(--green); }
+  .result-badge.wrong-badge { color: var(--red); }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.85); padding: 20px 40px; text-align: center; font-size: 0.82rem; letter-spacing: 0.5px; }
+  footer span { opacity: 0.55; }
+  footer strong { color: white; }
+
+  .summary-bar { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 40px; display: flex; gap: 24px; align-items: center; font-size: 0.85rem; color: var(--muted); }
+  .summary-bar .stat { display: flex; align-items: center; gap: 6px; }
+  .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-gray { background: #94a3b8; }
+  .reset-btn { margin-left: auto; background: var(--primary); color: white; border: none; border-radius: 7px; padding: 7px 18px; font-size: 0.82rem; font-family: 'Source Sans 3', sans-serif; cursor: pointer; font-weight: 600; transition: background 0.15s; }
+  .reset-btn:hover { background: var(--accent); }
+
+  .part-section { max-width: 900px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Cornea MCQ</h1>
+    <p>Comprehensive Cornea Question Bank</p>
+  </div>
+  <div class="score-board">
+    <div class="score-num" id="score-display">0 / 0</div>
+    <div class="score-label">Score</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+
+<div class="summary-bar">
+  <div class="stat"><div class="stat-dot dot-green"></div> Correct: <strong id="stat-correct">0</strong></div>
+  <div class="stat"><div class="stat-dot dot-red"></div> Wrong: <strong id="stat-wrong">0</strong></div>
+  <div class="stat"><div class="stat-dot dot-gray"></div> Unanswered: <strong id="stat-unanswered">44</strong></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reset All</button>
+</div>
+
+<div id="app"></div>
+
+<footer>
+  <strong>Helpers @fmm</strong> &nbsp;|&nbsp; <span>Aswan Faculty of Medicine — Ophthalmology Question Bank</span>
+</footer>
+
+<script>
+const questions = [
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Irrespective of the etiology of a corneal ulcer, the drug always indicated is:",
+    options: ["Corticosteroids","Cycloplegics","Antibiotics","Antifungals"],
+    answer: 1,
+    explanation: "<strong>Cycloplegics</strong> (e.g., atropine) are indicated in <em>all</em> corneal ulcers regardless of cause — they relieve painful ciliary spasm and prevent posterior synechiae. Antibiotics are often given but depend on etiology; steroids and antifungals are not universal."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Corneal sensations are diminished in:",
+    options: ["Herpes simplex","Conjunctivitis","Fungal infections","Marginal keratitis"],
+    answer: 0,
+    explanation: "<strong>Herpes simplex keratitis</strong> causes corneal hypoesthesia (reduced sensation) because HSV-1 travels via the trigeminal nerve and causes neurotrophic damage to corneal nerve fibers. This is a classic and diagnostically important feature."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "The color of fluorescein staining in corneal ulcer is:",
+    options: ["Yellow","Blue","Green","Royal blue"],
+    answer: 2,
+    explanation: "Fluorescein dye stains areas of epithelial defect <strong>green</strong> when viewed under cobalt blue light (blue light excites the dye to emit green fluorescence). This is the standard method to identify corneal ulcers."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Topical steroids are contraindicated in viral corneal ulcer for fear of:",
+    options: ["Secondary glaucoma","Cortical cataract","Corneal perforation","Secondary viral infection"],
+    answer: 2,
+    explanation: "<strong>Corneal perforation</strong> is the main danger. Steroids suppress the immune response, allowing viral replication to continue unchecked and collagenase activity to increase — leading to stromal melting and ultimately perforation of the cornea."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "The sure diagnostic sign of corneal ulcer is:",
+    options: ["Ciliary injection","Blepharospasm","Miosis","Positive fluorescein test"],
+    answer: 3,
+    explanation: "A <strong>positive fluorescein test</strong> is the definitive diagnostic sign — it confirms an epithelial defect by showing green staining under cobalt blue light. Ciliary injection and blepharospasm are supportive but not specific."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Herpes simplex keratitis is characterized by:",
+    options: ["Presence of pus in the anterior chamber","No tendency to recurrence","Corneal hypoesthesia","Tendency to perforate"],
+    answer: 2,
+    explanation: "<strong>Corneal hypoesthesia</strong> (reduced sensation) is the hallmark of HSV keratitis. The virus damages the trigeminal nerve fibers supplying the cornea. It is highly recurrent, usually unilateral, and rarely perforates unless steroids are misused."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Deep leucoma is best treated by:",
+    options: ["Tattooing","Lamellar keratoplasty","Keratectomy","Penetrating keratoplasty"],
+    answer: 3,
+    explanation: "<strong>Penetrating keratoplasty (PK)</strong> is required for a deep leucoma as it replaces the full thickness of the scarred cornea. Lamellar keratoplasty is for superficial/mid-stromal opacities; tattooing is only for cosmesis in blind eyes."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "Most of the thickness of cornea is formed by:",
+    options: ["Epithelial layer","Substantia propria","Descemet's membrane","Endothelium"],
+    answer: 1,
+    explanation: "The <strong>substantia propria (stroma)</strong> constitutes about 90% of the total corneal thickness (~500 µm of the ~550 µm total). It is composed of regularly arranged collagen lamellae which give the cornea its transparency."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "A 30-year-old male with injury by a leaf 5 days ago, now with pain, photophobia, and redness for 2 days. Most likely pathology:",
+    options: ["Anterior uveitis","Conjunctivitis","Fungal corneal ulcer","Corneal laceration"],
+    answer: 2,
+    explanation: "<strong>Fungal corneal ulcer</strong> — vegetative trauma (leaf, twig, grass) is the classic predisposing factor for fungal keratitis (Aspergillus, Fusarium). Onset is delayed (days after injury), which matches the timeline. Always suspect fungi with vegetative injury."
+  },
+  {
+    part: "Part 1: Corneal Ulcer — Diagnosis & General Management",
+    q: "The organism that characteristically causes dendritic corneal ulcers is:",
+    options: ["Pseudomonas","Pneumococcus","Herpes simplex","Cryptococcus"],
+    answer: 2,
+    explanation: "<strong>Herpes simplex virus (HSV-1)</strong> causes the classic dendritic (branching, tree-like) corneal ulcer with terminal bulbs. This pattern is pathognomonic of herpetic epithelial keratitis."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "The thickness of cornea is measured by using:",
+    options: ["Schiotz tonometer","Keratometer","Pachymeter","Aesthesiometer"],
+    answer: 2,
+    explanation: "A <strong>Pachymeter</strong> measures corneal thickness (pachymetry). Keratometer measures corneal curvature; Schiotz tonometer measures IOP by indentation; Aesthesiometer measures corneal sensation."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Enlarged corneal nerves may be seen in all of the following <em>except</em>:",
+    options: ["Keratoconus","Herpes simplex keratitis","Leprosy","Neurofibromatosis"],
+    answer: 1,
+    explanation: "<strong>Herpes simplex keratitis</strong> causes corneal hypoesthesia and nerve damage/atrophy — the nerves are NOT enlarged. Enlarged (prominent) corneal nerves are classically seen in keratoconus, leprosy, neurofibromatosis, MEN type 2B, and Fuchs' dystrophy."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Band-shaped keratopathy is commonly caused by deposition of:",
+    options: ["Magnesium salt","Calcium salt","Ferrous salt","Copper salt"],
+    answer: 1,
+    explanation: "<strong>Calcium salt</strong> (calcium hydroxyapatite) deposits in Bowman's layer in band keratopathy, forming a horizontal band across the interpalpebral zone. Causes include chronic uveitis, hypercalcemia, and chronic corneal disease."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Keratoconus progresses in which decade?",
+    options: ["1st decade","2nd decade","3rd decade","4th decade"],
+    answer: 1,
+    explanation: "Keratoconus typically begins and progresses in the <strong>2nd decade</strong> (teenage years), with peak progression in the teens and twenties. It usually stabilizes by the 4th decade."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Symptoms of corneal ulcer are the following <em>except</em>:",
+    options: ["Mucopurulent discharge","Pain in the eye","Redness of the eye","Watering"],
+    answer: 0,
+    explanation: "<strong>Mucopurulent discharge</strong> is characteristic of bacterial conjunctivitis, not corneal ulcer. Corneal ulcer presents with pain, watering (reflex lacrimation), photophobia, blepharospasm, and redness — but discharge is watery or minimal."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "The sure diagnostic sign of corneal ulcer: (repeat)",
+    options: ["Ciliary injection","Blepharospasm","Miosis","Positive fluorescein test","Photophobia"],
+    answer: 3,
+    explanation: "<strong>Positive fluorescein test</strong> is the definitive sign — it directly demonstrates the epithelial defect. All other options are symptoms/signs of corneal irritation but are not specific to ulceration."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Which method is most useful for diagnosis of pre-clinical keratoconus (test of choice)?",
+    options: ["Corneal Pachymetry","Corneal topography","Retinoscopy","Ophthalmoscopy"],
+    answer: 1,
+    explanation: "<strong>Corneal topography</strong> (videokeratography) is the gold standard for detecting subclinical/pre-clinical keratoconus — it maps the anterior and posterior corneal surface curvature, revealing early ectasia before it is clinically apparent."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Bulging of the lower lid on down-gaze in keratoconus is called:",
+    options: ["Schaffer sign","Munson sign","Stellweg sign","Fleischer sign"],
+    answer: 1,
+    explanation: "<strong>Munson's sign</strong> — the V-shaped deformation (bulging) of the lower eyelid when the patient looks down — is a classic clinical sign of advanced keratoconus due to the cone pushing on the lid."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Descemetocele is managed by:",
+    options: ["Cyanoacrylate","Hard contact lens","Lateral tarsorrhaphy","Subconjunctival injection of steroids"],
+    answer: 0,
+    explanation: "<strong>Cyanoacrylate tissue adhesive</strong> is used to seal a descemetocele (herniation of Descemet's membrane through a deep corneal ulcer) as an emergency measure to prevent perforation, followed by bandage contact lens or keratoplasty."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "A 40-year-old female with peripheral corneal ulcer. Most common systemic association of peripheral ulcerative keratitis (PUK) is:",
+    options: ["Wegener granulomatosis","Rheumatoid arthritis","Polyarteritis nodosa","SLE"],
+    answer: 1,
+    explanation: "<strong>Rheumatoid arthritis</strong> is the most common systemic association with peripheral ulcerative keratitis (PUK). The mechanism is immune-complex deposition causing vasculitis at the limbal vessels. It can lead to corneal melting (keratolysis)."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Munson's sign is seen in:",
+    options: ["Episcleritis","Chalcosis","Keratoconus","Retinal Detachment"],
+    answer: 2,
+    explanation: "<strong>Keratoconus</strong> — Munson's sign is the V-shaped indentation of the lower eyelid seen in down-gaze due to the ectatic corneal cone pressing on the lid. It indicates advanced keratoconus."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Hudson-Stahli lines in cornea are:",
+    options: ["Red","Yellowish-red","Yellowish-brown","Yellow"],
+    answer: 2,
+    explanation: "<strong>Yellowish-brown</strong> — Hudson-Stahli lines are iron (hemosiderin) deposits in the corneal epithelium at the junction of the upper two-thirds and lower one-third of the cornea. They are a normal aging finding."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "The basement membrane of corneal endothelium is called:",
+    options: ["Descemet's membrane","Bowman's membrane","Bruch's membrane","Substantia propria"],
+    answer: 0,
+    explanation: "<strong>Descemet's membrane</strong> is the thick basement membrane of the corneal endothelium (posterior layer 5 of the cornea). Bowman's membrane is the basement membrane of the epithelium (anterior layer 2). Bruch's membrane is in the choroid."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Which organism can penetrate intact cornea?",
+    options: ["Streptococci","Staphylococci","Gonococci","Meningococci"],
+    answer: 2,
+    explanation: "<strong>Neisseria gonorrhoeae</strong> (Gonococci) is the classic organism that can penetrate an intact, healthy corneal epithelium due to its ability to invade non-phagocytic cells. This leads to rapid, devastating keratitis."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Dendritic ulcer is found in:",
+    options: ["Viral infection","Bacterial infection","Fungal infection","Parasitic infection"],
+    answer: 0,
+    explanation: "<strong>Viral infection</strong> — specifically Herpes Simplex Virus (HSV-1). The dendritic (branching) pattern with terminal bulbs is pathognomonic of herpetic epithelial keratitis."
+  },
+  {
+    part: "Part 2: Corneal Anatomy & Investigations",
+    q: "Refractive power of the cornea is:",
+    options: ["40 D","42 D","18 D","60 D"],
+    answer: 1,
+    explanation: "The cornea provides approximately <strong>42–43 Dioptres</strong> of the eye's total refractive power (~60 D). The lens contributes about 18 D. The cornea is the primary refracting surface of the eye."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "In traumatic corneal ulcer, which eye drop must NOT be used?",
+    options: ["Topical steroids","Topical atropine","Topical antibiotics","Topical antifungals"],
+    answer: 0,
+    explanation: "<strong>Topical steroids</strong> must NOT be used in traumatic corneal ulcers (especially from vegetative trauma). They suppress immunity, promote fungal/bacterial growth, impair healing, and can cause corneal perforation."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Which is more specific in treatment of dendritic corneal ulcer?",
+    options: ["Vidarabine","Acyclovir","Amphotericin B","Trifluorothymidine (TFT)"],
+    answer: 3,
+    explanation: "<strong>Trifluorothymidine (TFT / Trifluridine)</strong> is the most specific and effective topical antiviral for dendritic (herpetic) corneal ulcers — it has the highest corneal penetration. Acyclovir is also effective; Amphotericin B is antifungal."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Predisposing factors of bacterial keratitis include:",
+    options: ["Chronic ocular surface disease","Keratoconus","Open angle glaucoma","Retinal detachment"],
+    answer: 0,
+    explanation: "<strong>Chronic ocular surface disease</strong> (dry eye, blepharitis, exposure keratopathy) disrupts the ocular surface defense mechanisms, predisposing to bacterial keratitis. Contact lens wear is the #1 predisposing factor overall."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Corneal sensations are diminished in: (repeat)",
+    options: ["Herpes simplex infection","Conjunctivitis","Marginal keratitis","Fungal infections"],
+    answer: 0,
+    explanation: "<strong>Herpes simplex infection</strong> — HSV causes neurotrophic keratopathy by damaging the trigeminal sensory fibers supplying the cornea, resulting in reduced or absent corneal sensation. This is a key differentiating feature."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Fleischer ring is found in:",
+    options: ["Keratoconus","Chalcosis","Argyrosis","Buphthalmos"],
+    answer: 0,
+    explanation: "<strong>Keratoconus</strong> — Fleischer ring is a yellowish-brown ring of iron (hemosiderin) deposits in the corneal epithelium at the base of the cone. It is seen in about 50% of keratoconus patients on slit lamp with cobalt blue filter."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Central dense leucoma 5 mm, best treated by:",
+    options: ["Tattooing","Lamellar keratoplasty","Keratectomy","Penetrating keratoplasty"],
+    answer: 3,
+    explanation: "<strong>Penetrating keratoplasty (full-thickness corneal graft)</strong> is needed for a central dense (deep) leucoma — as it affects the full corneal stroma. Lamellar keratoplasty is for superficial opacities; tattooing is for cosmetic purposes only."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Cornea is supplied by nerve fibers derived from:",
+    options: ["Trochlear nerve","Optic nerve","Trigeminal nerve","Oculomotor nerve"],
+    answer: 2,
+    explanation: "The cornea is innervated by the <strong>trigeminal nerve (CN V)</strong> — specifically, the nasociliary branch of the ophthalmic division (V1) via the long ciliary nerves. This is the densest sensory innervation of any tissue in the body."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Not true about herpes keratitis:",
+    options: ["Steroids accelerate recovery","Trigeminal neuralgia","Recurrent","Usually unilateral"],
+    answer: 0,
+    explanation: "<strong>Steroids do NOT accelerate recovery</strong> — in fact, topical steroids are generally contraindicated in epithelial HSV keratitis as they worsen viral replication. They may be used cautiously in disciform/stromal keratitis only."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Fascicular ulcer is present in:",
+    options: ["Mooren's ulcer","Neuroparalytic keratitis","Herpes zoster","Phlyctenular keratitis"],
+    answer: 3,
+    explanation: "<strong>Phlyctenular keratitis</strong> — a fascicular (leash) ulcer with a bundle of vessels advancing across the cornea is the characteristic lesion of phlyctenular keratoconjunctivitis, a hypersensitivity reaction (often to TB proteins)."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "In keratoconus, the cone is situated at the:",
+    options: ["Centre of cornea","Just below the centre of cornea","Just above the centre of cornea","Either side of the cornea"],
+    answer: 1,
+    explanation: "In keratoconus, the conical protrusion is located <strong>just below the centre of the cornea</strong> (inferiorly displaced). This is why the Munson sign appears on downgaze and why patients often get better vision by looking slightly upward."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Steroids are indicated in which type of herpes keratitis:",
+    options: ["Disciform keratitis","Interstitial keratitis","Geographical ulcer","Hypopyon ulcer"],
+    answer: 0,
+    explanation: "<strong>Disciform keratitis</strong> — this is a stromal immune reaction (not active viral replication) characterized by a central disc-shaped stromal edema. Steroids (with antiviral cover) are appropriate here to suppress the immune response."
+  },
+  {
+    part: "Part 3: Specific Conditions & Treatment",
+    q: "Branched septate hyphae found on corneal smear in corneal ulcer is:",
+    options: ["Aspergillus","Mucor","Candida","Histoplasma"],
+    answer: 0,
+    explanation: "<strong>Aspergillus</strong> produces branched, septate hyphae (45° angle branching). Mucor shows broad, non-septate/ribbon-like hyphae. Candida shows pseudohyphae. Aspergillus is the most common cause of fungal keratitis after vegetative trauma."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "Advanced keratoconus is <em>least</em> corrected when treated by:",
+    options: ["Hard contact lens","Rigid gas permeable (RGP) contact lens","Spectacles","Keratoplasty"],
+    answer: 2,
+    explanation: "<strong>Spectacles</strong> provide the least correction in advanced keratoconus because they cannot neutralize the irregular astigmatism. Hard/RGP lenses vault over the cone and provide better optics. Keratoplasty is the definitive treatment."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "Double staining pattern of the cornea is characteristic for:",
+    options: ["Fungal corneal ulcer","Herpetic corneal ulcer","Exposure keratopathy","Acanthamoeba corneal ulcer"],
+    answer: 3,
+    explanation: "<strong>Acanthamoeba keratitis</strong> shows a characteristic double staining pattern (ring infiltrate on slit lamp; both rose bengal and fluorescein staining). It is associated with contact lens use in contaminated water."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "Blood staining of the cornea is due to:",
+    options: ["Hyphema","Hyphema with rise of IOP","Corneal edema","Corneal FB"],
+    answer: 1,
+    explanation: "<strong>Hyphema with rise of IOP</strong> causes blood staining of the cornea. The elevated pressure drives hemoglobin breakdown products into the stroma. Simple hyphema alone doesn't cause staining unless IOP is also elevated."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "All are infective corneal ulcers <em>except</em>:",
+    options: ["Typical hypopyon ulcer","Atypical hypopyon ulcer","Fascicular ulcer","Dendritic corneal ulcer"],
+    answer: 2,
+    explanation: "<strong>Fascicular ulcer</strong> (phlyctenular keratitis) is a <em>non-infective</em>, hypersensitivity-mediated ulcer. The typical and atypical hypopyon ulcers are bacterial; dendritic ulcer is viral. Fascicular ulcer is an immune reaction, not a direct infection."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "In corneal edema, all is true <em>except</em>:",
+    options: ["There is increase in corneal diameter","There is increase in corneal thickness","Cloudy cornea","Predispose to corneal vascularization"],
+    answer: 0,
+    explanation: "<strong>Corneal diameter does NOT increase</strong> in corneal edema — the cornea swells in thickness (anteroposteriorly) and becomes hazy/cloudy, but the diameter remains the same. Increased diameter (megalocornea/buphthalmos) is from elevated IOP in infants."
+  },
+  {
+    part: "Part 4: Keratoconus & Corneal Deposits",
+    q: "Irrespective of the etiology of a corneal ulcer, the drug always indicated is: (repeat)",
+    options: ["Corticosteroids","Atropine","Antibiotics","Antifungals"],
+    answer: 1,
+    explanation: "<strong>Atropine</strong> (cycloplegic) is universally indicated in all corneal ulcers to relieve ciliary spasm (pain), prevent posterior synechiae, and stabilize the blood-aqueous barrier. Note: this repeat question uses 'Atropine' instead of 'Cycloplegics' — both refer to cycloplegia."
+  }
+];
+
+let state = {};
+let correct = 0, wrong = 0;
+const TOTAL = questions.length;
+
+function init() {
+  questions.forEach((_, i) => state[i] = null);
+  correct = 0; wrong = 0;
+  updateStats();
+  render();
+}
+
+function render() {
+  const app = document.getElementById('app');
+  const parts = {};
+  questions.forEach((q, i) => {
+    if (!parts[q.part]) parts[q.part] = [];
+    parts[q.part].push({ q, i });
+  });
+
+  let html = '';
+  Object.entries(parts).forEach(([part, items]) => {
+    html += `<div class="part-section"><div class="part-header"><h2>${part}</h2></div><div class="questions-container">`;
+    items.forEach(({ q, i }) => {
+      const letters = ['a','b','c','d','e'];
+      let cardClass = '';
+      if (state[i] !== null) cardClass = state[i] === q.answer ? 'answered-correct' : 'answered-wrong';
+      html += `<div class="q-card ${cardClass}" id="card-${i}">
+        <div class="q-header"><div class="q-num">${i+1}</div><div class="q-text">${q.q}</div></div>
+        <div class="options">`;
+      q.options.forEach((opt, j) => {
+        let btnClass = '';
+        if (state[i] !== null) {
+          if (j === q.answer) btnClass = state[i] === j ? 'correct' : 'reveal-correct';
+          else if (j === state[i]) btnClass = 'wrong';
+        }
+        html += `<button class="option-btn ${btnClass}" ${state[i]!==null?'disabled':''} onclick="answer(${i},${j})">
+          <span class="option-letter">${letters[j]}</span>${opt}</button>`;
+      });
+      html += `</div>`;
+      if (state[i] !== null) {
+        const ok = state[i] === q.answer;
+        html += `<div class="result-badge visible ${ok?'correct-badge':'wrong-badge'}">${ok?'✓ Correct!':'✗ Incorrect'}</div>`;
+      } else {
+        html += `<div class="result-badge"></div>`;
+      }
+      const expVisible = state[i] !== null ? 'visible' : '';
+      html += `<div class="explanation ${expVisible}">💡 ${q.explanation}</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  app.innerHTML = html;
+}
+
+function answer(qIndex, optIndex) {
+  if (state[qIndex] !== null) return;
+  state[qIndex] = optIndex;
+  const q = questions[qIndex];
+  if (optIndex === q.answer) correct++; else wrong++;
+  updateStats();
+  const card = document.getElementById(`card-${qIndex}`);
+  const letters = ['a','b','c','d','e'];
+  let inner = `<div class="q-header"><div class="q-num">${qIndex+1}</div><div class="q-text">${q.q}</div></div><div class="options">`;
+  q.options.forEach((opt, j) => {
+    let btnClass = '';
+    if (j === q.answer) btnClass = optIndex === j ? 'correct' : 'reveal-correct';
+    else if (j === optIndex) btnClass = 'wrong';
+    inner += `<button class="option-btn ${btnClass}" disabled><span class="option-letter">${letters[j]}</span>${opt}</button>`;
+  });
+  inner += `</div>`;
+  const ok = optIndex === q.answer;
+  inner += `<div class="result-badge visible ${ok?'correct-badge':'wrong-badge'}">${ok?'✓ Correct!':'✗ Incorrect'}</div>`;
+  inner += `<div class="explanation visible">💡 ${q.explanation}</div>`;
+  card.innerHTML = inner;
+  card.className = `q-card ${ok?'answered-correct':'answered-wrong'}`;
+}
+
+function updateStats() {
+  const answered = Object.values(state).filter(v => v !== null).length;
+  document.getElementById('score-display').textContent = `${correct} / ${answered}`;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-unanswered').textContent = TOTAL - answered;
+  document.getElementById('progress-bar').style.width = `${(answered/TOTAL)*100}%`;
+}
+
+function resetAll() {
+  questions.forEach((_, i) => state[i] = null);
+  correct = 0; wrong = 0;
+  updateStats();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+</body>
+</html>
